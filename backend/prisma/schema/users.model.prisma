@@ -1,0 +1,15 @@
+model Users {
+    id Int @id @default(autoincrement())
+    username String @unique
+    email String @unique
+    password String
+    create_date DateTime @default(now()) @db.Date
+    updated_date DateTime?
+
+    Groups Groups @relation(fields: [groupsNeve], references: [neve])
+    groupsNeve String
+    ertekeles Ertekeles[]
+    ertesites Ertesites[]
+    User_esemenyek User_esemenyek[]
+    
+}

@@ -1,0 +1,13 @@
+model Esemenyek {
+    id Int @id @default(autoincrement())
+    esemeny_nev String
+    leiras String
+    helyszin String
+    esemeny_date DateTime
+    create_date DateTime @default(now()) @db.Date
+    updated_date DateTime
+    ertekeles Ertekeles[]
+    ertesites Ertesites[]
+    User_esemenyek User_esemenyek[]
+    kep String?
+}

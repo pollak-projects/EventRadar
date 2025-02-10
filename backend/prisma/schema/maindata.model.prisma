@@ -1,0 +1,11 @@
+model maindata{
+
+id String @id @default(uuid())
+JWTSecret String 
+JWTExpiration Int
+JWTAlgorithm String
+RefreshTokenSecret String
+RefreshTokenExpiration Int
+RefreshTokenAlgorithm String
+
+}

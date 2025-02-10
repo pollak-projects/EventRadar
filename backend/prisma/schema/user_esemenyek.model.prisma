@@ -1,0 +1,7 @@
+model User_esemenyek {
+    user_id Int @unique 
+    user Users @relation(fields: [user_id], references: [id])
+    esemenyek_id Int @unique
+    esemenyek Esemenyek @relation(fields: [esemenyek_id], references: [id])
+    join_date DateTime
+}

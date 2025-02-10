@@ -1,0 +1,8 @@
+model Groups {
+    neve String @id
+    users Users[]
+    write  Boolean @default(false)
+    read   Boolean @default(false)
+    update Boolean @default(false)
+    delete Boolean @default(false)
+}

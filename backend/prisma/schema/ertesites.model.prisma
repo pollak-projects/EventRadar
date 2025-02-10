@@ -1,0 +1,9 @@
+model Ertesites {
+    ertesites_id Int @id @default(autoincrement())
+    esemenyek_id Int @unique
+    esemenyek Esemenyek @relation(fields: [esemenyek_id], references: [id])
+    user_id Int @unique
+    user Users @relation(fields: [user_id], references: [id])
+    message String 
+    create_date DateTime @default(now()) @db.Date
+}
