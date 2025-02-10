@@ -13,8 +13,8 @@ window.onclick = function(event) {
 <template >
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid ">
-        <a href="Home.vue">
-        <img src="/public/eventradarlogo.png" alt="" class="logo" href="Home.vue">
+        <a href="">
+        <img src="/public/eventradarlogo.png" alt="" class="logo" >
         </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -22,8 +22,8 @@ window.onclick = function(event) {
     <div class="collapse navbar-collapse navi" id="navbarNavAltMarkup">
        <hr class="vonal" style="width:100%;transform: translate(-5px, 0);margin-bottom: 7px; margin-top: 1px;">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Főoldal</a>
-        <a class="nav-link" href="#">Események</a>
+        <a class="nav-link active" aria-current="page" href="">Főoldal</a>
+        <a class="nav-link" href="Events">Események</a>
         <a class="nav-link" href="#">Létrehozás</a>
         <a class="nav-link " href="#" >Disabled</a>
         <a class="nav-link signinmobile" type="button"  onclick="document.getElementById('id01').style.display='block'" href="#">Bejelentkezés</a>
@@ -110,14 +110,6 @@ window.onclick = function(event) {
     
   <footer class="d-flex flex-wrap justify-content-between align-items-center p-3 my-4 border-top">
     <p class="col-md-4 mb-0 text-muted">© 2024 EventRadar, Inc</p>
-
-    <ul class="nav col-md-4 justify-content-end">
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-    </ul>
   </footer>
     
 </template>
