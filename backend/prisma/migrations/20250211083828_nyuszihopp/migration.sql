@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `ertesites` ADD COLUMN `update_date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
