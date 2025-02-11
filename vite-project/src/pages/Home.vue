@@ -1,8 +1,8 @@
 <script setup>
-// Get the modal
+import Navbar from '../components/Navbar.vue';
 var modal = document.getElementById('id01');
 
-// When the user clicks anywhere outside of the modal, close it
+
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
@@ -11,52 +11,7 @@ window.onclick = function(event) {
 </script>
 
 <template >
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid ">
-        <a href="">
-        <img src="/public/eventradarlogo.png" alt="" class="logo" >
-        </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse navi" id="navbarNavAltMarkup">
-       <hr class="vonal" style="width:100%;transform: translate(-5px, 0);margin-bottom: 7px; margin-top: 1px;">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="">Főoldal</a>
-        <a class="nav-link" href="Events">Események</a>
-        <a class="nav-link" href="#">Létrehozás</a>
-        <a class="nav-link " href="#" >Disabled</a>
-        <a class="nav-link signinmobile" type="button"  onclick="document.getElementById('id01').style.display='block'" href="#">Bejelentkezés</a>
-      </div>
-    </div>
-      <button class="btn btn-primary signin" type="button"  onclick="document.getElementById('id01').style.display='block'" style="width:auto;" >Bejelentkezés</button>
-  <div id="id01" class="modal"> 
-  <form class="modal-content animate" action="/action_page.php" method="post">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" >
-    </div>
-
-    <div class="container">
-      <label for="uname"><b>E-mail</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-
-      <label for="psw"><b>Jelszó</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-        
-      <button class="btn btn-primary" type="submit" style="margin-top: 15px;width: 100%;">Bejelentkezés</button>
-
-            <span class="psw"><a href="#">Elfelejtetted a jelszavadat?</a></span>
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1;align-items: center;align-content: center;">
-      <span>Nincs fiókod? <a href="">Regisztráció</a></span>
-    </div>
-  </form>
-</div>
-  </div>
-</nav>
-
+<Navbar/>
 <div class="header">
     <div class="hero">
         <h1>Hirdesd nálunk az eseményeid</h1>
@@ -113,25 +68,9 @@ window.onclick = function(event) {
   </footer>
     
 </template>
-
+ 
 <style scoped>
 
-.logo {
-  padding-top: 5px;
-  -webkit-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-  height: 40px;
-  width: auto;
-}
-.navi {
-  display: auto;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 25px;
-  transform: translate(-30px, 0);
-  margin-top: 10px;
-}
 .hero {
   text-align: center;
   background: url('/conecrt.jpg') ;
@@ -140,9 +79,9 @@ window.onclick = function(event) {
   color: black;
   font-size: 24px;
   padding: 450px 0;
-  font-weight: bold;
   word-break: break-all;
   width: 100%;
+  font-family: "CustomFont";
 }
 .event-container {
   display: flex;
@@ -197,134 +136,10 @@ window.onclick = function(event) {
   margin-right: 10px;
 }
 
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
 
-/* Set a style for all buttons */
-.signin {
-  background-color: #f44336;
-  color: #000;
-  font-weight: bold;
-  padding: 14px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  width: auto;
-  margin-right: 20px;
-}
 
-button:hover {
-  opacity: 0.8;
-}
 
-/* Center the image and position the close button */
-.imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
-  position: relative;
-}
 
-.signinpic{
-  width: 250px;
-  height: auto;
-  margin-top: 40px;
-}
 
-.container {
-  padding: 16px;
-  border-bottom-right-radius: 10%;
-  border-bottom-left-radius: 10%;
-}
 
-span.psw {
-  float: right;
-  padding-top: 16px;
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  padding-top: 60px;
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
-  width: 380px; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button (x) */
-.close {
-  position: absolute;
-  right: 10px;
-  top: -30px;
-  color: #000;
-  font-size: 35px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: red;
-  cursor: pointer;
-}
-
-/* Add Zoom Animation */
-.animate {
-  -webkit-animation: animatezoom 0.6s;
-  animation: animatezoom 0.6s
-}
-
-@-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)} 
-  to {-webkit-transform: scale(1)}
-}
-  
-@keyframes animatezoom {
-  from {transform: scale(0)} 
-  to {transform: scale(1)}
-}
-
-@media only screen and (max-width: 600px) {
-
-  .signin{
-    display: none;
-  }
-  .navi {
-    display: auto;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 25px;
-    transform: translate(+5px, 0);
-    margin-top: 10px;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  .signinmobile{
-    display: none;
-  }
-  .vonal{
-    display: none;
-  }
-}
 </style>

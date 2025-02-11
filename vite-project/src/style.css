@@ -1,0 +1,5 @@
+@font-face {
+  font-family: 'CustomFont'; /* Name your font family */
+  src: url('/Oi-Regular.ttf'); /* Locate the .ttf file within your directory*/
+}
+

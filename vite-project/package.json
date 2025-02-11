@@ -11,6 +11,7 @@
   "dependencies": {
     "@primevue/themes": "^4.2.5",
     "bootstrap": "^5.3.3",
+    "node-vibrant": "^4.0.3",
     "primevue": "^4.2.5",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

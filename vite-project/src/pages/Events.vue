@@ -1,99 +1,146 @@
 <script setup>
-
+import Navbar from "../components/Navbar.vue";
 </script>
 
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid ">
-        <a href="">
-        <img src="/public/eventradarlogo.png" alt="" class="logo" >
-        </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+  <Navbar />
+
+  <div class="card">
+    <h1>asd</h1>
+    <h2>2025.02.05.</h2>
+    <button class="info-button" id="infoButton">
+      Információk
+      <span class="info-icon"></span>
     </button>
-    <div class="collapse navbar-collapse navi" id="navbarNavAltMarkup">
-       <hr class="vonal" style="width:100%;transform: translate(-5px, 0);margin-bottom: 7px; margin-top: 1px;">
-      <div class="navbar-nav">
-        <a class="nav-link"  href="#">Főoldal</a>
-        <a class="nav-link active" aria-current="page" href="#">Események</a>
-        <a class="nav-link" href="#">Létrehozás</a>
-        <a class="nav-link " href="#" >Disabled</a>
-        <a class="nav-link signinmobile" type="button"  onclick="document.getElementById('id01').style.display='block'" href="#">Bejelentkezés</a>
-      </div>
-    </div>
-      <button class="btn btn-primary signin" type="button"  onclick="document.getElementById('id01').style.display='block'" style="width:auto;" >Bejelentkezés</button>
-  <div id="id01" class="modal"> 
-  <form class="modal-content animate" method="post">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" >
-    </div>
 
-    <div class="container">
-      <label for="uname"><b>E-mail</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-
-      <label for="psw"><b>Jelszó</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-        
-      <button class="btn btn-primary" type="submit" style="margin-top: 15px;width: 100%;">Bejelentkezés</button>
-
-            <span class="psw"><a href="#">Elfelejtetted a jelszavadat?</a></span>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#">Programok</a>
+      <a href="#">Helyszínek</a>
+      <a href="#">További információk</a>
     </div>
-
-    <div class="container" style="background-color:#f1f1f1;align-items: center;align-content: center;">
-      <span>Nincs fiókod? <a href="">Regisztráció</a></span>
-    </div>
-  </form>
-</div>
   </div>
-</nav>
 </template>
 
 <style scoped>
-.logo {
-  padding-top: 5px;
-  -webkit-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-  height: 40px;
-  width: auto;
-}
-.navi {
-  display: auto;
-  align-items: center;
+body {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  margin: 30px;
+  padding: 30px;
+  width: 500px;
+  height: 250px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: url("./conecrt.jpg") no-repeat center center/cover;
+  position: relative;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-repeat: no-repeat;
+}
+
+.card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  gap: 25px;
-  transform: translate(-30px, 0);
-  margin-top: 10px;
-} 
+  height: 100%;
+  background: inherit;
+  filter: blur(10px);
+  z-index: -1;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.card h2 {
+  margin: 5px 0 20px;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+.info-button {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 8px 16px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: 25%;
+  justify-content: center;
+  border:  #ffffff 100px;
+}
+
+
+.info-icon {
+  width: 16px;
+  height: 16px;
+  background: url("info-icon.svg") no-repeat center center/contain;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background-color: #ffffff;
+  color: #333;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+}
+.show-dropdown {
+  display: block;
+}
 
 @media only screen and (max-width: 600px) {
-
-  .signin{
-    display: none;
-  }
-  .navi {
-    display: auto;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 25px;
-    transform: translate(+5px, 0);
-    margin-top: 10px;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  .signinmobile{
-    display: none;
-  }
-  .vonal{
-    display: none;
-  }
-}
-
-.active{
-  font-weight:bold;
+    .card {
+        margin: 15px;
+        padding: 30px;
+        width: 390px;
+        height: 250px;
+        border-radius: 20px;
+        overflow: hidden;
+        background: url("./conecrt.jpg") no-repeat center center/cover;
+        position: relative;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-repeat: no-repeat;
+    }
 }
 </style>
