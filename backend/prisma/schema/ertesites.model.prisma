@@ -6,4 +6,5 @@ model Ertesites {
     user Users @relation(fields: [user_id], references: [id])
     message String 
     create_date DateTime @default(now()) @db.Date
+    update_date DateTime @default(now()) @db.Date
 }
