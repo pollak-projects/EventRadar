@@ -13,6 +13,16 @@ const router = createRouter({
       name: "Events",
       component: import("../pages/Events.vue"),
     },
+    {
+      path: "/information",
+      name: "Information",
+      component: import("../pages/Information.vue"),
+    },
+    {
+      path: "/Creation",
+      name: "Creation",
+      component: import("../pages/Creation.vue"),
+    },
   ],
 });
 

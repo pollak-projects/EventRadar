@@ -1,62 +1,199 @@
 <script setup>
-import { RouterLink } from 'vue-router';
-import { useRoute } from 'vue-router';
+import { RouterLink } from "vue-router";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 
+function register(event) {
+    const data = new FormData(event.currentTarget)  
+  fetch(`http://localhost:3300/auth/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      password1: data.get("psw1"),
+      password2: data.get("psw2"),
+      uname: data.get("uname"),
+      email: data.get("email"),
+
+    }),
+  })
+    .then(async (result) => {
+      alert("anyad")
+    })
+    .catch((error) => console.log("error", error));
+}
 
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid ">
-        <RouterLink to="/">
-        <img src="/public/eventradarlogo.png" alt="" class="logo" >
-        </RouterLink>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse navi" id="navbarNavAltMarkup">
-       <hr class="vonal" style="width:100%;transform: translate(-5px, 0);margin-bottom: 7px; margin-top: 1px;">
-      <div class="navbar-nav">
-        <RouterLink class="nav-link" :class="{ active: route.name == 'Home' }" aria-current="page" to="/">Főoldal</RouterLink>
-        <RouterLink class="nav-link" :class="{ active: route.name == 'Events' }" to="/events" >Események</RouterLink>
-        <RouterLink class="nav-link" >Létrehozás</RouterLink>
-        <RouterLink class="nav-link " href="#" >Disabled</RouterLink>
-        <RouterLink class="nav-link signinmobile" type="button"  onclick="document.getElementById('id01').style.display='block'" href="#">Bejelentkezés</RouterLink>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <RouterLink to="/">
+        <img src="/eventradarlogo.png" alt="" class="logo" />
+      </RouterLink>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse navi" id="navbarNavAltMarkup">
+        <hr
+          class="vonal"
+          style="
+            width: 100%;
+            transform: translate(-5px, 0);
+            margin-bottom: 7px;
+            margin-top: 1px;
+          "
+        />
+        <div class="navbar-nav">
+          <RouterLink
+            class="nav-link"
+            :class="{ active: route.name == 'Home' }"
+            aria-current="page"
+            to="/"
+            >Főoldal</RouterLink
+          >
+          <RouterLink
+            class="nav-link"
+            :class="{ active: route.name == 'Events' }"
+            to="/events"
+            >Események</RouterLink
+          >
+          <RouterLink
+            class="nav-link"
+            :class="{ active: route.name == 'Creation' }"
+            to="/creation"
+            >Létrehozás</RouterLink
+          >
+          <RouterLink class="nav-link" href="#">Disabled</RouterLink>
+          <RouterLink
+            class="nav-link signinmobile"
+            type="button"
+            onclick="document.getElementById('id01').style.display='block'"
+            href="#"
+            >Bejelentkezés</RouterLink
+          >
+        </div>
+      </div>
+      <button
+        class="btn btn-primary signin"
+        type="button"
+        onclick="document.getElementById('id01').style.display='block'"
+        style="width: auto"
+      >
+        Bejelentkezés
+      </button>
+      <div id="id01" class="modal">
+        <form class="modal-content animate" method="post"  onSubmit="return checkPassword(this)">
+          <div class="imgcontainer">
+            <span
+              onclick="document.getElementById('id01').style.display='none'"
+              class="close"
+              title="Close Modal"
+              >&times;</span
+            >
+            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>E-mail</b></label>
+            <input type="text" placeholder=" " name="uname" required />
+
+            <label for="psw"><b>Jelszó</b></label>
+            <input type="password" placeholder="" name="psw" required />
+
+            <button
+              class="btn btn-primary"
+              type="submit"
+              style="margin-top: 15px; width: 100%"
+            >
+              Bejelentkezés
+            </button>
+
+            <span class="psw"
+              ><RouterLink href="#"
+                >Elfelejtetted a jelszavadat?</RouterLink
+              ></span
+            >
+          </div>
+
+          <div
+            class="container"
+            style="
+              background-color: #f1f1f1;
+              align-items: center;
+              align-content: center;
+            "
+          >
+            <span
+              onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"
+              >Nincs fiókod? <RouterLink>Regisztráció</RouterLink></span
+            >
+          </div>
+        </form>
+      </div>
+      <div id="id02" class="modal">
+        <form class="modal-content" :onsubmit="register" method="post">
+          <div class="imgcontainer">
+            <span
+              onclick="document.getElementById('id02').style.display='none'"
+              class="close"
+              title="Close Modal"
+              >&times;</span
+            >
+            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>Teljes név</b></label>
+            <input type="text"  name="uname" required />
+
+            <label for="uname"><b>E-mail</b></label>
+            <input type="text"  name="email" required />
+
+            <label for="psw"><b>Jelszó</b></label>
+            <input type="password"  name="psw1" required />
+
+            <label for="psw"><b>Jelszó újra</b></label>
+            <input type="password"  name="psw2" required />
+            
+            
+
+            <button
+              class="btn btn-primary"
+              type="submit"
+              style="margin-top: 15px; width: 100%"
+            >
+              Regisztráció
+            </button>
+          </div>
+
+          <div
+            class="container"
+            style="
+              background-color: #f1f1f1;
+              align-items: center;
+              align-content: center;
+            "
+          >
+            <span onclick="document.getElementById('id01').style.display='block';document.getElementById('id02').style.display='none';">Van fiókod? <RouterLink>Bejelentkezés</RouterLink></span>
+          </div>
+        </form>
       </div>
     </div>
-      <button class="btn btn-primary signin" type="button"  onclick="document.getElementById('id01').style.display='block'" style="width:auto;" >Bejelentkezés</button>
-  <div id="id01" class="modal"> 
-  <form class="modal-content animate"  method="post">
-    <div class="imgcontainer" >
-      <span onclick="document.getElementById('id01').style.display='none'"  class="close" title="Close Modal">&times;</span>
-      <img src="/eventradarlogo.png" alt="Avatar"  class="signinpic" >
-    </div>
-
-    <div class="container">
-      <label for="uname"><b>E-mail</b></label>
-      <input type="text" placeholder=" " name="uname" required>
-
-      <label for="psw"><b>Jelszó</b></label>
-      <input type="password" placeholder="" name="psw" required>
-        
-      <button class="btn btn-primary" type="submit" style="margin-top: 15px;width: 100%;">Bejelentkezés</button>
-
-            <span class="psw"><RouterLink href="#">Elfelejtetted a jelszavadat?</RouterLink></span>
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1;align-items: center;align-content: center;">
-      <span>Nincs fiókod? <RouterLink >Regisztráció</RouterLink></span>
-    </div>
-  </form>
-</div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <style scoped>
-
 .logo {
   padding-top: 5px;
   -webkit-transition: all 0.3s ease-out;
@@ -75,8 +212,8 @@ const route = useRoute();
 }
 .hero {
   text-align: center;
-  background: url('/conecrt.jpg') ;
-  background-repeat:no-repeat ;
+  background: url("/conecrt.jpg");
+  background-repeat: no-repeat;
   background-size: cover;
   color: black;
   font-size: 24px;
@@ -100,29 +237,29 @@ const route = useRoute();
   border-radius: 10px;
 }
 .kep {
-  width: 100%; 
+  width: 100%;
 }
 
-.active{
-  font-weight:bold;
+.active {
+  font-weight: bold;
 }
 
-.footerlogo{
+.footerlogo {
   width: 150px;
 }
-.slide{
+.slide {
   width: fit-content;
   padding: 50px;
 }
 
-.slidecards{
+.slidecards {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.header{
+.header {
   width: 100%;
 }
 
@@ -132,13 +269,14 @@ const route = useRoute();
   background: #eee;
 }
 
-.comment-section .user  {
+.comment-section .user {
   width: 50px;
   border-radius: 40%;
   margin-right: 10px;
 }
 
-input[type=text], input[type=password] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -169,7 +307,7 @@ button:hover {
   position: relative;
 }
 
-.signinpic{
+.signinpic {
   width: 250px;
   height: auto;
   margin-top: 40px;
@@ -186,26 +324,25 @@ span.psw {
   padding-top: 16px;
 }
 
-
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgb(0,0,0); 
-  background-color: rgba(0,0,0,0.4); 
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
   padding-top: 60px;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; 
+  margin: 5% auto 15% auto;
   border: 1px solid #888;
-  width: 380px; 
+  width: 380px;
 }
 
 .close {
@@ -225,22 +362,29 @@ span.psw {
 
 .animate {
   -webkit-animation: animatezoom 0.6s;
-  animation: animatezoom 0.6s
+  animation: animatezoom 0.6s;
 }
 
 @-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)} 
-  to {-webkit-transform: scale(1)}
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
 }
-  
+
 @keyframes animatezoom {
-  from {transform: scale(0)} 
-  to {transform: scale(1)}
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 @media only screen and (max-width: 600px) {
-
-  .signin{
+  .signin {
     display: none;
   }
   .navi {
@@ -255,12 +399,11 @@ span.psw {
 }
 
 @media only screen and (min-width: 600px) {
-  .signinmobile{
+  .signinmobile {
     display: none;
   }
-  .vonal{
+  .vonal {
     display: none;
   }
 }
-
 </style>

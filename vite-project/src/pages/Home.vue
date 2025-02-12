@@ -18,6 +18,8 @@ window.onclick = function(event) {
     </div>
 </div>
 
+
+
 <div class="slidecards">
 <div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
@@ -62,7 +64,6 @@ window.onclick = function(event) {
         <img src="/user.jpg" alt="User" class="user" >
         <p><i>nagyon tetszik ez az oldal itt fogom mindig hirdetni az eseményeimet! 😊</i></p>
     </div>
-    
   <footer class="d-flex flex-wrap justify-content-between align-items-center p-3 my-4 border-top">
     <p class="col-md-4 mb-0 text-muted">© 2024 EventRadar, Inc</p>
   </footer>

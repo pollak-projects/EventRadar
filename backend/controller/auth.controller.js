@@ -12,17 +12,27 @@ import {
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const {username, email, password, groupsNeve} = req.body;
+  const { username, email, password1, password2, groupsNeve } = req.body;
+
+    if (password1 == "") alert("Please enter Password");
+
+    else if (password2 == "") alert("Please enter confirm password");
+
+    else if (password1 != password2) {
+      alert("\nPassword did not match: Please try again...");
+      return false;
+    }
+
+    // If same return True.
+    else {
+      alert("Password Match: Welcome to GeeksforGeeks!");
+      return true;
+    }
   try {
-    const user = await register(
-        username,
-        email,
-        password,
-        groupsNeve
-    );
+    const user = await register(username, email, password1, groupsNeve);
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({message: error.message});
+    res.status(400).json({ message: error.message });
   }
 })
 
