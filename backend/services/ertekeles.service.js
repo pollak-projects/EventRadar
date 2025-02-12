@@ -17,14 +17,14 @@ export async function GetRatingById(ertekeles_id) {
   return data;
 }
 
-export async function RatingUpdate(ertekeles_id, esemenyek_id, user_id, message) {
+export async function RatingUpdate(ertekeles_id, rating, comment) {
   await prisma.ertekeles.update({
     where: {
       ertekeles_id: ertekeles_id,
     },
     data: {
-      esemenyek_id: esemenyek_id,
-      user_id: user_id,
+      comment: comment,
+      rating: rating,
       updated_date: new Date(),
     },
   });
