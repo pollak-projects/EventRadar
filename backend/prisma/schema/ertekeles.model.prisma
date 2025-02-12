@@ -9,5 +9,4 @@ model Ertekeles {
     create_date DateTime @default(now()) @db.Date
     update_date DateTime 
 
-    
 }
