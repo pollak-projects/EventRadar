@@ -5,6 +5,9 @@ import Navbar from "../components/Navbar.vue";
 <template>
   <Navbar />
 
+  <div class="anyad">
+
+
   <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
@@ -19,9 +22,75 @@ import Navbar from "../components/Navbar.vue";
       <a href="#">További információk</a>
     </div>
   </div>
+
+    <div class="card">
+    <h1>asd</h1>
+    <h2>2025.02.05.</h2>
+    <button class="info-button" id="infoButton">
+      Információk
+      <span class="info-icon"></span>
+    </button>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#">Programok</a>
+      <a href="#">Helyszínek</a>
+      <a href="#">További információk</a>
+    </div>
+  </div>
+    <div class="card">
+    <h1>asd</h1>
+    <h2>2025.02.05.</h2>
+    <button class="info-button" id="infoButton">
+      Információk
+      <span class="info-icon"></span>
+    </button>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#">Programok</a>
+      <a href="#">Helyszínek</a>
+      <a href="#">További információk</a>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h1>asd</h1>
+    <h2>2025.02.05.</h2>
+    <button class="info-button" id="infoButton">
+      Információk
+      <span class="info-icon"></span>
+    </button>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#">Programok</a>
+      <a href="#">Helyszínek</a>
+      <a href="#">További információk</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h1>asd</h1>
+    <h2>2025.02.05.</h2>
+    <button class="info-button" id="infoButton">
+      Információk
+      <span class="info-icon"></span>
+    </button>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#">Programok</a>
+      <a href="#">Helyszínek</a>
+      <a href="#">További információk</a>
+    </div>
+  </div>
+    </div>
+  
 </template>
 
 <style scoped>
+.anyad{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 body {
   display: flex;
   justify-content: center;
@@ -126,11 +195,12 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+
     .card {
-        margin: 15px;
+        margin: 15px auto;
         padding: 30px;
-        width: 390px;
-        height: 250px;
+        width: 370px;
+        height: 210px;
         border-radius: 20px;
         overflow: hidden;
         background: url("./conecrt.jpg") no-repeat center center/cover;
@@ -143,4 +213,5 @@ body {
         background-repeat: no-repeat;
     }
 }
+
 </style>
