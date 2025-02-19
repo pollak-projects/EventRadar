@@ -28,7 +28,7 @@ function register(event) {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
     <div class="container-fluid">
       <RouterLink to="/">
         <img src="/eventradarlogo.png" alt="" class="logo" />
@@ -64,7 +64,7 @@ function register(event) {
           >
           <RouterLink
             class="nav-link"
-            :class="{ active: route.name == 'Events' }"
+            :class="{ active: route.name == 'Events' || route.name == 'Information' }"
             to="/events"
             >Események</RouterLink
           >
@@ -209,18 +209,7 @@ function register(event) {
   gap: 25px;
   transform: translate(-30px, 0);
   margin-top: 10px;
-}
-.hero {
-  text-align: center;
-  background: url("/conecrt.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: black;
-  font-size: 24px;
-  padding: 450px 0;
-  word-break: break-all;
-  width: 100%;
-  font-family: "CustomFont";
+  font-family: "MonumentRegular";
 }
 .event-container {
   display: flex;
@@ -244,24 +233,6 @@ function register(event) {
   font-weight: bold;
 }
 
-.footerlogo {
-  width: 150px;
-}
-.slide {
-  width: fit-content;
-  padding: 50px;
-}
-
-.slidecards {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.header {
-  width: 100%;
-}
 
 .comment-section {
   padding-top: 10px;
@@ -317,6 +288,8 @@ button:hover {
   padding: 16px;
   border-bottom-right-radius: 10%;
   border-bottom-left-radius: 10%;
+  font-family: "MonumentRegular";
+  font-size: 16px;
 }
 
 span.psw {
@@ -406,4 +379,8 @@ span.psw {
     display: none;
   }
 }
+.regularfont{
+  font-family: "MonumentRegular";
+}
+
 </style>

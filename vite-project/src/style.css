@@ -3,3 +3,12 @@
   src: url('/Oi-Regular.ttf'); /* Locate the .ttf file within your directory*/
 }
 
+@font-face {
+  font-family: 'MonumentBold'; /* Name your font family */
+  src: url('/Monument-Bold.otf'); /* Locate the .ttf file within your directory*/
+}
+
+@font-face {
+  font-family: 'MonumentRegular'; /* Name your font family */
+  src: url('/Monument-Regular.otf'); /* Locate the .ttf file within your directory*/
+}

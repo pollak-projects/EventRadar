@@ -1,92 +1,64 @@
 <script setup>
+import { RouterLink } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 </script>
 
 <template>
   <Navbar />
 
-  <div class="anyad">
 
 
+<div class="cards">
   <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
-    <button class="info-button" id="infoButton">
+    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
-    </button>
-
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#">Programok</a>
-      <a href="#">Helyszínek</a>
-      <a href="#">További információk</a>
-    </div>
+    </RouterLink>
   </div>
 
     <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
-    <button class="info-button" id="infoButton">
+    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
-    </button>
-
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#">Programok</a>
-      <a href="#">Helyszínek</a>
-      <a href="#">További információk</a>
-    </div>
+    </RouterLink>
   </div>
+
     <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
-    <button class="info-button" id="infoButton">
+    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
-    </button>
-
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#">Programok</a>
-      <a href="#">Helyszínek</a>
-      <a href="#">További információk</a>
-    </div>
+    </RouterLink>
   </div>
   
   <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
-    <button class="info-button" id="infoButton">
+    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
-    </button>
-
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#">Programok</a>
-      <a href="#">Helyszínek</a>
-      <a href="#">További információk</a>
-    </div>
+    </RouterLink>
   </div>
 
   <div class="card">
     <h1>asd</h1>
     <h2>2025.02.05.</h2>
-    <button class="info-button" id="infoButton">
+    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
-    </button>
-
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#">Programok</a>
-      <a href="#">Helyszínek</a>
-      <a href="#">További információk</a>
-    </div>
+    </RouterLink>
   </div>
-    </div>
+</div>
   
 </template>
 
 <style scoped>
-.anyad{
+.cards{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -117,6 +89,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-repeat: no-repeat;
 }
+
 
 .card::before {
   position: absolute;
