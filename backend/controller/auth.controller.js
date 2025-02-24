@@ -13,22 +13,22 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-      const { username, email, password1, password2, groupsNeve } = req.body;
+    const { username, email, password1, password2, groupsNeve } = req.body;
 
-      if (password1 == "") alert("Please enter Password");
-      else if (password2 == "") alert("Please enter confirm password");
-      else if (password1 != password2) {
-      res.json({message: "nem egyezik meg jelszo"})
-      }
-      // If same return True.
-      else {
-        const user = await register(username, email, password1, groupsNeve);
-        res.status(201).json(user);
-      }
+    if (password1 == "") res.json({ message: "ures" });
+    else if (password2 == "") res.json({ message: "ures" });
+    else if (password1 != password2) {
+      res.json({ message: "nem egyezik meg jelszo" });
+    }
+    // If same return True.
+    else {
+      const user = await register(username, email, password1, groupsNeve);
+      res.status(201).json(user);
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-})
+});
 
 /*router.get("/", (req, res)=> {
     res.send("OK")
@@ -36,39 +36,22 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
+  console.log(username);
   try {
     const user = await login(username, password);
+
+    console.log(user);
 
     if (!user.access_token || !user.refresh_token) {
       res.status(401).json({ message: "Hibás felhasználó név vagy jelszó!" });
       return;
     }
-    res.cookie("access_token", user.access_token, {
-      maxAge: 24 * 60 * 60 * 1000,
-      sameSite: "none",
-      secure: true,
-      httpOnly: false,
-      domain: "pollak.info",
-      path: "/",
-    });
-    res.cookie("refresh_token", user.refresh_token, {
-      maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: false,
-      sameSite: "none",
-      secure: true,
-      domain: "pollak.info",
-      path: "/",
-    });
-
-    req.session.user_id = user.user_id;
-
     res.status(200).json(user);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 });
-
 
 router.get("/verify", (req, res) => {
   const access_token = req.cookies.access_token

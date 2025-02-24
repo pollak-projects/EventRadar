@@ -241,4 +241,3 @@ export async function pwdChange(pwd1, pwd2, id) {
     return false;
   }
 }
-
