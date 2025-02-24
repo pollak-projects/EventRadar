@@ -14,9 +14,9 @@ function register(event) {
     body: JSON.stringify({
       password1: data.get("psw1"),
       password2: data.get("psw2"),
-      uname: data.get("uname"),
+      username: data.get("uname"),
       email: data.get("email"),
-
+      groupsNeve: "Admin",
     }),
   })
     .then(async (result) => {
