@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { ref } from "vue";
 
 const route = useRoute();
+const loggedin = ref(!!localStorage.getItem("accessToken"));
 
 const regData = defineModel({
   default: {
@@ -35,10 +36,11 @@ function login() {
     }),
   })
     .then(async (result) => {
-      const data = await result.json()
-      localStorage.setItem("accesToken", data.access_token)
-      localStorage.setItem("refreshToken", data.refresh_token)
-      localStorage.setItem("userId", data.user_id)
+      const data = await result.json();
+      localStorage.setItem("accessToken", data.access_token);
+      localStorage.setItem("refreshToken", data.refresh_token);
+      localStorage.setItem("userId", data.user_id);
+      loggedin.value = true;
       alert("nagyon joo bejelentkeztél");
     })
     .catch((error) => console.log("error", error));
@@ -120,9 +122,11 @@ function register() {
             class="nav-link signinmobile"
             type="button"
             onclick="document.getElementById('id01').style.display='block'"
-            href="#"
-            >Bejelentkezés</RouterLink
+            to="#"
+            v-if="!loggedin"
           >
+            Bejelentkezés
+          </RouterLink>
         </div>
       </div>
       <button
@@ -130,6 +134,7 @@ function register() {
         type="button"
         onclick="document.getElementById('id01').style.display='block'"
         style="width: auto"
+        v-if="!loggedin"
       >
         Bejelentkezés
       </button>
