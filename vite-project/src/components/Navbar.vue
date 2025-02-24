@@ -130,7 +130,7 @@ function register() {
         </div>
       </div>
       <button
-        class="btn btn-primary signin"
+        class="btn signin"
         type="button"
         onclick="document.getElementById('id01').style.display='block'"
         style="width: auto"
@@ -183,7 +183,7 @@ function register() {
             </button>
 
             <span class="psw"
-              ><RouterLink href="#"
+              ><RouterLink onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none';"
                 >Elfelejtetted a jelszavadat?</RouterLink
               ></span
             >
@@ -269,6 +269,41 @@ function register() {
             >
           </div>
         </form>
+        </div>
+        <div id="id03" class="modal">
+        <form class="modal-content animate" method="post"  onSubmit="return checkPassword(this)">
+          <div class="imgcontainer">
+            <span
+              onclick="document.getElementById('id03').style.display='none'"
+              class="close"
+              title="Close Modal"
+              >&times;</span
+            >
+            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>E-mail</b></label>
+            <input type="text" placeholder=" " name="uname" required />
+
+            <label for="psw"><b>Jelszó</b></label>
+            <input type="password" placeholder="" name="psw" required />
+
+            <button
+              class="btn btn-primary"
+              type="submit"
+              style="margin-top: 15px; width: 100%"
+            >
+              anyád
+            </button>
+
+            <span class="psw"
+              ><RouterLink href="#"
+                >Elfelejtetted a jelszavadat?</RouterLink
+              ></span
+            >
+          </div>
+        </form>
       </div>
     </div>
   </nav>
@@ -346,6 +381,10 @@ input[type="password"] {
   width: 100%;
   width: auto;
   margin-right: 20px;
+}
+
+.signin:hover{
+  background-color: #cc1104;
 }
 
 button:hover {

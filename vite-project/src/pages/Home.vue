@@ -7,6 +7,9 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 };
+
+
+
 </script>
 
 <template>
@@ -16,7 +19,9 @@ window.onclick = function (event) {
       <h1>HIRDESD NÁLUNK AZ <br class="szoveg"> ESEMÉNYEID</h1>
     </div>
   </div>
-
+  <div class="cim">
+  <h1>Népszerű események</h1>
+  </div>
   <div class="slidecards telefonslide">
     <div id="carouselExample" class="carousel slide">
       <div class="carousel-inner">
@@ -32,6 +37,7 @@ window.onclick = function (event) {
           <div class="event-card">
             <img src="/user.jpg" alt="kis tekerés" class="kep" />
             <h3><i>kis majom</i></h3>
+            
             <p><b>2025.03.12</b></p>
             <button>fasz</button>
           </div>
@@ -40,7 +46,8 @@ window.onclick = function (event) {
           <div class="event-card">
             <img src="/conecrt.jpg" alt="kis tekerés" class="kep" />
             <h3><i>kis peti</i></h3>
-            <p><b>2025.03.12</b></p>
+                <p>{{ truncateText(text, 80) }}</p>
+
             <button>fasz</button>
           </div>
         </div>
@@ -91,7 +98,6 @@ window.onclick = function (event) {
       </button>
     </div>
   </div>
-
   <div class="slidecards szamitoslide">
           <div class="event-card">
             <img src="/grinder.jpg" alt="kis tekerés" class="kep" />
@@ -175,6 +181,14 @@ window.onclick = function (event) {
   width: 100%;
 }
 
+.cim{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .header {
   width: 100%;
 }
@@ -220,14 +234,25 @@ window.onclick = function (event) {
    .szamitoslide{
   padding-top: 30px;
   padding-bottom: 30px;
-  padding-left: 100px;
   gap: 30px;
   display: flex;
   width: 100%;
+ }
 }
-}
-
-
-
 
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      text: "Ez egy hosszú szöveg, amit le kell rövidíteni, hogy ne legyen túl hosszú és ne sértse meg a dizájnt."
+    };
+  },
+  methods: {
+    truncateText(value, maxLength) {
+      return value.length > maxLength ? value.slice(0, maxLength) + '...' : value;
+    }
+  }
+};
+</script>
