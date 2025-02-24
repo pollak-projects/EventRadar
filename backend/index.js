@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
@@ -7,8 +7,9 @@ import { authController } from "./controller/auth.controller.js";
 import { GetAllUsers, Groups } from "./services/user.service.js";
 import { groupController } from "./controller/group.controller.js";
 import { listAllGroup } from "./services/group.service.js";
-import { listAllTokens } from "./services/auth.service.js";
+import { listAllTokens, register } from "./services/auth.service.js";
 import { verifyUserGroups } from "./middleware/auth.middleware.js";
+import { main, registration } from "./services/emailsender.service.js";
 
 const app = express();
 
@@ -91,6 +92,10 @@ app.get("/register", async (req, res) => {
   res.render("register");
 });
 
+app.post("/test", async(req, res)=> {
+  await registration("asd");
+  res.send("Ok")
+})
 
 app.listen(3300, () => {
   console.log("Started at http://localhost:3300");
