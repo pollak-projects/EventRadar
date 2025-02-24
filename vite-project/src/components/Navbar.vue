@@ -1,34 +1,73 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
+import { ref } from "vue";
 
 const route = useRoute();
 
-function register(event) {
-    const data = new FormData(event.currentTarget)  
+const regData = defineModel({
+  default: {
+    username: "",
+    password1: "",
+    password2: "",
+    email: "",
+    groupsNeve: "Admin",
+    password: "",
+    loginUser: "",
+  },
+});
+
+function login() {
+  console.log(
+    JSON.stringify({
+      username: regData.value.loginUser,
+      password: regData.value.password,
+    })
+  );
+  fetch("http://localhost:3300/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: regData.value.loginUser,
+      password: regData.value.password,
+    }),
+  })
+    .then(async (result) => {
+      const data = await result.json()
+      localStorage.setItem("accesToken", data.access_token)
+      localStorage.setItem("refreshToken", data.refresh_token)
+      localStorage.setItem("userId", data.user_id)
+      alert("nagyon joo bejelentkeztél");
+    })
+    .catch((error) => console.log("error", error));
+}
+
+function register() {
+  console.log(regData.value);
   fetch(`http://localhost:3300/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      password1: data.get("psw1"),
-      password2: data.get("psw2"),
-      uname: data.get("uname"),
-      email: data.get("email"),
-
+      username: regData.value.username,
+      password1: regData.value.password1,
+      password2: regData.value.password2,
+      email: regData.value.email,
+      groupsNeve: regData.value.groupsNeve,
     }),
   })
     .then(async (result) => {
-      alert("anyad")
+      alert("anyad");
     })
     .catch((error) => console.log("error", error));
 }
-
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <RouterLink to="/">
         <img src="/eventradarlogo.png" alt="" class="logo" />
@@ -64,7 +103,9 @@ function register(event) {
           >
           <RouterLink
             class="nav-link"
-            :class="{ active: route.name == 'Events' || route.name == 'Information' }"
+            :class="{
+              active: route.name == 'Events' || route.name == 'Information',
+            }"
             to="/events"
             >Események</RouterLink
           >
@@ -93,7 +134,11 @@ function register(event) {
         Bejelentkezés
       </button>
       <div id="id01" class="modal">
-        <form class="modal-content animate" method="post"  onSubmit="return checkPassword(this)">
+        <form
+          class="modal-content animate"
+          method="post"
+          onSubmit="return checkPassword(this)"
+        >
           <div class="imgcontainer">
             <span
               onclick="document.getElementById('id01').style.display='none'"
@@ -105,16 +150,29 @@ function register(event) {
           </div>
 
           <div class="container">
-            <label for="uname"><b>E-mail</b></label>
-            <input type="text" placeholder=" " name="uname" required />
+            <label for="uname"><b>Felhasználónév</b></label>
+            <input
+              type="text"
+              placeholder=" "
+              name="uname"
+              v-model="regData.loginUser"
+              required
+            />
 
             <label for="psw"><b>Jelszó</b></label>
-            <input type="password" placeholder="" name="psw" required />
+            <input
+              type="password"
+              placeholder=""
+              v-model="regData.password"
+              name="psw"
+              required
+            />
 
             <button
               class="btn btn-primary"
-              type="submit"
+              type="button"
               style="margin-top: 15px; width: 100%"
+              @click="login()"
             >
               Bejelentkezés
             </button>
@@ -154,24 +212,39 @@ function register(event) {
           </div>
 
           <div class="container">
-            <label for="uname"><b>Teljes név</b></label>
-            <input type="text"  name="uname" required />
+            <label for="uname"><b>Felhasználónév</b></label>
+            <input
+              v-model="regData.username"
+              type="text"
+              name="uname"
+              ref="username"
+              required
+            />
 
             <label for="uname"><b>E-mail</b></label>
-            <input type="text"  name="email" required />
+            <input type="text" v-model="regData.email" name="email" required />
 
             <label for="psw"><b>Jelszó</b></label>
-            <input type="password"  name="psw1" required />
+            <input
+              type="password"
+              v-model="regData.password1"
+              name="psw1"
+              required
+            />
 
             <label for="psw"><b>Jelszó újra</b></label>
-            <input type="password"  name="psw2" required />
-            
-            
+            <input
+              type="password"
+              v-model="regData.password2"
+              name="psw2"
+              required
+            />
 
             <button
               class="btn btn-primary"
-              type="submit"
+              type="button"
               style="margin-top: 15px; width: 100%"
+              @click="register()"
             >
               Regisztráció
             </button>
@@ -185,7 +258,10 @@ function register(event) {
               align-content: center;
             "
           >
-            <span onclick="document.getElementById('id01').style.display='block';document.getElementById('id02').style.display='none';">Van fiókod? <RouterLink>Bejelentkezés</RouterLink></span>
+            <span
+              onclick="document.getElementById('id01').style.display='block';document.getElementById('id02').style.display='none';"
+              >Van fiókod? <RouterLink>Bejelentkezés</RouterLink></span
+            >
           </div>
         </form>
         </div>
@@ -267,7 +343,6 @@ function register(event) {
 .active {
   font-weight: bold;
 }
-
 
 .comment-section {
   padding-top: 10px;
@@ -418,8 +493,7 @@ span.psw {
     display: none;
   }
 }
-.regularfont{
+.regularfont {
   font-family: "MonumentRegular";
 }
-
 </style>

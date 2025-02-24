@@ -1,6 +1,4 @@
-// CRUD in Controller, + Service
-// regisztráció(POST), bejelentkezés(POST), jelszó visszaállítás(GET),
-// név és email változtatás(PUT), fiók törlés(DELETE)
+
 
 import express from "express";
 //import { transporter } from "../services/emailsender.js";
@@ -27,9 +25,6 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
-// bejelentkezés
-
-// jelszó visszaállítás
 router.get("/forgot-password", async (req, res) => {
   const { id } = req.body;
   try {
@@ -40,7 +35,6 @@ router.get("/forgot-password", async (req, res) => {
   }
 });
 
-// név és email változtatás
 router.put("/update", async (req, res) => {
   const { id, username, email, groupNeve, password } = req.body;
   try {
@@ -51,7 +45,6 @@ router.put("/update", async (req, res) => {
   }
 });
 
-// fiók törlés
 router.delete("/delete", async (req, res) => {
   const { id } = req.body;
   try {

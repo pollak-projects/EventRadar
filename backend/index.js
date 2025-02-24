@@ -12,27 +12,22 @@ import { verifyUserGroups } from "./middleware/auth.middleware.js";
 
 const app = express();
 
-//const corsOptions = {
-  //origin: [
-    //// "https://pollak.info",
-    ///https:\/\/[a-z0-9]+\.pollak\.info/,
-    //"http://10.0.0.251:3013",
-    //"https://pollakbufe.hu",
-
-
-    //"http://tauri.localhost",
- // ],
-  //credentials: true,
- // optionsSuccessStatus: 200,
-//};
+const corsOptions = {
+  origin: [
+    "http://localhost:5173"
+ ],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 app.use(express.json());
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use("/user", userController);
 
 app.use("/auth", authController);
 
 
-//app.use(cors(corsOptions));
-app.use(cookieParser());
+
 app.use(
   session({
     name: "sid",
