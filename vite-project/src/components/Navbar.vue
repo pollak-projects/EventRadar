@@ -44,6 +44,7 @@ function login() {
   })
     .then(async (result) => {
       const data = await result.json();
+      console.log(data)
       if(data.access_token != undefined)
       {
       localStorage.setItem("accessToken", data.access_token);
@@ -51,7 +52,6 @@ function login() {
       localStorage.setItem("userId", data.user_id);
       loggedin.value = true;
       alert("nagyon joo bejelentkeztél");
-      location.reload()
       }
       else
       {
@@ -139,7 +139,7 @@ function register() {
             to="/creation"
             >Létrehozás</RouterLink
           >
-          <RouterLink class="nav-link" href="#">Disabled</RouterLink>
+          <RouterLink v-if="loggedin" class="nav-link" :class="{ active: route.name == 'Admin' }" to="/Admin">Admin</RouterLink>
           <RouterLink
             class="nav-link signinmobile"
             type="button"
