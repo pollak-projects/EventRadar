@@ -164,20 +164,6 @@ router.put("/pwdChange", async (req, res) => {
   }
 });*/
 
-router.post("/logout", (req, res) => {
-  res.clearCookie("access_token", {
-    domain: "",
-    path: "/",
-  });
-  res.clearCookie("refresh_token", {
-    domain: "",
-    path: "/",
-  });
-  res.clearCookie("sid", {
-    domain: "",
-    path: "/",
-  });
-  res.status(200).json({ message: "Logged out successfully" });
-});
+
 
 export { router as authController };
