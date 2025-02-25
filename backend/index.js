@@ -9,7 +9,7 @@ import { groupController } from "./controller/group.controller.js";
 import { listAllGroup } from "./services/group.service.js";
 import { listAllTokens, register } from "./services/auth.service.js";
 import { verifyUserGroups } from "./middleware/auth.middleware.js";
-import { main, registration } from "./services/emailsender.service.js";
+import { registration } from "./services/emailsender.service.js";
 
 const app = express();
 

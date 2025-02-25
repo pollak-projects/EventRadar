@@ -18,6 +18,13 @@ const regData = defineModel({
   },
 });
 
+function logout() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userId");
+  location.reload()
+}
+
 function login() {
   console.log(
     JSON.stringify({
@@ -37,18 +44,28 @@ function login() {
   })
     .then(async (result) => {
       const data = await result.json();
+      if(data.access_token != undefined)
+      {
       localStorage.setItem("accessToken", data.access_token);
       localStorage.setItem("refreshToken", data.refresh_token);
       localStorage.setItem("userId", data.user_id);
       loggedin.value = true;
       alert("nagyon joo bejelentkeztél");
+      location.reload()
+      }
+      else
+      {
+        alert("nem jo valami")
+      }
     })
     .catch((error) => console.log("error", error));
 }
 
 function register() {
   console.log(regData.value);
-  fetch(`http://localhost:3300/auth/register`, {
+  if(regData.value.password1 == regData.value.password2)
+  {
+    fetch(`http://localhost:3300/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,6 +82,11 @@ function register() {
       alert("anyad");
     })
     .catch((error) => console.log("error", error));
+  }
+  else
+  {
+    alert("nem egyezik a két jelszó")
+  }
 }
 </script>
 
@@ -127,6 +149,16 @@ function register() {
           >
             Bejelentkezés
           </RouterLink>
+
+          <RouterLink
+            class="nav-link signinmobile"
+            type="button"
+            @click="logout()"
+            to="#"
+            v-if="loggedin"
+          >
+            Kijelentkezés
+          </RouterLink>
         </div>
       </div>
       <button
@@ -137,6 +169,15 @@ function register() {
         v-if="!loggedin"
       >
         Bejelentkezés
+      </button>
+      <button
+        class="btn signin"
+        type="button"
+        @click="logout()"
+        style="width: auto"
+        v-if="loggedin"
+      >
+        Kijelentkezés
       </button>
       <div id="id01" class="modal">
         <form
