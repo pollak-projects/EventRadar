@@ -32,6 +32,7 @@ const regData = defineModel({
     password2: "",
     email: "",
     groupsNeve: "User",
+    pfp: "'/person-fill.svg'",
     password: "",
     loginUser: "",
   },
@@ -96,6 +97,7 @@ function register() {
       password2: regData.value.password2,
       email: regData.value.email,
       groupsNeve: regData.value.groupsNeve,
+      pfp: regData.value.pfp
     }),
   })
     .then(async (result) => {

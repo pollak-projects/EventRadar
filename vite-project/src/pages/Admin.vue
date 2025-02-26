@@ -4,10 +4,17 @@ import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 
+const kutya = ref();
 const user = ref();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
 
-function GetUserById(valami) {
+const regData = defineModel({
+  default : {
+    id: ""
+  }
+})
+
+function GetUserById(valami, ref) {
   fetch(
     `http://localhost:3300/user/getUserById/${valami}`,
     {
@@ -19,7 +26,9 @@ function GetUserById(valami) {
   )
     .then(async (res) => {
       const data = await res.json();
-      user.value = data;
+      ref = data;
+      console.log(ref)
+      console.log(kutya)
     })
     .catch((error) => console.log("error", error));
 }
@@ -44,7 +53,7 @@ function listAllUser() {
 }
 
 onMounted(() => {
-  GetUserById(localStorage.getItem("userId"));
+  GetUserById(localStorage.getItem("userId"), user);
   if (localStorage.getItem("userId") == null) {
     location.replace("/");
   }
@@ -87,11 +96,58 @@ onMounted(() => {
     </tbody>
   </table>
 
-  <input type="text">
+<div class="nyuszi">
+  <div id="ide">id <input type="text" v-model="regData.id" class="beiros"></div>
+  <button
+    class="btn signin gomb"
+    type="button"
+    @click="GetUserById(regData.id, kutya.value)"
+    style="width: auto">
+    Felhasználó adati lekérése
+  </button>
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">username</th>
+        <th scope="col">email</th>
+        <th scope="col">create_date</th>
+        <th scope="col">updated_date</th>
+        <th scope="col">groups</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in kutya">
+        <td>{{ item.id }}</td>
+        <td>{{ item.username }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.create_date ?? "ures" }}</td>
+        <td>{{ item.updated_date ?? "ures" }}</td>
+        <td>{{ item.groupsNeve }}</td>
+      </tr>
+    </tbody>
+  </table>
 
 </template>
 
 <style scoped>
+.gomb {
+  margin-left: 10px;
+}
+
+.beiros {
+  margin: auto;
+  position: relative;
+}
+
+#name {
+  margin-left: 30px;
+}
+
+#ide {
+  margin-left: 30px;
+}
 
 .nyuszi {
   display: flex;

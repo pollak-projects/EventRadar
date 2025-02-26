@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router';
       <span class="glyphicon glyphicon-camera"></span>
   </div>
   </label>
-  <input type="File" name="fileToUpload" id="fileToUpload">
+  <input type="File"  name="fileToUpload" id="fileToUpload">
 </form>
 <form >
    <div class="mb-3 ">
