@@ -86,8 +86,10 @@ const handleSubmit = () => {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #ebd3b3;
   border-radius: 8px;
+  font-family: 'MonumentBold';
+  
 }
 
 h2 {
@@ -97,6 +99,7 @@ h2 {
 
 .form-group {
   margin-bottom: 15px;
+  font-family: "MonumentRegular";
 }
 
 label {
