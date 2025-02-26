@@ -170,15 +170,18 @@ function register() {
       >
         Bejelentkezés
       </button>
-      <button
-        class="btn signin"
-        type="button"
-        @click="logout()"
-        style="width: auto"
-        v-if="loggedin"
-      >
-        Kijelentkezés
-      </button>
+
+  <div class="dropdown logoutdropdown">
+  <button class="btn profileicon" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+    </svg> 
+  </button>
+  <ul class="dropdown-menu"  >
+    <li><RouterLink class="dropdown-item" to="/Profile" aria-current="page">Adataim</RouterLink></li>
+    <li><button class="dropdown-item" @click="logout()" v-if="loggedin">Kijelentkezés</button></li>
+  </ul>
+</div>
       <div id="id01" class="modal">
         <form
           class="modal-content animate"
@@ -428,6 +431,18 @@ input[type="password"] {
   background-color: #cc1104;
 }
 
+.profileicon {
+  color: #000;
+  font-weight: bold;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  width: auto;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
 button:hover {
   opacity: 0.8;
 }
@@ -529,6 +544,9 @@ span.psw {
     transform: translate(+5px, 0);
     margin-top: 10px;
   }
+  .logoutdropdown{
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -541,5 +559,12 @@ span.psw {
 }
 .regularfont {
   font-family: "MonumentRegular";
+}
+
+.navbar-nav{
+  align-content: center;
+}
+.dropdown-menu{
+  transform: translateX(-80px);
 }
 </style>
