@@ -1,10 +1,29 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const route = useRoute();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
+
+const user = ref()
+
+
+function GetUserById()
+{
+  fetch(`http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+}).then(async (res) => {
+      const data= await res.json()
+      user.value = data
+    })
+    .catch((error) => console.log("error", error));
+}
+
+console.log(localStorage.getItem("userId"))
 
 const regData = defineModel({
   default: {
@@ -12,7 +31,7 @@ const regData = defineModel({
     password1: "",
     password2: "",
     email: "",
-    groupsNeve: "Admin",
+    groupsNeve: "User",
     password: "",
     loginUser: "",
   },
@@ -44,6 +63,7 @@ function login() {
   })
     .then(async (result) => {
       const data = await result.json();
+      console.log(data)
       if(data.access_token != undefined)
       {
       localStorage.setItem("accessToken", data.access_token);
@@ -80,6 +100,7 @@ function register() {
   })
     .then(async (result) => {
       alert("anyad");
+      location.reload()
     })
     .catch((error) => console.log("error", error));
   }
@@ -88,6 +109,11 @@ function register() {
     alert("nem egyezik a két jelszó")
   }
 }
+
+onMounted(() => {
+  GetUserById()
+})
+
 </script>
 
 <template>
@@ -139,7 +165,7 @@ function register() {
             to="/creation"
             >Létrehozás</RouterLink
           >
-          <RouterLink class="nav-link" href="#">Disabled</RouterLink>
+          <RouterLink v-if="user?.groupsNeve == 'Admin'" class="nav-link" :class="{ active: route.name == 'Admin' }" to="/Admin">Admin</RouterLink>
           <RouterLink
             class="nav-link signinmobile"
             type="button"
@@ -170,15 +196,16 @@ function register() {
       >
         Bejelentkezés
       </button>
-      <button
-        class="btn signin"
-        type="button"
-        @click="logout()"
-        style="width: auto"
-        v-if="loggedin"
-      >
-        Kijelentkezés
-      </button>
+
+  <div class="dropdown logoutdropdown">
+  <button class="btn profileicon" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+   <img src="/person-fill.svg" height="30px" width="30px" alt="">
+  </button>
+  <ul class="dropdown-menu"  >
+    <li><RouterLink class="dropdown-item" to="/Profile" aria-current="page">Adataim</RouterLink></li>
+    <li><button class="dropdown-item" @click="logout()" v-if="loggedin">Kijelentkezés</button></li>
+  </ul>
+</div>
       <div id="id01" class="modal">
         <form
           class="modal-content animate"
@@ -428,6 +455,18 @@ input[type="password"] {
   background-color: #cc1104;
 }
 
+.profileicon {
+  color: #000;
+  font-weight: bold;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  width: auto;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
 button:hover {
   opacity: 0.8;
 }
@@ -529,6 +568,9 @@ span.psw {
     transform: translate(+5px, 0);
     margin-top: 10px;
   }
+  .logoutdropdown{
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -541,5 +583,12 @@ span.psw {
 }
 .regularfont {
   font-family: "MonumentRegular";
+}
+
+.navbar-nav{
+  align-content: center;
+}
+.dropdown-menu{
+  transform: translateX(-80px);
 }
 </style>

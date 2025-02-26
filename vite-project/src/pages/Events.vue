@@ -5,9 +5,6 @@ import Navbar from "../components/Navbar.vue";
 
 <template>
   <Navbar />
-
-
-
 <div class="cards">
   <div class="card">
     <h1>asd</h1>

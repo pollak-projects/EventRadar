@@ -11,5 +11,5 @@ model Users {
     ertekeles Ertekeles[]
     ertesites Ertesites[]
     User_esemenyek User_esemenyek[]
-    
+    pfp String?
 }

@@ -6,13 +6,13 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function GetAllUsers() {
-  const users = await prisma.users.findMany();
+  const users = await prisma.users.findMany()
 
   return users;
 }
 
-export async function getAllUsersById(id) {
-  const data = await prisma.users.findMany({
+export async function getUsersById(id) {
+  const data = await prisma.users.findUnique({
     where: {
       id: id,
     },
