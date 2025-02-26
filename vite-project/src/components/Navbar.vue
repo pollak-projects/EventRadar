@@ -198,7 +198,7 @@ onMounted(() => {
       </button>
 
   <div class="dropdown logoutdropdown">
-  <button class="btn profileicon" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+  <button class="btn profileicon" type="button" data-bs-toggle="dropdown" aria-expanded="false"  v-if="loggedin">
    <img src="/person-fill.svg" height="30px" width="30px" alt="">
   </button>
   <ul class="dropdown-menu"  >
