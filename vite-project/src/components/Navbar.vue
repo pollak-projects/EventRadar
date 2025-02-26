@@ -32,6 +32,7 @@ const regData = defineModel({
     password2: "",
     email: "",
     groupsNeve: "User",
+    pfp: "'/person-fill.svg'",
     password: "",
     loginUser: "",
   },
@@ -96,6 +97,7 @@ function register() {
       password2: regData.value.password2,
       email: regData.value.email,
       groupsNeve: regData.value.groupsNeve,
+      pfp: regData.value.pfp
     }),
   })
     .then(async (result) => {
@@ -354,22 +356,15 @@ onMounted(() => {
             <label for="uname"><b>E-mail</b></label>
             <input type="text" placeholder=" " name="uname" required />
 
-            <label for="psw"><b>Jelszó</b></label>
-            <input type="password" placeholder="" name="psw" required />
+           
 
             <button
               class="btn btn-primary"
               type="submit"
               style="margin-top: 15px; width: 100%"
             >
-              anyád
+              Küldés
             </button>
-
-            <span class="psw"
-              ><RouterLink href="#"
-                >Elfelejtetted a jelszavadat?</RouterLink
-              ></span
-            >
           </div>
         </form>
       </div>

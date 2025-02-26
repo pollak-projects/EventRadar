@@ -97,7 +97,7 @@ async function createNewToken(id, nev, email, groupsNeve) {
   );
 }
 
-export async function register(username, email, password, groupsNeve) {
+export async function register(username, email, password, groupsNeve, pfp) {
   const pwdEncrypted = await encrypt(password);
   await prisma.users.create({
     data: {
@@ -105,6 +105,7 @@ export async function register(username, email, password, groupsNeve) {
       email: email,
       password: pwdEncrypted,
       groupsNeve: groupsNeve,
+      pfp: pfp
     },
   });
 }
