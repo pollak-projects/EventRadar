@@ -1,10 +1,29 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const route = useRoute();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
+
+const user = ref()
+
+
+function GetUserById()
+{
+  fetch(`http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+}).then(async (res) => {
+      const data= await res.json()
+      user.value = data
+    })
+    .catch((error) => console.log("error", error));
+}
+
+console.log(localStorage.getItem("userId"))
 
 const regData = defineModel({
   default: {
@@ -12,7 +31,7 @@ const regData = defineModel({
     password1: "",
     password2: "",
     email: "",
-    groupsNeve: "Admin",
+    groupsNeve: "User",
     password: "",
     loginUser: "",
   },
@@ -52,6 +71,7 @@ function login() {
       localStorage.setItem("userId", data.user_id);
       loggedin.value = true;
       alert("nagyon joo bejelentkeztél");
+      location.reload()
       }
       else
       {
@@ -80,6 +100,7 @@ function register() {
   })
     .then(async (result) => {
       alert("anyad");
+      location.reload()
     })
     .catch((error) => console.log("error", error));
   }
@@ -88,6 +109,11 @@ function register() {
     alert("nem egyezik a két jelszó")
   }
 }
+
+onMounted(() => {
+  GetUserById()
+})
+
 </script>
 
 <template>
@@ -139,7 +165,7 @@ function register() {
             to="/creation"
             >Létrehozás</RouterLink
           >
-          <RouterLink v-if="loggedin" class="nav-link" :class="{ active: route.name == 'Admin' }" to="/Admin">Admin</RouterLink>
+          <RouterLink v-if="user?.groupsNeve == 'Admin'" class="nav-link" :class="{ active: route.name == 'Admin' }" to="/Admin">Admin</RouterLink>
           <RouterLink
             class="nav-link signinmobile"
             type="button"

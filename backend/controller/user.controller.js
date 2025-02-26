@@ -10,11 +10,21 @@ import {
   userDelete,
   GetAllUsers,
   Groups,
+  getUsersById
 } from "../services/user.service.js";
 
 const router = express.Router();
 
-
+router.get(`/getUserById/:id`, async (req, res) => {
+  const id = Number(req.params.id)
+  console.log("Received ID:", req.params.id, "Parsed ID:", id);
+  try {
+    const users = await getUsersById(id);
+    res.status(201).json(users)
+  } catch (error) {
+    res.status(400).json({message: error.message})
+  }
+})
 
 router.get("/getAll", async (req, res) => {
   try {
