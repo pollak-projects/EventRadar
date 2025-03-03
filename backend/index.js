@@ -10,6 +10,7 @@ import { listAllGroup } from "./services/group.service.js";
 import { listAllTokens, register } from "./services/auth.service.js";
 import { verifyUserGroups } from "./middleware/auth.middleware.js";
 import { registration } from "./services/emailsender.service.js";
+import { esmenyekController } from "./controller/esmenyek.controller.js";
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(cookieParser());
 app.use("/user", userController);
 
 app.use("/auth", authController);
-
+app.use("/event", esmenyekController)
 
 
 app.use(

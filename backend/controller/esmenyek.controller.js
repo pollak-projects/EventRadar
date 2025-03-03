@@ -58,3 +58,5 @@ router.get("/getId", async (req, res) =>{
       res.status(400).json(error.message);
     }
 })
+
+export { router as esmenyekController };

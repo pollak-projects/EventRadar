@@ -1,35 +1,38 @@
 <script setup>
-import Navbar from '../components/Navbar.vue';
-import { ref } from 'vue';
+import Navbar from "../components/Navbar.vue";
+import { ref } from "vue";
+
+const fileInputVisible = ref(false);
 
 const eventData = defineModel({
-  default: { 
-    categories: ['Koncert', 'Túrázás', 'Színház', 'Kiállítás', 'Szűk körű rendezvény', 'Egyéb'],
+  default: {
+    categories: [
+      "Koncert",
+      "Túrázás",
+      "Színház",
+      "Kiállítás",
+      "Szűk körű rendezvény",
+      "Egyéb",
+    ],
     eventName: "",
     eventDate: "",
     startTime: "",
     endTime: "",
     location: "",
-    category: ref(categories[0]),
-    fileInputVisible: ref(false),
-  },  
+    category: ref(""),
+
+  },
 });
 
-function creation() {
+/*function creation() {
   console.log(eventData.value)
-  fetch ('http://localhost:3300/esemenyek/create', {
+  fetch ('http://localhost:3300/event/create', {
     method: "POST",
     headers: {
       "content-type" : "application/json",
     },
     body: JSON.stringify ({
-      eventName: eventData.value.eventName,
-      eventDate: eventData.value.eventDate,
-      startTime: eventData.value.startTime,
-      endTime: eventData.value.endTime,
-      location: eventData.value.location,
-      categories: eventData.value.location,
-      fileInputVisible: fileInputVisible.value.fileInputVisible
+      
     })
   })
   .then(async (result) => {
@@ -38,11 +41,12 @@ function creation() {
     })
     .catch((error) => console.log("error", error));
 
-}
+}*/
 
-
-const handleCategoryChange = () => {
-  if (category.value === 'Egyéb') {
+const handleCategoryChange = (event) => {
+  console.log(event.target.value);
+  eventData.value.category = event.target.value;
+  if (event.target.value == "Egyéb") {
     fileInputVisible.value = true;
   } else {
     fileInputVisible.value = false;
@@ -62,44 +66,64 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <Navbar/>
-  <br>
+  <Navbar />
+  <br />
   <div class="event-form">
     <h2>Új esemény hozzáadása</h2>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="event-name">Esemény neve:</label>
-        <input type="text" id="event-name" v-model="eventName" required />
+        <input
+          type="text"
+          id="event-name"
+          v-model="eventData.eventName"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="event-date">Dátum:</label>
-        <input type="date" id="event-date" v-model="eventDate" required />
+        <input
+          type="date"
+          id="event-date"
+          v-model="eventData.eventDate"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="start-time">Óra (kezdet):</label>
-        <input type="time" id="start-time" v-model="startTime" required />
+        <input
+          type="time"
+          id="start-time"
+          v-model="eventData.startTime"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="end-time">Óra (befejezés):</label>
-        <input type="time" id="end-time" v-model="endTime" required />
+        <input type="time" id="end-time" v-model="eventData.endTime" required />
       </div>
 
       <div class="form-group">
         <label for="location">Helyszín:</label>
-        <input type="text" id="location" v-model="location"  required />
+        <input
+          type="text"
+          id="location"
+          v-model="eventData.location"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="category">Kategória:</label>
         <select id="category" v-model="category" @change="handleCategoryChange">
-          <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+          <option v-for="cat in eventData.categories" :key="cat" :value="cat">
+            {{ cat }}
+          </option>
         </select>
       </div>
-
-  
       <div v-if="fileInputVisible" class="form-group">
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="image-upload" />
@@ -117,8 +141,7 @@ const handleSubmit = () => {
   padding: 20px;
   background-color: #ebd3b3;
   border-radius: 8px;
-  font-family: 'MonumentBold';
-  
+  font-family: "MonumentBold";
 }
 
 h2 {
@@ -138,7 +161,8 @@ label {
   color: #555;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
