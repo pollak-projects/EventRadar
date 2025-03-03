@@ -2,14 +2,43 @@
 import Navbar from '../components/Navbar.vue';
 import { ref } from 'vue';
 
-const categories = ['Koncert', 'Túrázás', 'Színház', 'Kiállítás', 'Szűk körű rendezvény', 'Egyéb'];
-const eventName = ref('');
-const eventDate = ref('');
-const startTime = ref('');
-const endTime = ref('');
-const location = ref('');
-const category = ref(categories[0]);
-const fileInputVisible = ref(false);
+const eventData = defineModel({
+  default: { 
+    categories: ['Koncert', 'Túrázás', 'Színház', 'Kiállítás', 'Szűk körű rendezvény', 'Egyéb'],
+    eventName: "",
+    eventDate: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+    category: ref(categories[0]),
+    fileInputVisible: ref(false),
+  },  
+});
+
+function creation() {
+  console.log(eventData.value)
+  fetch ('http://localhost:3300/esemenyek/create', {
+    method: "POST",
+    headers: {
+      "content-type" : "application/json",
+    },
+    body: JSON.stringify ({
+      eventName: eventData.value.eventName,
+      eventDate: eventData.value.eventDate,
+      startTime: eventData.value.startTime,
+      endTime: eventData.value.endTime,
+      location: eventData.value.location,
+      categories: eventData.value.location,
+      fileInputVisible: fileInputVisible.value.fileInputVisible
+    })
+  })
+  .then(async (result) => {
+      alert("Siker");
+      location.reload()
+    })
+    .catch((error) => console.log("error", error));
+
+}
 
 
 const handleCategoryChange = () => {
@@ -76,7 +105,7 @@ const handleSubmit = () => {
         <input type="file" id="image-upload" />
       </div>
 
-      <button type="submit">Esemény mentése</button>
+      <button type="submit" @click="creation()">Esemény mentése</button>
     </form>
   </div>
 </template>
