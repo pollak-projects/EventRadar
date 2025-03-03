@@ -1,4 +1,4 @@
-import express from 'express';
+ import express from 'express';
 import { listAllGroup, addGroup, deleteGroup, updateGroup } from '../services/group.service.js';
 
 const router = express.Router();
@@ -7,7 +7,6 @@ router.get("/getAll", async (req, res) => {
     const data = await listAllGroup();
     res.status(200).json(data);
 })
-
 router.post("/add", async (req, res) => {
     const { neve } = req.body;
 

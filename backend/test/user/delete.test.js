@@ -1,10 +1,10 @@
 import request from "supertest";
 import app from "../../index.js";
 
-test("POST group/delete should pass", async () => {
-  const response = await request(app).post("/group/delete").send({
-    neve: "test",
+test("DELETE user/delete should pass", async () => {
+  const response = await request(app).delete("/user/delete").send({
+    
   });
 
-  expect(response.status).toBe(400);
+  expect(response.status).toBe(200);
 });

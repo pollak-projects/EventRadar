@@ -7,5 +7,5 @@ test("POST group/add should pass", async () => {
     neve: "test",
   });
 
-  expect(response.status).toBe(400);
+  expect(response.status).toBe(201);
 });
