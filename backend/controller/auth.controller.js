@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     else if (password1 != password2) {
       res.json({ message: "nem egyezik meg jelszo" });
     }
-    // If same return True.
+
     else {
       const user = await register(username, email, password1, groupsNeve);
       res.status(201).json(user);
