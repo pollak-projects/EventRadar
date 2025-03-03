@@ -9,6 +9,8 @@ export async function CreateEvent(esemeny_nev, leiras, helyszin, esemeny_date) {
       leiras: leiras,
       helyszin: helyszin,
       esemeny_date: esemeny_date,
+      create_date: new Date(),
+      updated_date: new Date()
     },
   });
 }

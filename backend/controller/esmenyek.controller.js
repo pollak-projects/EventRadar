@@ -5,6 +5,7 @@ import {
   eventDelete,
   GetAllEvent,
   getAllEventById,
+  CreateEvent,
 } from "../services/esemenyek.service.js";
 
 const router = express.Router();
@@ -30,8 +31,8 @@ router.put("/update", async (req, res) => {
 
 router.post("/create", async (req, res) => {
     try {
-      const { esemeny_nev, leiras, helyszin, esemeny_date } = req.body;
-      const event = await register(esemeny_nev, leiras, helyszin, esemeny_date);
+      const { esemeny_nev, leiras, helyszin, esemeny_date} = req.body;
+      const event = await CreateEvent(esemeny_nev, leiras, helyszin, esemeny_date);
       res.status(201).json(event);
     } catch (error) {
       res.status(400).json({ message: error.message });
