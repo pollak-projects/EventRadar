@@ -2,6 +2,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export async function CreateEvent(esemeny_nev, leiras, helyszin, esemeny_date) {
+  await prisma.esemenyek.create({
+    data: {
+      esemeny_nev: esemeny_nev,
+      leiras: leiras,
+      helyszin: helyszin,
+      esemeny_date: esemeny_date,
+    },
+  });
+}
+
 export async function GetAllEvent() {
     const users = await prisma.esemenyek.findMany();
 
