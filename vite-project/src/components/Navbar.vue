@@ -101,14 +101,14 @@ function register() {
     }),
   })
     .then(async (result) => {
-      alert("anyad");
+      alert("Siker");
       location.reload()
     })
     .catch((error) => console.log("error", error));
   }
   else
   {
-    alert("nem egyezik a két jelszó")
+    alert("Nem egyezik a két jelszó")
   }
 }
 
@@ -255,8 +255,7 @@ onMounted(() => {
             <span class="psw"
               ><RouterLink onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none';"
                 >Elfelejtetted a jelszavadat?</RouterLink
-              ></span
-            >
+              ></span>
           </div>
 
           <div
