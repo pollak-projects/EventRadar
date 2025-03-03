@@ -41,10 +41,10 @@ import { RouterLink } from 'vue-router';
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #ebd3b3;
+  background: url(/moderndik2.png);
   border-radius: 8px;
   font-family: 'MonumentBold';
-  
+  background-size: cover;
 }
 
 h2 {

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `ertesites` MODIFY `update_date` DATE NULL DEFAULT CURRENT_TIMESTAMP(3);
