@@ -28,6 +28,22 @@ router.put("/update", async (req, res) => {
     }
 })
 
+router.post("/create", async (req, res) => {
+  try {
+    const {  } = req.body;
+
+    if (password1 == "") res.json({ message: "ures" });
+    else if (password2 == "") res.json({ message: "ures" });
+    else if (password1 != password2) {
+      res.json({ message: "nem egyezik meg jelszo" });
+    } else {
+      const user = await register(username, email, password1, groupsNeve);
+      res.status(201).json(user);
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 router.delete("/delete", async (req, res) => {
     const { id } = req. body;
     try {
