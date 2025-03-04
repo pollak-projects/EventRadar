@@ -10,7 +10,7 @@ import { listAllGroup } from "./services/group.service.js";
 import { listAllTokens, register } from "./services/auth.service.js";
 import { verifyUserGroups } from "./middleware/auth.middleware.js";
 import { registration } from "./services/emailsender.service.js";
-import { esmenyekController } from "./controller/esmenyek.controller.js";
+import { esmenyekController } from "./controller/esemenyek.controller.js";
 
 const app = express();
 

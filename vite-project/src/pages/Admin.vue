@@ -9,26 +9,37 @@ const user = ref();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
 
 const regData = defineModel({
-  default : {
-    id: ""
-  }
-})
+  default: {
+    id: "",
+  },
+});
 
-function GetUserById(valami, ref) {
-  fetch(
-    `http://localhost:3300/user/getUserById/${valami}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  )
+function GetUser() {
+  console.log(regData.value);
+  fetch(`http://localhost:3300/user/getUserById/${regData.value.id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
     .then(async (res) => {
       const data = await res.json();
-      ref = data;
-      console.log(ref)
-      console.log(kutya)
+      console.log(data);
+      kutya.value = data;
+    })
+    .catch((error) => console.log("error", error));
+}
+
+function GetUserById(valami) {
+  fetch(`http://localhost:3300/user/getUserById/${valami}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      const data = await res.json();
+      return data;
     })
     .catch((error) => console.log("error", error));
 }
@@ -63,14 +74,14 @@ onMounted(() => {
 <template v-if="user.value.groupsNeve == 'Admin'">
   <Navbar />
   <div class="nyuszi">
-  <button
-    class="btn signin"
-    type="button"
-    @click="listAllUser()"
-    style="width: auto"
-  >
-    Felhasználók kiírása
-  </button>
+    <button
+      class="btn signin"
+      type="button"
+      @click="listAllUser()"
+      style="width: auto"
+    >
+      Felhasználók kiírása
+    </button>
   </div>
 
   <table class="table">
@@ -96,17 +107,20 @@ onMounted(() => {
     </tbody>
   </table>
 
-<div class="nyuszi">
-  <div id="ide">id <input type="text" v-model="regData.id" class="beiros"></div>
-  <button
-    class="btn signin gomb"
-    type="button"
-    @click="GetUserById(regData.id, kutya.value)"
-    style="width: auto">
-    Felhasználó adati lekérése
-  </button>
-</div>
-<table class="table">
+  <div class="nyuszi">
+    <div id="ide">
+      id <input type="text" v-model="regData.id" class="beiros" />
+    </div>
+    <button
+      class="btn signin gomb"
+      type="button"
+      @click="GetUser"
+      style="width: auto"
+    >
+      Felhasználó adati lekérése
+    </button>
+  </div>
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">id</th>
@@ -118,17 +132,16 @@ onMounted(() => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in kutya">
-        <td>{{ item.id }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.create_date ?? "ures" }}</td>
-        <td>{{ item.updated_date ?? "ures" }}</td>
-        <td>{{ item.groupsNeve }}</td>
+      <tr>
+        <td>{{ kutya?.id }}</td>
+        <td>{{ kutya?.username }}</td>
+        <td>{{ kutya?.email }}</td>
+        <td>{{ kutya?.create_date ?? "ures" }}</td>
+        <td>{{ kutya?.updated_date ?? "ures" }}</td>
+        <td>{{ kutya?.groupsNeve }}</td>
       </tr>
     </tbody>
   </table>
-
 </template>
 
 <style scoped>
