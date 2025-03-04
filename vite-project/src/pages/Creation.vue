@@ -116,6 +116,7 @@ const handleSubmit = () => {
         />
       </div>
 
+
       <div class="form-group">
         <label for="category">Kategória:</label>
         <select id="category" v-model="category" @change="handleCategoryChange">
