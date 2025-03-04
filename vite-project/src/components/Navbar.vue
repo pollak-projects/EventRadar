@@ -6,24 +6,54 @@ import { ref, onMounted } from "vue";
 const route = useRoute();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
 
-const user = ref()
+const user = ref();
 
+const loginmodal = ref();
+function loginmodalbe() {
+  if (loginmodal.value.style.cssText == "display: block;") {
+    loginmodal.value.style.display = "none";
+  } else {
+    loginmodal.value.style.display = "block";
+  }
+}
 
-function GetUserById()
-{
-  fetch(`http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-}).then(async (res) => {
-      const data= await res.json()
-      user.value = data
+const regmodal = ref();
+function regmodalbeki() {
+  if (regmodal.value.style.cssText == "display: block;") {
+    regmodal.value.style.display = "none";
+  } else {
+    regmodal.value.style.display = "block";
+  }
+}
+
+const forgotpass = ref();
+function forgotpassbeki() {
+  console.log(forgotpass);
+  if (forgotpass.value.style.cssText == "display: block;") {
+    forgotpass.value.style.display = "none";
+  } else {
+    forgotpass.value.style.display = "block";
+  }
+}
+
+function GetUserById() {
+  fetch(
+    `http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then(async (res) => {
+      const data = await res.json();
+      user.value = data;
     })
     .catch((error) => console.log("error", error));
 }
 
-console.log(localStorage.getItem("userId"))
+console.log(localStorage.getItem("userId"));
 
 const regData = defineModel({
   default: {
@@ -42,7 +72,7 @@ function logout() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("userId");
-  location.reload()
+  location.reload();
 }
 
 function login() {
@@ -64,19 +94,16 @@ function login() {
   })
     .then(async (result) => {
       const data = await result.json();
-      console.log(data)
-      if(data.access_token != undefined)
-      {
-      localStorage.setItem("accessToken", data.access_token);
-      localStorage.setItem("refreshToken", data.refresh_token);
-      localStorage.setItem("userId", data.user_id);
-      loggedin.value = true;
-      alert("nagyon joo bejelentkeztél");
-      location.reload()
-      }
-      else
-      {
-        alert("nem jo valami")
+      console.log(data);
+      if (data.access_token != undefined) {
+        localStorage.setItem("accessToken", data.access_token);
+        localStorage.setItem("refreshToken", data.refresh_token);
+        localStorage.setItem("userId", data.user_id);
+        loggedin.value = true;
+        alert("nagyon joo bejelentkeztél");
+        location.reload();
+      } else {
+        alert("nem jo valami");
       }
     })
     .catch((error) => console.log("error", error));
@@ -84,38 +111,34 @@ function login() {
 
 function register() {
   console.log(regData.value);
-  if(regData.value.password1 == regData.value.password2)
-  {
+  if (regData.value.password1 == regData.value.password2) {
     fetch(`http://localhost:3300/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: regData.value.username,
-      password1: regData.value.password1,
-      password2: regData.value.password2,
-      email: regData.value.email,
-      groupsNeve: regData.value.groupsNeve,
-      pfp: regData.value.pfp
-    }),
-  })
-    .then(async (result) => {
-      alert("Siker");
-      location.reload()
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: regData.value.username,
+        password1: regData.value.password1,
+        password2: regData.value.password2,
+        email: regData.value.email,
+        groupsNeve: regData.value.groupsNeve,
+        pfp: regData.value.pfp,
+      }),
     })
-    .catch((error) => console.log("error", error));
-  }
-  else
-  {
-    alert("Nem egyezik a két jelszó")
+      .then(async (result) => {
+        alert("Siker");
+        location.reload();
+      })
+      .catch((error) => console.log("error", error));
+  } else {
+    alert("Nem egyezik a két jelszó");
   }
 }
 
 onMounted(() => {
-  GetUserById()
-})
-
+  GetUserById();
+});
 </script>
 
 <template>
@@ -167,17 +190,28 @@ onMounted(() => {
             to="/creation"
             >Létrehozás</RouterLink
           >
-          <RouterLink v-if="user?.groupsNeve == 'Admin'" class="nav-link" :class="{ active: route.name == 'Admin' }" to="/Admin">Admin</RouterLink>
+          <RouterLink
+            v-if="user?.groupsNeve == 'Admin'"
+            class="nav-link"
+            :class="{ active: route.name == 'Admin' }"
+            to="/Admin"
+            >Admin</RouterLink
+          >
           <RouterLink
             class="nav-link signinmobile"
             type="button"
-            onclick="document.getElementById('id01').style.display='block'"
+            @click="loginmodalbe"
             to="#"
             v-if="!loggedin"
           >
             Bejelentkezés
           </RouterLink>
-
+          <RouterLink
+            class="nav-link signinmobile"
+            to="/Profile"
+            aria-current="page"
+            >Adataim</RouterLink
+          >
           <RouterLink
             class="nav-link signinmobile"
             type="button"
@@ -192,33 +226,44 @@ onMounted(() => {
       <button
         class="btn signin"
         type="button"
-        onclick="document.getElementById('id01').style.display='block'"
+        @click="loginmodalbe"
         style="width: auto"
         v-if="!loggedin"
       >
         Bejelentkezés
       </button>
 
-  <div class="dropdown logoutdropdown">
-  <button class="btn profileicon" type="button" data-bs-toggle="dropdown" aria-expanded="false"  v-if="loggedin">
-   <img src="/person-fill.svg" height="30px" width="30px" alt="">
-  </button>
-  <ul class="dropdown-menu"  >
-    <li><RouterLink class="dropdown-item" to="/Profile" aria-current="page">Adataim</RouterLink></li>
-    <li><button class="dropdown-item" @click="logout()" v-if="loggedin">Kijelentkezés</button></li>
-  </ul>
-</div>
-      <div id="id01" class="modal">
+      <div class="dropdown logoutdropdown">
+        <button
+          class="btn profileicon"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          v-if="loggedin"
+        >
+          <img src="/person-fill.svg" height="30px" width="30px" alt="" />
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <RouterLink class="dropdown-item" to="/Profile" aria-current="page"
+              >Adataim</RouterLink
+            >
+          </li>
+          <li>
+            <button class="dropdown-item" @click="logout()" v-if="loggedin">
+              Kijelentkezés
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="modal" ref="loginmodal">
         <form
           class="modal-content animate"
           method="post"
           onSubmit="return checkPassword(this)"
         >
           <div class="imgcontainer">
-            <span
-              onclick="document.getElementById('id01').style.display='none'"
-              class="close"
-              title="Close Modal"
+            <span @click="loginmodalbe()" class="close" title="Close Modal"
               >&times;</span
             >
             <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
@@ -253,9 +298,15 @@ onMounted(() => {
             </button>
 
             <span class="psw"
-              ><RouterLink onclick="document.getElementById('id03').style.display='block';document.getElementById('id01').style.display='none';"
-                >Elfelejtetted a jelszavadat?</RouterLink
-              ></span>
+              ><a style="text-decoration: underline; color: #0000EE; cursor: pointer;"
+                @click="
+                  loginmodalbe();
+                  forgotpassbeki();
+                "
+              >
+                Elfelejtetted a jelszavadat?
+          </a></span
+            >
           </div>
 
           <div
@@ -267,19 +318,19 @@ onMounted(() => {
             "
           >
             <span
-              onclick="document.getElementById('id02').style.display='block';document.getElementById('id01').style.display='none';"
-              >Nincs fiókod? <RouterLink>Regisztráció</RouterLink></span
+              @click="
+                loginmodalbe();
+                regmodalbeki();
+              "
+              >Nincs fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Regisztráció</a></span
             >
           </div>
         </form>
       </div>
-      <div id="id02" class="modal">
+      <div ref="regmodal" class="modal">
         <form class="modal-content" :onsubmit="register" method="post">
           <div class="imgcontainer">
-            <span
-              onclick="document.getElementById('id02').style.display='none'"
-              class="close"
-              title="Close Modal"
+            <span @click="regmodalbeki()" class="close" title="Close Modal"
               >&times;</span
             >
             <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
@@ -333,19 +384,23 @@ onMounted(() => {
             "
           >
             <span
-              onclick="document.getElementById('id01').style.display='block';document.getElementById('id02').style.display='none';"
-              >Van fiókod? <RouterLink>Bejelentkezés</RouterLink></span
+              @click="
+                regmodalbeki();
+                loginmodalbe();
+              "
+              >Van fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Bejelentkezés</a></span
             >
           </div>
         </form>
-        </div>
-        <div id="id03" class="modal">
-        <form class="modal-content animate" method="post"  onSubmit="return checkPassword(this)">
+      </div>
+      <div class="modal" ref="forgotpass">
+        <form
+          class="modal-content animate"
+          method="post"
+          onSubmit="return checkPassword(this)"
+        >
           <div class="imgcontainer">
-            <span
-              onclick="document.getElementById('id03').style.display='none'"
-              class="close"
-              title="Close Modal"
+            <span @click="forgotpassbeki()" class="close" title="Close Modal"
               >&times;</span
             >
             <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
@@ -354,8 +409,6 @@ onMounted(() => {
           <div class="container">
             <label for="uname"><b>E-mail</b></label>
             <input type="text" placeholder=" " name="uname" required />
-
-           
 
             <button
               class="btn btn-primary"
@@ -387,7 +440,7 @@ onMounted(() => {
   gap: 25px;
   transform: translate(-30px, 0);
   margin-top: 10px;
-  font-family: "MonumentRegular";
+  font-family: "MonumentRegular", sans-serif;
 }
 .event-container {
   display: flex;
@@ -445,7 +498,7 @@ input[type="password"] {
   margin-right: 20px;
 }
 
-.signin:hover{
+.signin:hover {
   background-color: #cc1104;
 }
 
@@ -481,7 +534,7 @@ button:hover {
   padding: 16px;
   border-bottom-right-radius: 10%;
   border-bottom-left-radius: 10%;
-  font-family: "MonumentRegular";
+  font-family: "MonumentRegular", sans-serif;
   font-size: 16px;
 }
 
@@ -562,7 +615,7 @@ span.psw {
     transform: translate(+5px, 0);
     margin-top: 10px;
   }
-  .logoutdropdown{
+  .logoutdropdown {
     display: none;
   }
 }
@@ -576,13 +629,13 @@ span.psw {
   }
 }
 .regularfont {
-  font-family: "MonumentRegular";
+  font-family: "MonumentRegular", sans-serif;
 }
 
-.navbar-nav{
+.navbar-nav {
   align-content: center;
 }
-.dropdown-menu{
+.dropdown-menu {
   transform: translateX(-80px);
 }
 </style>
