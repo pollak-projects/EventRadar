@@ -4,6 +4,7 @@ import app from "../../index.js";
 
 test("PUT user/update should pass", async () => {
     const response = await request(app).put("/user/update").send({
+        id: 1,
         username: "test",
         email: "test",
         groupNeve: "test",
