@@ -140,6 +140,14 @@ onMounted(() => {
         <td>{{ kutya?.updated_date ?? "ures" }}</td>
         <td>{{ kutya?.groupsNeve }}</td>
       </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
 </template>
