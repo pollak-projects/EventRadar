@@ -8,9 +8,16 @@ const kutya = ref();
 const user = ref();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
 
+function getGroups() {
+  fetch(`http://localhost:3300/groups/getAll`)
+}
+
 const regData = defineModel({
   default: {
     id: "",
+    reg : {
+       
+    },
   },
 });
 
@@ -144,7 +151,7 @@ onMounted(() => {
       <tr>
         <td></td>
         <td>
-          <input type="text">
+          <input type="text" >
         </td>
         <td>          
           <input type="text">
