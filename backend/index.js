@@ -2,6 +2,7 @@ import express, { response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
+import { PrismaClient } from "@prisma/client";
 import { userController } from "./controller/user.controller.js";
 import { authController } from "./controller/auth.controller.js";
 import { GetAllUsers, Groups } from "./services/user.service.js";

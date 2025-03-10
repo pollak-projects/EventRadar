@@ -4,6 +4,7 @@ model Esemenyek {
     leiras String
     helyszin String
     esemeny_date DateTime
+    esemeny_hossz Int
     create_date DateTime @default(now()) @db.Date
     updated_date DateTime 
     ertekeles Ertekeles[]
