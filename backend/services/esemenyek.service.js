@@ -10,6 +10,7 @@ export async function CreateEvent(esemeny_nev, leiras, helyszin, esemeny_date) {
       helyszin: helyszin,
       esemeny_date: esemeny_date,
       create_date: new Date(),
+      esemeny_hossz :esemeny_hossz
     },
   });
 }

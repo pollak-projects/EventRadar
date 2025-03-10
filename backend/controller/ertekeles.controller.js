@@ -28,8 +28,8 @@ router.put("/update", async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
-  const { ertekeles_id } = req.body;
+router.delete("/delete/:ertekeles_id", async (req, res) => {
+  const { ertekeles_id } = req.params;
   try {
     const event = await RatingDelete(ertekeles_id);
     res.status(200).json(event);
@@ -38,8 +38,8 @@ router.delete("/delete", async (req, res) => {
   }
 });
 
-router.get("/getId", async (req, res) => {
-  const { ertekeles_id } = req.body;
+router.get("/getId/:ertekeles_id", async (req , res) => {
+  const { ertekeles_id } = req.params;
   try {
     const event = await GetRatingById(ertekeles_id);
     res.status(200).json(user);
@@ -47,3 +47,6 @@ router.get("/getId", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
+
+export { router as ertekelesController };

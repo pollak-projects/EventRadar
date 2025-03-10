@@ -1,51 +1,32 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import Navbar from "../components/Navbar.vue";
+import { ref, onMounted} from "vue";
+
+const events = ref();
+
+function getAllEvents() {
+  fetch(`http://localhost:3300/event/getAll`).then(
+    async (res) => {
+      const data = await res.json();
+      console.log(data)
+      events.value = data
+    }
+  );
+}
+
+onMounted(() => {
+    getAllEvents()
+})
 </script>
 
 <template>
   <Navbar />
-<div class="cards">
+<div class="cards"  v-for="event in events">
   <div class="card">
-    <h1>asd</h1>
-    <h2>2025.02.05.</h2>
-    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
-      Információk
-      <span class="info-icon"></span>
-    </RouterLink>
-  </div>
-
-    <div class="card">
-    <h1>asd</h1>
-    <h2>2025.02.05.</h2>
-    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
-      Információk
-      <span class="info-icon"></span>
-    </RouterLink>
-  </div>
-
-    <div class="card">
-    <h1>asd</h1>
-    <h2>2025.02.05.</h2>
-    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
-      Információk
-      <span class="info-icon"></span>
-    </RouterLink>
-  </div>
-  
-  <div class="card">
-    <h1>asd</h1>
-    <h2>2025.02.05.</h2>
-    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
-      Információk
-      <span class="info-icon"></span>
-    </RouterLink>
-  </div>
-
-  <div class="card">
-    <h1>asd</h1>
-    <h2>2025.02.05.</h2>
-    <RouterLink class="info-button" to="/information" style="text-decoration: none;">
+    <h1>{{ event.esemeny_nev }}</h1>
+    <h2>{{ event.esemeny_date.split('T')[0]}}</h2>
+    <RouterLink class="info-button" :to="'/information/' + event.id" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
     </RouterLink>
