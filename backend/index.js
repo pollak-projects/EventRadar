@@ -98,9 +98,9 @@ app.post("/test", async(req, res)=> {
   res.send("Ok")
 })
 
-/*app.listen(3300, () => {
+app.listen(3300, () => {
   console.log("Started at http://localhost:3300");
-});*/
+});
 //tesztnél ki kell kommentelni
 
 export default app;
