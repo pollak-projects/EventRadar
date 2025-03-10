@@ -33,7 +33,7 @@ export async function RatingUpdate(ertekeles_id, rating, comment) {
 export async function RatingDelete() {
   await prisma.ertekeles.delete({
     where: {
-      ertesites_id: ertesites_id,
+      ertekeles_id: ertekeles_id,
     },
   });
 }

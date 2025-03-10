@@ -60,4 +60,4 @@ router.get("/getId", async (req, res) =>{
     }
 })
 
-export { router as esmenyekController };
+export { router as esemenyekController };
