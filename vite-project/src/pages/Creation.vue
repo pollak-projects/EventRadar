@@ -24,24 +24,6 @@ const eventData = defineModel({
   },
 });
 
-/*function creation() {
-  console.log(eventData.value)
-  fetch ('http://localhost:3300/event/create', {
-    method: "POST",
-    headers: {
-      "content-type" : "application/json",
-    },
-    body: JSON.stringify ({
-      
-    })
-  })
-  .then(async (result) => {
-      alert("Siker");
-      location.reload()
-    })
-    .catch((error) => console.log("error", error));
-
-}*/
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
@@ -55,12 +37,7 @@ const handleCategoryChange = (event) => {
 
 const handleSubmit = () => {
   console.log({
-    eventName: eventName.value,
-    eventDate: eventDate.value,
-    startTime: startTime.value,
-    endTime: endTime.value,
-    location: location.value,
-    category: category.value,
+
   });
 };
 </script>

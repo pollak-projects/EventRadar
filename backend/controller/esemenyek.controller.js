@@ -12,9 +12,10 @@ const router = express.Router();
 
 router.get("/getAll", async (req, res) => {
     try {
-        const users = await GetAllEvent();
-        res.status(201).json(users);
+        const events = await GetAllEvent();
+        res.status(201).json(events);
     }catch (error) {
+        console.log(error)
         res.status(400).json({message:  error.message})
     }
 });

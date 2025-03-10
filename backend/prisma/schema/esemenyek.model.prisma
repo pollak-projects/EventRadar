@@ -6,7 +6,7 @@ model Esemenyek {
     esemeny_date DateTime
     esemeny_hossz Int
     create_date DateTime @default(now()) @db.Date
-    updated_date DateTime 
+    updated_date DateTime?
     ertekeles Ertekeles[]
     ertesites Ertesites[]
     User_esemenyek User_esemenyek[]
