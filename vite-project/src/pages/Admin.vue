@@ -14,6 +14,7 @@ const regData = defineModel({
   },
 });
 
+
 function GetUser() {
   console.log(regData.value);
   fetch(`http://localhost:3300/user/getUserById/${regData.value.id}`, {
@@ -142,14 +143,26 @@ onMounted(() => {
       </tr>
       <tr>
         <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>
+          <input type="text">
+        </td>
+        <td>          
+          <input type="text">
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>          
+          <select v-model="category" @change="handleCategoryChange">
+          <option :key="cat" :value="cat">
+          </option>
+          </select>
+        </td>
       </tr>
     </tbody>
   </table>
+      <button class="btn signin gomb" type="button" @click="GetUser" style="width: auto">Módosítás</button>
 </template>
 
 <style scoped>

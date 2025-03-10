@@ -50,14 +50,14 @@ router.delete("/delete", async (req, res) => {
     }
 })
 
-router.get("/getId", async (req, res) =>{
-    const { id } = req.body;
-    try {
-      const event = await getAllEventById(id);
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(400).json(error.message);
-    }
-})
+router.get(`/getId/:id`, async (req, res) => {
+  const id = Number(req.params.id);
+  try {
+    const event = await getAllEventById(id);
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(400).json({message: error.message});
+  }
+});
 
 export { router as esemenyekController };
