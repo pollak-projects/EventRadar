@@ -1,0 +1,191 @@
+<script>
+function GroupsGetALL() {
+    fetch("http://localhost:3300/group/getAll")
+      .then(res => res.json())
+      .then(data => {
+        let tableBody = document.getElementById("Listgroups");
+        console.log(data)
+        for(group of data) {
+            <!-- console.log(group) -->
+     let option = new Option(group.neve, group.id)
+                tableBody.options.add(option)
+           
+        }
+            
+        
+      });
+  }
+
+
+  function listAllUser() {
+    fetch("http://localhost:3300/user/getAll")
+      .then(res => res.json())
+      .then(data => {
+        let tableBody = document.getElementById("userList");
+        tableBody.innerHTML = data.map(user => `
+          <tr>
+            <td>${user.id}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.create_date ?? "ures"}</td>
+            <td>${user.updated_date ?? "ures"}</td>
+            <td>${user.groupsNeve}</td>
+          </tr>
+        `).join("");
+      });
+  }
+
+  function GetUser() {
+    let userId = document.getElementById("userIdInput").value;
+    fetch(`http://localhost:3300/user/getUserById/${userId}`)
+      .then(res => res.json())
+      .then(user => {
+        let userDetails = document.getElementById("userDetails");
+        userDetails.innerHTML = `
+          <tr>
+            <td>${user.id}</td>
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td></td>
+            <td>${user.create_date ?? "ures"}</td>
+            <td>${user.updated_date ?? "ures"}</td>
+            <td>${user.groupsNeve}</td>
+          </tr>
+        `;
+      });
+  }
+
+  function modifyUser() {
+    alert("Módosítás funkció még nem implementálva.");
+  }
+
+  onload(GroupsGetALL())
+</script>
+
+
+
+<div class="nyuszi">
+  <button class="btn signin" type="button" onclick="listAllUser()">
+    Felhasználók kiírása
+  </button>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">username</th>
+      <th scope="col">email</th>
+      <th scope="col">create_date</th>
+      <th scope="col">updated_date</th>
+      <th scope="col">groups</th>
+    </tr>
+  </thead>
+  <tbody id="userList">
+  </tbody>
+</table>
+
+<div class="nyuszi">
+  <div id="ide">
+    id <input type="text" id="userIdInput" class="beiros" />
+  </div>
+  <button class="btn signin gomb" type="button" onclick="GetUser()">
+    Felhasználó adati lekérése
+  </button>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">username</th>
+      <th scope="col">email</th>
+      <th scope="col">password</th>
+      <th scope="col">create_date</th>
+      <th scope="col">updated_date</th>
+      <th scope="col">groups</th>
+    </tr>
+    <tr>
+    </tr>
+        <td></td>
+        <td>
+          <input type="text" >
+        </td>
+        <td>          
+          <input type="text">
+        </td>
+        <td>
+          <input type="text">
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>          
+          <select  id="Listgroups">
+          <!-- <option :key="cat" :value="cat" id="Listgroups"> -->
+          </option>
+          </select>
+        </td>
+      </tr>
+  </thead>
+  <tbody id="userDetails">
+  </tbody>
+</table>
+<button class="btn signin gomb" type="button" onclick="modifyUser()">Módosítás</button>
+
+
+
+<style>
+    #ide {
+        margin-right: 10px;
+        margin-top: 20px;
+    }
+
+    button {
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+  body {
+    
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .nyuszi {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .signin {
+    background-color: #f44336;
+    color: #000;
+    font-weight: bold;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    margin-right: 20px;
+  }
+
+  .signin:hover {
+    background-color: #cc1104;
+  }
+</style>

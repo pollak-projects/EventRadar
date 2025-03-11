@@ -61,45 +61,11 @@ app.use("/group", /*verifyUserGroups(["ADMIN"]),*/ groupController);
 app.use("/static", express.static("public"));
 
 app.get("/", async (req, res) => {
-  res.render("index", {});
-});
-
-app.get("/table", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  const userData = await GetAllUsers();
-  const groupsData = await Groups();
-  res.render("table", {
-    users: userData,
-    groups: groupsData,
-  });
-});
-
-app.get("/groups", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  const groups = await listAllGroup();
-  res.render("groups", {
-    groups: groups,
-  });
-});
-
-app.get("/token", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  res.render("token", {
-    tokenData: await listAllTokens(),
-  });
-});
-
-app.get("/forgotpassword", (req, res) => {
-  res.render("forgotpassword");
-});
-
-app.get("/changepassword", (req, res) => {
-  res.render("changepassword");
-});
-
-app.get("/register", async (req, res) => {
-  res.render("register");
+  res.render("admin", {});
 });
 
 app.post("/test", async(req, res)=> {
-  await registration("asd");
+  await registration("zstamas2006@gmail.com");
   res.send("Ok")
 })
 
