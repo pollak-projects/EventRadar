@@ -6,7 +6,7 @@ const fileInputVisible = ref(false);
 
 const eventData = defineModel({
   default: {
-    categories: [
+    kategoria: [
       "Koncert",
       "Túrázás",
       "Színház",
@@ -14,20 +14,44 @@ const eventData = defineModel({
       "Szűk körű rendezvény",
       "Egyéb",
     ],
-    eventName: "",
-    eventDate: "",
-    startTime: "",
-    endTime: "",
-    location: "",
-    category: ref(""),
-
+    esemeny_nev: "",
+    esemeny_date: "",
+    kezdetido: "",
+    vegeido: "",
+    helyszin: "",
+    selectedKategoria: ref(""),
+    kezdetido: "",
+    vegeido: "",
+    leiras: ""
   },
 });
 
+function creation() {
+  console.log(eventData.value);
+  fetch(`http://localhost:3300/event/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      esemeny_nev: eventData.value.esemeny_nev,
+      esemeny_date: eventData.value.esemeny_date,
+      kezdetido: eventData.value.kezdetido,
+      vegeido: eventData.value.vegeido,
+      helyszin: eventData.value.helyszin,
+      kategoria: eventData.value.selectedKategoria.value,
+      leiras : eventData.value.leiras
+    }),
+  })
+    .then(async (result) => {
+      alert("Siker");
+    })
+    .catch((error) => console.log("error", error));
+}
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
-  eventData.value.category = event.target.value;
+  eventData.value.selectedKategoria.value = event.target.value;
   if (event.target.value == "Egyéb") {
     fileInputVisible.value = true;
   } else {
@@ -36,9 +60,7 @@ const handleCategoryChange = (event) => {
 };
 
 const handleSubmit = () => {
-  console.log({
-
-  });
+  console.log({});
 };
 </script>
 
@@ -53,7 +75,7 @@ const handleSubmit = () => {
         <input
           type="text"
           id="event-name"
-          v-model="eventData.eventName"
+          v-model="eventData.esemeny_nev"
           required
         />
       </div>
@@ -63,7 +85,7 @@ const handleSubmit = () => {
         <input
           type="date"
           id="event-date"
-          v-model="eventData.eventDate"
+          v-model="eventData.esemeny_date"
           required
         />
       </div>
@@ -73,14 +95,14 @@ const handleSubmit = () => {
         <input
           type="time"
           id="start-time"
-          v-model="eventData.startTime"
+          v-model="eventData.kezdetido"
           required
         />
       </div>
 
       <div class="form-group">
         <label for="end-time">Óra (befejezés):</label>
-        <input type="time" id="end-time" v-model="eventData.endTime" required />
+        <input type="time" id="end-time" v-model="eventData.vegeido" required />
       </div>
 
       <div class="form-group">
@@ -88,16 +110,30 @@ const handleSubmit = () => {
         <input
           type="text"
           id="location"
-          v-model="eventData.location"
+          v-model="eventData.helyszin"
           required
         />
       </div>
 
 
       <div class="form-group">
+        <label for="leiras">Leirás:</label>
+        <input
+          type="text"
+          id="leiras"
+          v-model="eventData.leiras"
+          required
+        />
+      </div>
+
+      <div class="form-group">
         <label for="category">Kategória:</label>
-        <select id="category" v-model="category" @change="handleCategoryChange">
-          <option v-for="cat in eventData.categories" :key="cat" :value="cat">
+        <select
+          id="category"
+          v-model="selectedKategoria"
+          @change="handleCategoryChange"
+        >
+          <option v-for="cat in eventData.kategoria" :key="cat" :value="cat">
             {{ cat }}
           </option>
         </select>
@@ -107,7 +143,7 @@ const handleSubmit = () => {
         <input type="file" id="image-upload" />
       </div>
 
-      <button type="submit" @click="creation()">Esemény mentése</button>
+      <button type="button" @click="creation()">Esemény mentése</button>
     </form>
   </div>
 </template>

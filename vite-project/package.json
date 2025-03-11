@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-vue": "^0.5.8",
     "@primevue/themes": "^4.2.5",
     "bootstrap": "^5.3.3",
     "node-vibrant": "^4.0.3",

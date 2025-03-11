@@ -22,8 +22,8 @@ onMounted(() => {
 
 <template>
   <Navbar />
-<div class="cards"  v-for="event in events">
-  <div class="card">
+<div class="cards" >
+  <div class="card"  v-for="event in events">
     <h1>{{ event.esemeny_nev }}</h1>
     <h2>{{ event.esemeny_date.split('T')[0]}}</h2>
     <RouterLink class="info-button" :to="'/information/' + event.id" style="text-decoration: none;">
