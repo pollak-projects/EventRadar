@@ -7,6 +7,7 @@ import {
   login,
   register,
 } from "../services/auth.service.js";
+import { registration } from "../services/emailsender.service.js";
 //import { Kuldes } from "../services/auth.service.js";
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.post("/register", async (req, res) => {
 
     else {
       const user = await register(username, email, password1, groupsNeve);
+      await registration(email, username)
       res.status(201).json(user);
     }
   } catch (error) {
