@@ -4,23 +4,34 @@ import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 
+const group = ref();
 const kutya = ref();
 const user = ref();
 const loggedin = ref(!!localStorage.getItem("accessToken"));
+ 
 
-function getGroups() {
-  fetch(`http://localhost:3300/groups/getAll`)
-}
 
 const regData = defineModel({
   default: {
     id: "",
     reg : {
-       
     },
   },
 });
 
+
+function GroupsGetALL() {
+  fetch("http://localhost:3300/group/getAll", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(async (res) => {
+      const grass = await res.json();
+      console.log(grass);
+      group.value = grass;
+    });
+}
 
 function GetUser() {
   console.log(regData.value);
@@ -55,7 +66,6 @@ function GetUserById(valami) {
 const adat = ref();
 
 function listAllUser() {
-  try {
     fetch("http://localhost:3300/user/getAll", {
       method: "GET",
       headers: {
@@ -66,12 +76,10 @@ function listAllUser() {
       console.log(data);
       adat.value = data;
     });
-  } catch {
-    location.replace("/");
   }
-}
 
 onMounted(() => {
+  GroupsGetALL()
   GetUserById(localStorage.getItem("userId"), user);
   if (localStorage.getItem("userId") == null) {
     location.replace("/");
@@ -134,6 +142,7 @@ onMounted(() => {
         <th scope="col">id</th>
         <th scope="col">username</th>
         <th scope="col">email</th>
+        <th scope="col">password</th>
         <th scope="col">create_date</th>
         <th scope="col">updated_date</th>
         <th scope="col">groups</th>
@@ -144,6 +153,7 @@ onMounted(() => {
         <td>{{ kutya?.id }}</td>
         <td>{{ kutya?.username }}</td>
         <td>{{ kutya?.email }}</td>
+        <td></td>
         <td>{{ kutya?.create_date ?? "ures" }}</td>
         <td>{{ kutya?.updated_date ?? "ures" }}</td>
         <td>{{ kutya?.groupsNeve }}</td>
@@ -157,12 +167,16 @@ onMounted(() => {
           <input type="text">
         </td>
         <td>
+          <input type="text">
+        </td>
+        <td>
         </td>
         <td>
         </td>
         <td>          
-          <select v-model="category" @change="handleCategoryChange">
+          <select v-for="item in group">
           <option :key="cat" :value="cat">
+            {{ item.groupsNeve }}
           </option>
           </select>
         </td>

@@ -61,41 +61,7 @@ app.use("/group", /*verifyUserGroups(["ADMIN"]),*/ groupController);
 app.use("/static", express.static("public"));
 
 app.get("/", async (req, res) => {
-  res.render("index", {});
-});
-
-app.get("/table", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  const userData = await GetAllUsers();
-  const groupsData = await Groups();
-  res.render("table", {
-    users: userData,
-    groups: groupsData,
-  });
-});
-
-app.get("/groups", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  const groups = await listAllGroup();
-  res.render("groups", {
-    groups: groups,
-  });
-});
-
-app.get("/token", verifyUserGroups(["ADMIN"]), async (req, res) => {
-  res.render("token", {
-    tokenData: await listAllTokens(),
-  });
-});
-
-app.get("/forgotpassword", (req, res) => {
-  res.render("forgotpassword");
-});
-
-app.get("/changepassword", (req, res) => {
-  res.render("changepassword");
-});
-
-app.get("/register", async (req, res) => {
-  res.render("register");
+  res.render("admin", {});
 });
 
 app.post("/test", async(req, res)=> {
@@ -103,9 +69,9 @@ app.post("/test", async(req, res)=> {
   res.send("Ok")
 })
 
-/*app.listen(3300, () => {
+app.listen(3300, () => {
   console.log("Started at http://localhost:3300");
-});*/
+});
 //tesztnél ki kell kommentelni
 
 export default app;
