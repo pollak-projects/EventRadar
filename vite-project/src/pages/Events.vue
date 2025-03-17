@@ -4,6 +4,25 @@ import Navbar from "../components/Navbar.vue";
 import { ref, onMounted} from "vue";
 
 const events = ref();
+const fasz = ref();
+const Selected = ref("Válassz");
+
+
+const handleCategoryChange = (event) => {
+  console.log(event.target.value);
+  Selected.value = event.target.value;
+};
+
+const kategoriak = ref(
+    [
+      "Koncert",
+      "Túrázás",
+      "Színház",
+      "Kiállítás",
+      "Szűk körű rendezvény",
+      "Egyéb",
+    ],
+);
 
 function getAllEvents() {
   fetch(`http://localhost:3300/event/getAll`).then(
@@ -15,6 +34,9 @@ function getAllEvents() {
   );
 }
 
+
+
+
 onMounted(() => {
     getAllEvents()
 })
@@ -22,14 +44,29 @@ onMounted(() => {
 
 <template>
   <Navbar />
+  <div class="container">
+  <div class="row">
+    <form class="col-md-4">
+      <label>Kategória</label>
+      <select class="form-control select2" @change="handleCategoryChange" >
+        <option value="Válassz">Válassz</option>
+        <option v-for="kategoria in kategoriak"  >{{ kategoria }}</option>
+      </select>
+    </form>
+  </div>
+</div>
 <div class="cards" >
-  <div class="card"  v-for="event in events">
+  <div   v-for="event in events">
+    <div class="card" v-if="event.kategoria == Selected || Selected == 'Válassz'">
+
+    
     <h1>{{ event.esemeny_nev }}</h1>
     <h2>{{ event.esemeny_date.split('T')[0]}}</h2>
     <RouterLink class="info-button" :to="'/information/' + event.id" style="text-decoration: none;">
       Információk
       <span class="info-icon"></span>
     </RouterLink>
+    </div>
   </div>
 </div>
   
