@@ -1,8 +1,9 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
+import { onMounted, ref } from "vue";
+
 import { RouterLink } from "vue-router";
 import { useRoute } from "vue-router";
-import { onMounted, ref } from "vue";
 
 const group = ref();
 const kutya = ref();
@@ -84,12 +85,16 @@ onMounted(() => {
   if (localStorage.getItem("userId") == null) {
     location.replace("/");
   }
+  else {
+    location.reload();
+    location.replace("http://localhost:3300/")
+  }
 });
 </script>
 
 <template v-if="user.value.groupsNeve == 'Admin'">
   <Navbar />
-  <div class="nyuszi">
+  <!--<div class="nyuszi">
     <button
       class="btn signin"
       type="button"
@@ -183,11 +188,11 @@ onMounted(() => {
       </tr>
     </tbody>
   </table>
-      <button class="btn signin gomb" type="button" @click="GetUser" style="width: auto">Módosítás</button>
+      <button class="btn signin gomb" type="button" @click="GetUser" style="width: auto">Módosítás</button>-->
 </template>
 
 <style scoped>
-.gomb {
+/*.gomb {
   margin-left: 10px;
 }
 
@@ -225,5 +230,5 @@ onMounted(() => {
 
 .signin:hover {
   background-color: #cc1104;
-}
+}*/
 </style>
