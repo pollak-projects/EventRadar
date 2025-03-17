@@ -7,10 +7,11 @@ model Esemenyek {
     kezdetido DateTime @db.Time()
     vegeido DateTime @db.Time()
     create_date DateTime @default(now()) @db.Date
-    kategoria String
     updated_date DateTime?
     ertekeles Ertekeles[]
     ertesites Ertesites[]
     User_esemenyek User_esemenyek[]
     kep String?
+    Eventcat Eventcat @relation(fields: [kategoria], references: [nev])
+    kategoria String
 }
