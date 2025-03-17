@@ -68,6 +68,7 @@ const regData = defineModel({
   },
 });
 
+
 function logout() {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
