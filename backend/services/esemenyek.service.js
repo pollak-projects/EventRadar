@@ -1,16 +1,35 @@
 import { PrismaClient } from "@prisma/client";
+import { minTime } from "date-fns/constants";
+import set from 'date-fns/set';
+
 
 const prisma = new PrismaClient();
 
-export async function CreateEvent(esemeny_nev, leiras, helyszin, esemeny_date) {
+export async function CreateEvent(
+  esemeny_nev,
+  leiras,
+  helyszin,
+  esemeny_date,
+  kezdetido,
+  vegeido,
+  kategoria
+) {
   await prisma.esemenyek.create({
     data: {
       esemeny_nev: esemeny_nev,
       leiras: leiras,
       helyszin: helyszin,
-      esemeny_date: esemeny_date,
+      esemeny_date: new Date(esemeny_date),
       create_date: new Date(),
-      esemeny_hossz :esemeny_hossz
+      kezdetido: set(new Date(), {
+        hours: kezdetido.split(":")[0],
+        minutes: kezdetido.split(":")[1],
+      }),
+      vegeido: set(new Date(), {
+        hours: vegeido.split(":")[0],
+        minutes: vegeido.split(":")[1],
+      }),
+      kategoria: kategoria,
     },
   });
 }
@@ -30,17 +49,20 @@ export async function getAllEventById(id) {
   return data;
 }
 
-export async function eventUpdate(id, esemeny_nev, leiras, heylszin, esemeny_date) {
+export async function eventUpdate(id, esemeny_nev, leiras, helyszin, esemeny_date) {
   await prisma.esemenyek.update({
     where: {
-        id: id,
+      id: id,
     },
     data: {
-        esemeny_nev: esemeny_nev,
-        leiras: leiras,
-        heylszin: heylszin,
-        esemeny_date: esemeny_date,
-        updated_date: new Date(),
+      esemeny_nev: esemeny_nev,
+      leiras: leiras,
+      helyszin: helyszin,
+      esemeny_date: new Date(esemeny_date),
+      updated_date: new Date(),
+      kezdetido: set(new Date(), { hours: kezdetido.split(':')[0], minutes : kezdetido.split(':')[1]}), 
+      vegeido: set(new Date(), { hours: vegeido.split(':')[0], minutes : vegeido.split(':')[1]}), 
+      kategoria: kategoria,
     },
   });
 }

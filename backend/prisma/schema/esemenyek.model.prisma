@@ -4,8 +4,10 @@ model Esemenyek {
     leiras String
     helyszin String
     esemeny_date DateTime
-    esemeny_hossz Int
+    kezdetido DateTime @db.Time()
+    vegeido DateTime @db.Time()
     create_date DateTime @default(now()) @db.Date
+    kategoria String
     updated_date DateTime?
     ertekeles Ertekeles[]
     ertesites Ertesites[]

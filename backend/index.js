@@ -65,7 +65,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/test", async(req, res)=> {
-  await registration("asd");
+  await registration("zstamas2006@gmail.com");
   res.send("Ok")
 })
 

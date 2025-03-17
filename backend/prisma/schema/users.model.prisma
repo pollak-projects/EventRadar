@@ -5,7 +5,6 @@ model Users {
     password String
     create_date DateTime @default(now()) @db.Date
     updated_date DateTime?
-
     Groups Groups @relation(fields: [groupsNeve], references: [neve])
     groupsNeve String
     ertekeles Ertekeles[]

@@ -1,6 +1,35 @@
 <script setup>
 import Navbar from '../components/Navbar.vue';
 import { RouterLink } from 'vue-router';
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { jsx } from "vue/jsx-runtime";
+
+const user = ref();
+const route = useRoute();
+
+
+
+
+function GetUser() {
+  fetch(`http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+      user.value = data
+    })
+    .catch((error) => console.log("error", error));
+}
+
+onMounted(() => {
+  GetUser()
+})
+
 </script>
 
 <template>
@@ -11,18 +40,18 @@ import { RouterLink } from 'vue-router';
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="event-name">Név:</label>
-        <input type="text" id="event-name" v-model="eventName" required />
+        <input type="text" id="event-name" :value="user?.username" required disabled/>
       </div>
 
       
       <div class="form-group">
         <label for="location">Email cím:</label>
-        <input type="text" id="location" v-model="location"  required />
+        <input type="text" id="location" :value="user?.email" disabled required />
       </div>
 
       <div class="form-group">
         <label for="event-date">Regisztráció dátuma:</label>
-        <input type="date" id="event-date" v-model="eventDate" required />
+        <input type="date" id="event-date" :value="user?.create_date" disabled required />
       </div>
 
   
