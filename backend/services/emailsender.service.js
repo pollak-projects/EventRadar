@@ -21,14 +21,16 @@ export async function registration(email, username) {
       '<title>Üdvözlünk az EventRadar-nál!</title></head><body style="font-family: Arial, sans-serif; background-color: #f7f7f7; margin: 0; padding: 0;">' +
       '<div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">' +
       '<div style="padding: 20px; text-align: center;">' +
-      '<br>'+
-      '<img src="https://cdn.discordapp.com/attachments/778242434122514473/1348962399402725396/eventradarlogo.png?ex=67d15ea2&is=67d00d22&hm=7e791c78ec3056352d5f88dca611a26ad0c5d9602915a58d6aebc46e782f1184&" alt="EventRadar logó" style="max-width: 200px; height: auto;"></div>' +
+      "<br>" +
+      '<img src="https://imgur.com/a/Nb5NF0j" alt="EventRadar logó" style="max-width: 200px; height: auto;"></div>' +
       '<div style="padding: 20px; color: #333333; font-size: 16px; line-height: 1.6;">' +
       '<h1 style="font-size: 24px; margin-bottom: 16px; color: #e94e1b;">Üdvözlünk az EventRadar közösségében!</h1>' +
-      '<p style="margin: 0 0 16px 0;">Kedves '+username+'!</p>'+
+      '<p style="margin: 0 0 16px 0;">Kedves ' +
+      username +
+      "!</p>" +
       '<p style="margin: 0 0 16px 0;">Köszönjük, hogy regisztráltál az EventRadar platformon. Mostantól könnyedén nyomon követheted a legjobb eseményeket, koncerteket és rendezvényeket!</p>' +
       '<p style="margin: 0 0 16px 0;">A profilod aktiválásához kérjük, kattints az alábbi gombra:</p>' +
-      '<a href="{{activation_link}}" style="display: inline-block; padding: 12px 24px; margin: 20px 0; background-color: #e94e1b; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;">Profil Aktiválása</a>            <p style="margin: 20px 0 0 0;">Ha nem te regisztráltál, kérjük hagyd figyelmen kívül ezt az e-mailt!</p>' +
+      '<p style="margin: 20px 0 0 0;">Ha nem te regisztráltál, kérjük hagyd figyelmen kívül ezt az e-mailt!</p>' +
       '<p style="margin: 20px 0 0 0;">Üdvözlettel,<br>Az EventRadar Csapata</p></div>' +
       '<div style="background-color: #f2f2f2; padding: 10px; text-align: center; font-size: 12px; color: #888888;">© 2025 EventRadar. Minden jog fenntartva.</div>' +
       "</div></body></html>",
