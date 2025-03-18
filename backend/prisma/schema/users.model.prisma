@@ -11,4 +11,5 @@ model Users {
     ertesites Ertesites[]
     User_esemenyek User_esemenyek[]
     pfp String?
+    profilkep Bytes @db.LongBlob 
 }

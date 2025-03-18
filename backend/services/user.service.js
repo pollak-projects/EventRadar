@@ -66,3 +66,36 @@ export async function Groups() {
   return groups;
 }
 
+export async function imageGetFromDB(kapottTipus) {
+  const data = await prisma.feladatokPairPictures.findMany({
+    where: {
+      tipus: kapottTipus,
+    },
+  });
+  data.forEach((element) => {
+    //console.log(element.image);
+    let buffer = Buffer.from(element.image);
+    element.image = "data:image/png" + ";base64," + buffer.toString("base64");
+  });
+
+  return data;
+}
+
+export async function imageSaveToDB(image) {
+  const imageBlob = Buffer.from(image, "base64");
+  console.log(imageBlob)
+  try {
+    const result = await prisma.users.update({
+      where: {
+        id: 3
+      },
+      data:{
+        profilkep: imageBlob
+      }
+    });
+    return result;
+  } catch (error) {
+    console.error("Error in imageDBSave: ", error);
+  }
+}
+

@@ -1,79 +1,120 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import Navbar from "../components/Navbar.vue";
-import { ref, onMounted} from "vue";
+import { ref, onMounted } from "vue";
 
 const events = ref();
-const fasz = ref();
 const Selected = ref("Válassz");
-
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
   Selected.value = event.target.value;
 };
 
-const kategoriak = ref(
-    [
-      "Koncert",
-      "Túrázás",
-      "Színház",
-      "Kiállítás",
-      "Szűk körű rendezvény",
-      "Egyéb",
-    ],
-);
+const kategoriak = ref([
+  "Koncert",
+  "Túrázás",
+  "Színház",
+  "Kiállítás",
+  "Szűk körű rendezvény",
+  "Egyéb",
+]);
 
 function getAllEvents() {
-  fetch(`http://localhost:3300/event/getAll`).then(
-    async (res) => {
-      const data = await res.json();
-      console.log(data)
-      events.value = data
-    }
-  );
+  fetch(`http://localhost:3300/event/getAll`).then(async (res) => {
+    const data = await res.json();
+    console.log(data);
+    events.value = data;
+  });
 }
 
-
-
-
 onMounted(() => {
-    getAllEvents()
-})
+  getAllEvents();
+});
 </script>
 
 <template>
   <Navbar />
   <div class="container">
-  <div class="row">
-    <form class="col-md-4">
-      <label>Kategória</label>
-      <select class="form-control select2" @change="handleCategoryChange" >
-        <option value="Válassz">Válassz</option>
-        <option v-for="kategoria in kategoriak"  >{{ kategoria }}</option>
-      </select>
-    </form>
-  </div>
-</div>
-<div class="cards" >
-  <div   v-for="event in events">
-    <div class="card" v-if="event.kategoria == Selected || Selected == 'Válassz'">
-
-    
-    <h1>{{ event.esemeny_nev }}</h1>
-    <h2>{{ event.esemeny_date.split('T')[0]}}</h2>
-    <RouterLink class="info-button" :to="'/information/' + event.id" style="text-decoration: none;">
-      Információk
-      <span class="info-icon"></span>
-    </RouterLink>
+    <div class="row">
+      <div
+        class="accordion accordion-flush"
+        id="accordionFlushExample"
+        style=""
+      >
+        <div
+          class="accordion-item"
+          style="margin-top: 10px;"
+        >
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed accordion-btn-icon"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+              style="width: fit-content"
+            ></button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body filtergepes filtermobilos" >
+              <label style="margin-right: 10px;font-weight: bold;">Kategória:</label>
+              <select
+                class="form-control select2"
+                @change="handleCategoryChange"
+                style="margin-right: 70px;"
+              >
+                <option value="Válassz" >Válassz</option>
+                <option v-for="kategoria in kategoriak">
+                  {{ kategoria }}
+                </option>
+              </select>
+              
+              <label style="margin-right: 10px;font-weight: bold;">Kategória</label>
+              <select
+                class="form-control select2"
+                @change="handleCategoryChange"
+              >
+                <option value="Válassz">Válassz</option>
+                <option v-for="kategoria in kategoriak">
+                  {{ kategoria }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-  
+  <div class="cards">
+    <div v-for="event in events">
+      <div
+        class="card"
+        v-if="event.kategoria == Selected || Selected == 'Válassz'"
+      >
+        <h1>{{ event.esemeny_nev }}</h1>
+        <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
+        <RouterLink
+          class="info-button"
+          :to="'/information/' + event.id"
+          style="text-decoration: none"
+        >
+          Információk
+          <span class="info-icon"></span>
+        </RouterLink>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-.cards{
+
+.cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -86,6 +127,14 @@ body {
   margin: 0;
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
+}
+
+.accordion-button::after {
+  background-image: url("/filter.svg");
+}
+
+.accordion-active-color {
+  color: #ffffff;
 }
 
 .card {
@@ -104,7 +153,6 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-repeat: no-repeat;
 }
-
 
 .card::before {
   position: absolute;
@@ -143,9 +191,8 @@ body {
   gap: 5px;
   width: 25%;
   justify-content: center;
-  border:  #ffffff 100px;
+  border: #ffffff 100px;
 }
-
 
 .info-icon {
   width: 16px;
@@ -183,23 +230,31 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-
-    .card {
-        margin: 15px auto;
-        padding: 30px;
-        width: 370px;
-        height: 210px;
-        border-radius: 20px;
-        overflow: hidden;
-        background: url("./conecrt.jpg") no-repeat center center/cover;
-        position: relative;
-        color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        background-repeat: no-repeat;
-    }
+  .card {
+    margin: 15px auto;
+    padding: 30px;
+    width: 370px;
+    height: 210px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: url("./conecrt.jpg") no-repeat center center/cover;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-repeat: no-repeat;
+  }
+  .filtergepes{
+    display: block;
+  }
 }
 
+@media only screen and (min-width: 600px) {
+.filtergepes{
+  display: flex;
+  width: 800px;
+} 
+}
 </style>

@@ -68,7 +68,7 @@ const handleSubmit = () => {
   <Navbar />
   <br />
   <div class="event-form">
-    <h2>Új esemény hozzáadása</h2>
+    <h2 style="color:black;">Új esemény hozzáadása</h2>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="event-name">Esemény neve:</label>
@@ -153,9 +153,10 @@ const handleSubmit = () => {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #ebd3b3;
+  background: url(/moderndik2.png);
   border-radius: 8px;
-  font-family: "MonumentBold";
+  font-family: 'MonumentBold';
+  background-size: cover;
 }
 
 h2 {
@@ -172,7 +173,7 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #555;
+  color: #353232;
 }
 
 input,
