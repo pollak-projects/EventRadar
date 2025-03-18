@@ -8,6 +8,7 @@ import { jsx } from "vue/jsx-runtime";
 const rawImg = ref();
 const imgs = ref();
 const reader = new FileReader();
+const imga = ref()
 
 function Save() {
     reader.onload = async function (e) {
@@ -20,6 +21,9 @@ function Save() {
         reader.readAsDataURL(fileInput.files[0]);
     }
 }
+
+
+
 
 async function FileUpload(file) {
   console.log(file);
@@ -46,6 +50,25 @@ async function FileUpload(file) {
   });
 }
 
+async function GetTaskThree(kapottTipus) {
+  var requestOptions = {
+    method: "GET",
+  };
+  return new Promise((resolve, reject) => {
+    fetch(
+      `http://localhost:3300/user/getImages?kapottTipus=${kapottTipus}`,
+      requestOptions
+    )
+      .then(async (result) => {
+        const res = await result.text();
+        const valasz = JSON.parse(res);
+        resolve(valasz);
+      })
+      .catch((error) => console.log("error", error));
+  });
+}
+
+
 const user = ref();
 const route = useRoute();
 
@@ -69,6 +92,7 @@ function GetUser() {
 
 onMounted(() => {
   GetUser()
+  imga.value = GetTaskThree(1)
 })
 
 </script>
@@ -79,6 +103,7 @@ onMounted(() => {
   <div class="event-form">
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
+      <img :src="imga" alt="">
       <div class="form-group">
         <label for="event-name">Név:</label>
         <input type="text" id="event-name" :value="user?.username" required disabled/>

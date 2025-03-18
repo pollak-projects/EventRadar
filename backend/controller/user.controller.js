@@ -80,6 +80,13 @@ router.post("/postImages", async (req, res) => {
   res.status(200).json(data);
 });
 
+router.get("/getImages", async (req, res) => {
+  const { kapottTipus } = req.query;
+  const data = await imageGetFromDB(kapottTipus);
+  res.status(200).json(data);
+});
+
+
 /*
 router.post("/send-email", async (req, res) => {
   try {

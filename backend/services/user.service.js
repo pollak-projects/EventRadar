@@ -67,14 +67,14 @@ export async function Groups() {
 }
 
 export async function imageGetFromDB(kapottTipus) {
-  const data = await prisma.feladatokPairPictures.findMany({
+  const data = await prisma.users.findUnique({
     where: {
-      tipus: kapottTipus,
+      id: 1
     },
   });
   data.forEach((element) => {
     //console.log(element.image);
-    let buffer = Buffer.from(element.image);
+    let buffer = Buffer.from(element.profilkep);
     element.image = "data:image/png" + ";base64," + buffer.toString("base64");
   });
 
@@ -87,7 +87,7 @@ export async function imageSaveToDB(image) {
   try {
     const result = await prisma.users.update({
       where: {
-        id: 3
+        id: 1
       },
       data:{
         profilkep: imageBlob
@@ -98,4 +98,5 @@ export async function imageSaveToDB(image) {
     console.error("Error in imageDBSave: ", error);
   }
 }
+
 
