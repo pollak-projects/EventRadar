@@ -12,5 +12,5 @@ model Users {
     User_esemenyek User_esemenyek[]
     Esemenyek Esemenyek[]
     pfp String?
-    profilkep Bytes @db.LongBlob 
+    profilkep Bytes? @db.LongBlob
 }
