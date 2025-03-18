@@ -11,6 +11,7 @@ import { listAllGroup } from "./services/group.service.js";
 import { listAllTokens, register } from "./services/auth.service.js";
 import { verifyUserGroups } from "./middleware/auth.middleware.js";
 import { registration } from "./services/emailsender.service.js";
+import { passwordReset } from "./services/emailsender.service.js";
 import { esemenyekController } from "./controller/esemenyek.controller.js";
 import {ertekelesController} from "./controller/ertekeles.controller.js";
 import { ertesitesController } from "./controller/ertesites.controller.js";
@@ -68,6 +69,11 @@ app.post("/test", async(req, res)=> {
   await registration("zstamas2006@gmail.com");
   res.send("Ok")
 })
+
+app.post("/test", async (req, res) => {
+  await passwordReset("zstamas2006@gmail.com");
+  res.send("Ok");
+});
 
 app.listen(3300, () => {
   console.log("Started at http://localhost:3300");
