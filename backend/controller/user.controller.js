@@ -1,5 +1,6 @@
 import express from "express";
 //import { transporter } from "../services/emailsender.js";
+import {imageSaveToDB} from "../services/user.service.js"
 
 
 import {
@@ -71,6 +72,14 @@ router.get("/getGroups", async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+
+router.post("/postImages", async (req, res) => {
+  const { file } = req.body;
+  console.log(file);
+  const data = await imageSaveToDB(file);
+  res.status(200).json(data);
+});
+
 /*
 router.post("/send-email", async (req, res) => {
   try {

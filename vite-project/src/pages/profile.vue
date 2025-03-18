@@ -5,6 +5,47 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
 
+const rawImg = ref();
+const imgs = ref();
+const reader = new FileReader();
+
+function Save() {
+    reader.onload = async function (e) {
+        rawImg.value = reader.result;
+        console.log(rawImg.value);
+        await FileUpload(rawImg.value);
+    };
+    const fileInput = imgs.value
+    if (fileInput && fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+
+async function FileUpload(file) {
+  console.log(file);
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3300/user/postImages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        file: file,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("Sikeres feltöltés");
+          resolve(response);
+        } else {
+          alert("Sikertelen feltöltés");
+        }
+      })
+      .catch((error) => console.error("Hiba kijelentkezés közben:", error));
+  });
+}
+
 const user = ref();
 const route = useRoute();
 
@@ -60,7 +101,9 @@ onMounted(() => {
         <input type="file" id="image-upload" />
       </div>
 
-      <button type="submit">Esemény mentése</button>
+      <input type="file" ref="imgs" />
+
+      <button type="submit" @click="Save">Esemény mentése</button>
     </form>
   </div>
 </template>

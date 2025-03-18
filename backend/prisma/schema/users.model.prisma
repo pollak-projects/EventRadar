@@ -10,5 +10,7 @@ model Users {
     ertekeles Ertekeles[]
     ertesites Ertesites[]
     User_esemenyek User_esemenyek[]
+    Esemenyek Esemenyek[]
     pfp String?
+    profilkep Bytes? @db.LongBlob
 }
