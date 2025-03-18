@@ -1,5 +1,7 @@
 model Esemenyek {
     id Int @id @default(autoincrement())
+    user Int 
+    user_id Users @relation(fields: [user], references: [id])
     esemeny_nev String
     leiras String
     helyszin String
