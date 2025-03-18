@@ -9,13 +9,9 @@ function GroupsGetALL() {
             <!-- console.log(group) -->
      let option = new Option(group.neve, group.id)
                 tableBody.options.add(option)
-           
         }
-            
-        
       });
   }
-
 
   function listAllUser() {
     fetch("http://localhost:3300/user/getAll")
@@ -34,6 +30,35 @@ function GroupsGetALL() {
         `).join("");
       });
   }
+
+  function modifyUser() {
+    const id = Number(document.getElementById("userIdInput").value)
+    const username = document.getElementById("username").value
+    const email = document.getElementById("email").value
+    const password = document.getElementById("password").value
+    const groupNeve = document.getElementById("Listgroups").value
+    console.log(document.getElementById("Listgroups").value)
+
+    fetch("http://localhost:3300/user/update", {
+      method: "PUT",
+      headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id, username, email, groupNeve, password }),
+    })
+    .then((data) => {
+      if (data.message) {
+        alert("Hiba történt: " + data.message);
+      } else {
+        alert("Felhasználó sikeresen frissítve!");
+      }
+    })
+    .catch((error) => {
+      console.error("Hálózati hiba:", error);
+      alert("Nem sikerült csatlakozni a szerverhez.");
+    });
+}
+
 
   function GetUser() {
     let userId = document.getElementById("userIdInput").value;
@@ -55,9 +80,7 @@ function GroupsGetALL() {
       });
   }
 
-  function modifyUser() {
-    alert("Módosítás funkció még nem implementálva.");
-  }
+  
 
   onload(GroupsGetALL())
 </script>
@@ -109,13 +132,13 @@ function GroupsGetALL() {
     </tr>
         <td></td>
         <td>
-          <input type="text" >
+          <input id="username" type="text" >
         </td>
         <td>          
-          <input type="text">
+          <input id="email" type="text">
         </td>
         <td>
-          <input type="text">
+          <input id="password" type="text">
         </td>
         <td>
         </td>
