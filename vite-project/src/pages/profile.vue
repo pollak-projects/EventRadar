@@ -127,7 +127,7 @@ onMounted(() => {
       </div>
 
       <input type="file" ref="imgs" />
-
+      
       <button type="submit" @click="Save">Esemény mentése</button>
     </form>
   </div>
