@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { encrypt } from "../lib/hash.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { passwordReset } from "./emailsender.service.js";
 
 const prisma = new PrismaClient();
 
@@ -31,6 +32,8 @@ export async function forgotPassword(id) {
       password: newPwd,
     },
   });
+
+  await passwordReset(email, username, newPwd);
 
   return newPwd;
 }

@@ -34,10 +34,10 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
-router.get("/forgot-password", async (req, res) => {
-  const { id } = req.body;
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
   try {
-    const user = await forgotPassword(id);
+    const user = await forgotPassword(email);
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
