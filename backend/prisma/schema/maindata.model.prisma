@@ -7,5 +7,4 @@ JWTAlgorithm String
 RefreshTokenSecret String
 RefreshTokenExpiration Int
 RefreshTokenAlgorithm String
-
 }

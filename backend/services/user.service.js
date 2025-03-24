@@ -103,10 +103,10 @@ export async function imageSaveToDB(image) {
   }
 }
 
-export async function jeletnkezes() {
+export async function jelentkezes(user_id, esemenyek_id) {
   await prisma.user_esemenyek.create({
     data: {
-      user_id : userid,
+      user_id : user_id,
       esemenyek_id: esemenyek_id,
       join_date: new Date()
     }

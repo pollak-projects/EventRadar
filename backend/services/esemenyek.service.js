@@ -5,6 +5,7 @@ import set from 'date-fns/set';
 const prisma = new PrismaClient();
 
 export async function CreateEvent(
+  user_id,
   esemeny_nev,
   leiras,
   helyszin,
@@ -16,7 +17,7 @@ export async function CreateEvent(
   console.log(esemeny_date)
   await prisma.esemenyek.create({
     data: {
-      user: 5,
+      user: user_id,
       esemeny_nev: esemeny_nev,
       leiras: leiras,
       helyszin: helyszin,

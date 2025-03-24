@@ -1,6 +1,6 @@
 import express from "express";
 //import { transporter } from "../services/emailsender.js";
-import { imageSaveToDB, imageGetFromDB } from "../services/user.service.js";
+import { imageSaveToDB, imageGetFromDB, jelentkezes } from "../services/user.service.js";
 
 
 import {
@@ -128,11 +128,13 @@ router.post("/send-email", async (req, res) => {
 router.post("/jelentkez", async (req, res) => {
   try {
     const {user_id, esemenyek_id} = req.body;
-    
+    console.log("Kapott adatok:", req.body);
+    const asd = await jelentkezes(user_id, esemenyek_id)
+    res.status(201).json(asd);
   }
   catch (error)
   {
-
+    res.status(400).json({message: error.message})
   }
 })
 
