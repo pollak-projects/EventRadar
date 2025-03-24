@@ -16,19 +16,19 @@ export async function CreateEvent(
   console.log(esemeny_date)
   await prisma.esemenyek.create({
     data: {
-      user: 2,
+      user: 5,
       esemeny_nev: esemeny_nev,
       leiras: leiras,
       helyszin: helyszin,
       esemeny_date: new Date(esemeny_date),
       create_date: new Date(),
       kezdetido: set(new Date(), {
-        hours: kezdetido.split(":")[0],
-        minutes: kezdetido.split(":")[1],
+        hours: String(kezdetido).split(":")[0],
+        minutes: String(kezdetido).split(":")[1],
       }),
       vegeido: set(new Date(), {
-        hours: vegeido.split(":")[0],
-        minutes: vegeido.split(":")[1],
+        hours: String(vegeido).split(":")[0],
+        minutes: String(vegeido).split(":")[1],
       }),
       kategoria: kategoria,
     },

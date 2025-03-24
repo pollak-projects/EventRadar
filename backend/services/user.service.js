@@ -99,3 +99,13 @@ export async function imageSaveToDB(image) {
     console.error("Error in imageDBSave: ", error);
   }
 }
+
+export async function jeletnkezes() {
+  await prisma.user_esemenyek.create({
+    data: {
+      user_id : userid,
+      esemenyek_id: esemenyek_id,
+      join_date: new Date()
+    }
+  })
+}

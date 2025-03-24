@@ -5,7 +5,6 @@ model Ertekeles {
     user_id Int @unique
     user Users @relation(fields: [user_id], references: [id])
     rating Int
-    comment String
     create_date DateTime @default(now()) @db.Date
     update_date DateTime 
 

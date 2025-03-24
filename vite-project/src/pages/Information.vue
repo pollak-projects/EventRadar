@@ -52,7 +52,7 @@ onMounted(() => {
 <div class="keret"> 
     <div class="leiras asztaligep" v-for="event in events">
         <h1 class="cim" >{{ event?.esemeny_nev }}</h1>
-        <h3 style="width: 500px; transform: translateX(-20px);">2025.01.01 15 órától 17 óráig</h3>
+        <h3 style="width: 500px; transform: translateX(-20px);">{{ event?.esemeny_date }} {{ event?.kezdetido }} {{ event?.vegeido }}</h3>
         <h5 style="padding-top: 15px;">{{ event.leiras  }}</h5>
         <h4 style="padding-top: 30px; transform: translateX(-25px); width: 500px;"><img style="height: 50px;width: 50px;  object-fit: cover; object-position: center ; border-radius: 50%;" src="/user.jpg" alt=""> Rózsa Péter</h4>
         <button style="width: 300px; height: 80px;">Jelentkezés</button>

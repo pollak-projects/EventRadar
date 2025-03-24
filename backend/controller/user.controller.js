@@ -124,4 +124,16 @@ router.post("/send-email", async (req, res) => {
   }
 });
 */
+
+router.post("/jelentkez", async (req, res) => {
+  try {
+    const {user_id, esemenyek_id} = req.body;
+    
+  }
+  catch (error)
+  {
+
+  }
+})
+
 export { router as userController };

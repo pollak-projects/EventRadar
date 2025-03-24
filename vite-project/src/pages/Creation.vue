@@ -35,12 +35,12 @@ function creation() {
     },
     body: JSON.stringify({
       esemeny_nev: eventData.value.esemeny_nev,
+      leiras : eventData.value.leiras,
+      helyszin: eventData.value.helyszin,
       esemeny_date: eventData.value.esemeny_date,
       kezdetido: eventData.value.kezdetido,
       vegeido: eventData.value.vegeido,
-      helyszin: eventData.value.helyszin,
       kategoria: eventData.value.selectedKategoria.value,
-      leiras : eventData.value.leiras
     }),
   })
     .then(async (result) => {
