@@ -112,7 +112,7 @@ onMounted( async () => {
   <div class="event-form">
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
-      <img :src="imga" alt="">
+      <img :src="imga" alt="" class="kep">
       <div class="form-group">
         <label for="event-name">Név:</label>
         <input type="text" id="event-name" :value="user?.username" required disabled/>
@@ -141,6 +141,12 @@ onMounted( async () => {
 </template>
 
 <style scoped>
+.kep{
+    vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
 .event-form {
   max-width: 600px;
   margin: 0 auto;
