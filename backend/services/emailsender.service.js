@@ -46,7 +46,7 @@ export async function registration(email, username) {
   console.log("Message sent: %s", info.messageId);
 }
 
-export async function passwordReset(email, username) {
+export async function passwordReset(email, username, newPwd) {
   const info = await transporter.sendMail({
     from: '"EventRadar" <eventradar.project@gmail.com>',
     to: email,

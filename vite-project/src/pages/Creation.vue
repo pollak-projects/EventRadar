@@ -142,8 +142,10 @@ const handleSubmit = () => {
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="image-upload" />
       </div>
+      <div style="text-align: center;">
+        <button type="button"  @click="creation()">Esemény mentése</button>
+      </div>
 
-      <button type="button" @click="creation()">Esemény mentése</button>
     </form>
   </div>
 </template>
@@ -186,7 +188,7 @@ select {
 }
 
 button {
-  width: 100%;
+  width: 60%;
   padding: 10px;
   background-color: #f44336;
   color: white;
@@ -199,4 +201,5 @@ button {
 button:hover {
   background-color: #cc1104;
 }
+
 </style>
