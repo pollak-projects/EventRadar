@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import {  ref, onMounted, onBeforeUnmount } from "vue";
 import Navbar from "../components/Navbar.vue";
 var modal = document.getElementById("id01");
 
@@ -9,34 +9,50 @@ window.onclick = function (event) {
   }
 };
 
-let slideIndex = 0;
+document.body.addEventListener("pointermove", (e)=>{
+  const { currentTarget: el, clientX: x, clientY: y } = e;
+  const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
+  el.style.setProperty('--posX',  x-l-w/2);
+  el.style.setProperty('--posY',  y-t-h/2);
+})
+const reviews = ref([
+  { text: "Nagyon jó termék, mindenkinek ajánlom!", author: "Kovács Péter" },
+  { text: "Gyors szállítás és kiváló minőség.", author: "Nagy Anna" },
+  { text: "Megéri az árát, biztosan újra vásárolok.", author: "Tóth László" }
+]);
+const currentIndex = ref(0);
+let intervalId = null;
+
+const startSlider = () => {
+  intervalId = setInterval(() => {
+    currentIndex.value = (currentIndex.value + 1) % reviews.value.length;
+  }, 5000);
+};
+
+const name = ref('');
+const email = ref('');
+const message = ref('');
+
+const sendMessage = () => {
+  alert(`Üzenet elküldve!\nNév: ${name.value}\nEmail: ${email.value}\nÜzenet: ${message.value}`);
+  name.value = '';
+  email.value = '';
+  message.value = '';
+};
+
 onMounted(() => {
-  showSlides();
+  startSlider();
 });
 
-function showSlides() {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  slideIndex++;
-  if (slideIndex > slides.length) {
-    slideIndex = 1;
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" activeka", "");
-  }
-  slides[slideIndex - 1].style.display = "block";
-  setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
+onBeforeUnmount(() => {
+  clearInterval(intervalId);
+});
 </script>
 
 <template>
   <Navbar />
   <div class="header">
-    <div class="hero">
+    <div class="body">
       <h1>
         HIRDESD NÁLUNK AZ <br class="szoveg" />
         ESEMÉNYEID
@@ -142,84 +158,38 @@ function showSlides() {
       <button>fasz</button>
     </div>
   </div>
-
-  <div class="justify-content-center"></div>
-
-  <div
-    id="carouselExampleSlidesOnly"
-    class="carousel slide"
-    data-bs-ride="carousel"
-  >
-    <div class="carousel-inner">
-      <div class="carousel-item activeka">
-        <div class="comment-section d-flex justify-content-center">
-          <img src="/user.jpg" alt="User" class="user" />
-          <p>
-            <i
-              >nagyon tetszik ez az oldal itt fogom mindig hirdetni az
-              eseményeimet! 😊</i
-            >
-          </p>
-        </div>
+  
+  <div class="slider-container container" style="width: 300px;
+  height: 150px;
+  overflow: hidden;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <transition name="fade" mode="out-in">
+      <div v-if="reviews.length" :key="currentIndex" class="review">
+        <p>{{ reviews[currentIndex]?.text }}</p>
+        <span>- {{ reviews[currentIndex]?.author }}</span>
       </div>
-      <div class="carousel-item">
-        <img src="..." class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img src="..." class="d-block w-100" alt="..." />
-      </div>
+    </transition>
+  </div>
+<br>
+  <div class="container" style="background-image: url(/moderndik2.png);  min-height: 100vh;">
+    <div class="contact-card">
+      <h2>Kapcsolat</h2>
+      <form @submit.prevent="sendMessage">
+        <input type="text" v-model="name" placeholder="Név" required>
+        <input type="email" v-model="email" placeholder="Email" required>
+        <textarea v-model="message" placeholder="Üzenet" required></textarea>
+        <button type="submit">Küldés <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+  <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+</svg></button>
+      </form>
     </div>
   </div>
 
-  <div class="slideshow-container">
-    <div class="mySlides fade">
-      <div class="numbertext">1 / 3</div>
-      <img src="/moderndik1.png" style="width: 100%" />
-      <div class="text">Caption Text</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>
-      <img src="/moderndik2.png" style="width: 100%" />
-      <div class="text">Caption Two</div>
-    </div>
-
-    <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>
-      <img src="/moderndik3.png" style="width: 100%" />
-      <div class="text">Caption Three</div>
-    </div>
-  </div>
-
-  <div class="contact-div">
-    <form class="contact-form">
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div id="emailHelp" class="form-text">
-          We'll never share your email with anyone else.
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        />
-      </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
   <footer
     class="d-flex flex-wrap justify-content-between align-items-center p-3 my-4 border-top"
   >
@@ -228,87 +198,73 @@ function showSlides() {
 </template>
 
 <style scoped>
-* {
-  box-sizing: border-box;
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  justify-content: center;
 }
-body {
-  font-family: Verdana, sans-serif;
-}
-.mySlides {
-  display: none;
-}
-img {
-  vertical-align: middle;
-}
-
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
+.review {
   width: 100%;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  justify-content: center;
+}
+
+.contact-card {
+  width: 400px;
+  padding: 30px;
+  background: #fff;
+  color: #333;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
+.contact-card h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
 }
-
-/* The dots/bullets/indicators */
-.dot {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+.contact-card input,
+.contact-card textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
 }
-
-.activeka {
-  background-color: #717171;
+.contact-card textarea {
+  min-height: 100px;
 }
-
-/* Fading animation */
-.fade {
-  opacity: 1;
+.contact-card button {
+  width: 100%;
+  padding: 12px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
-
-@keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {
-    font-size: 11px;
-  }
-}
-
-.contact-div {
-  background-image: url(/moderndik2.png);
-}
-.contact-form {
-  width: 800px;
+.contact-card button:hover {
+  background: #d32f2f;
 }
 .hero {
   text-align: center;
@@ -412,6 +368,46 @@ img {
     display: flex;
     width: 100%;
   }
+}
+
+.body{
+  height: 100vh;
+  margin: 0;
+  --x: calc(var(--posX, 0) * 0.1px);
+  --y: calc(var(--posY, 0) * 0.1px);
+  background-image: radial-gradient(
+    circle at calc(50% + var(--x)) calc(50% + var(--y)),
+    black 0%,
+    #ffb366 30%, /* Világos narancssárga nagyobb arányban */
+    #ff6600 70%, /* Sötét narancssárga is nagyobb arányban */
+    black 100%
+  );  
+  background-size: 100% 90%; /* Csökkentett magasság */
+  background-repeat: no-repeat; /* Megakadályozza a kép ismétlődését */
+  text-align: center;
+  color: white;
+  padding: 420px 0;
+  word-break: break-all;
+  width: 100%;
+  font-family: "MonumentBold";
+}
+
+@keyframes color-shift {
+  0% {
+    background: linear-gradient(to right, #FF5733, #FFC300);
+  }
+  50% {
+    background: linear-gradient(to right, #FFC300, #FF5733);
+  }
+  100% {
+    background: linear-gradient(to right, #FF5733, #FFC300);
+  }
+}
+
+.fade-in {
+  width: 100%;
+  height: 300px; /* vagy amilyen magasra szeretnéd */
+  animation: color-shift 10s infinite alternate; /* 10 másodperces animáció, végtelen ismétléssel */
 }
 </style>
 
