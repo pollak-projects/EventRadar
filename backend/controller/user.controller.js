@@ -1,6 +1,6 @@
 import express from "express";
 //import { transporter } from "../services/emailsender.js";
-import {imageSaveToDB} from "../services/user.service.js"
+import { imageSaveToDB, imageGetFromDB } from "../services/user.service.js";
 
 
 import {

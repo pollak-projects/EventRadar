@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export async function GetAllUsers() {
-  const users = await prisma.users.findMany()
+  const users = await prisma.users.findMany();
 
   return users;
 }
@@ -19,7 +19,6 @@ export async function getUsersById(id) {
   });
   return data;
 }
-
 
 export async function forgotPassword(id) {
   const newPwd = Math.random().toString(36).slice(-8);
@@ -37,7 +36,7 @@ export async function forgotPassword(id) {
 }
 
 export async function userUpdate(id, username, email, groupsNeve, password) {
-  const cryptedpwd = await encrypt(password)
+  const cryptedpwd = await encrypt(password);
   await prisma.users.update({
     where: {
       id: id,
@@ -47,7 +46,7 @@ export async function userUpdate(id, username, email, groupsNeve, password) {
       email: email,
       password: cryptedpwd,
       groupsNeve: groupsNeve,
-      updated_date: new Date()
+      updated_date: new Date(),
     },
   });
 }
@@ -69,34 +68,34 @@ export async function Groups() {
 export async function imageGetFromDB(kapottTipus) {
   const data = await prisma.users.findUnique({
     where: {
-      id: 1
+      id: 2,
     },
   });
-  data.forEach((element) => {
-    //console.log(element.image);
-    let buffer = Buffer.from(element.profilkep);
-    element.image = "data:image/png" + ";base64," + buffer.toString("base64");
-  });
+  console.log(data);
+  let buffer = Buffer.from(data.profilkep);
+  const base64 = buffer.toString("base64");
 
-  return data;
+  console.log(base64.slice(base64.indexOf("base64")));
+  const profilkep =
+    "data:image/png" + ";base64," + base64.slice(base64.indexOf("base64") + 6);
+
+  return profilkep;
 }
 
 export async function imageSaveToDB(image) {
   const imageBlob = Buffer.from(image, "base64");
-  console.log(imageBlob)
+  console.log(imageBlob);
   try {
     const result = await prisma.users.update({
       where: {
-        id: 1
+        id: 2,
       },
-      data:{
-        profilkep: imageBlob
-      }
+      data: {
+        profilkep: imageBlob,
+      },
     });
     return result;
   } catch (error) {
     console.error("Error in imageDBSave: ", error);
   }
 }
-
-

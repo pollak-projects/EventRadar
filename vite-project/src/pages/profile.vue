@@ -11,15 +11,22 @@ const reader = new FileReader();
 const imga = ref()
 
 function Save() {
-    reader.onload = async function (e) {
+    const fileInput = imgs.value
+    const megengedettFormatum = fileInput.files[0].name.includes("jpg")
+    if (megengedettFormatum) {
+         reader.onload = async function (e) {
         rawImg.value = reader.result;
-        console.log(rawImg.value);
+        //console.log(rawImg.value);
         await FileUpload(rawImg.value);
     };
-    const fileInput = imgs.value
+
     if (fileInput && fileInput.files[0]) {
         reader.readAsDataURL(fileInput.files[0]);
+    } 
+    }else{
+      alert("Nem támogatott fájl formátum.")
     }
+
 }
 
 
@@ -45,6 +52,7 @@ async function FileUpload(file) {
         } else {
           alert("Sikertelen feltöltés");
         }
+        location.reload()
       })
       .catch((error) => console.error("Hiba kijelentkezés közben:", error));
   });
@@ -90,9 +98,10 @@ function GetUser() {
     .catch((error) => console.log("error", error));
 }
 
-onMounted(() => {
+onMounted( async () => {
   GetUser()
-  imga.value = GetTaskThree(1)
+  imga.value =  await GetTaskThree(1)
+  console.log(imga.value)
 })
 
 </script>
@@ -123,10 +132,8 @@ onMounted(() => {
   
       <div  class="form-group">
         <label for="image-upload">Kép feltöltése:</label>
-        <input type="file" id="image-upload" />
+        <input type="file" accept="image/jpeg" ref="imgs" />
       </div>
-
-      <input type="file" ref="imgs" />
 
       <button type="submit" @click="Save">Esemény mentése</button>
     </form>
