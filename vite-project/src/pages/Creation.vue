@@ -26,6 +26,7 @@ const eventData = defineModel({
   },
 });
 
+
 function creation() {
   console.log(eventData.value);
   fetch(`http://localhost:3300/event/create`, {
@@ -34,6 +35,7 @@ function creation() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      user: Number(localStorage.getItem("userId")),
       esemeny_nev: eventData.value.esemeny_nev,
       leiras : eventData.value.leiras,
       helyszin: eventData.value.helyszin,

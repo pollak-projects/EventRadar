@@ -10,7 +10,6 @@ const route = useRoute();
 
 
 
-
 function GetEvent() {
   fetch(`http://localhost:3300/event/getId/${route.params.id}`, {
     method: "GET",
@@ -29,6 +28,53 @@ function GetEvent() {
 onMounted(() => {
    GetEvent()
 })
+
+
+/*function jelentkez() {
+  const user_id = Number(localStorage.getItem("userId"))
+  const esmenyek_id = Number(route.params.id)
+
+  console.log("user_id:", user_id, typeof user_id);
+  console.log("esmenyek_id:", esmenyek_id, typeof esmenyek_id);
+
+    fetch("http://localhost:3300/user/jelentkez", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        esmenyek_id: esmenyek_id
+      }),
+    })
+      .then(async (result) => {
+        alert("Siker");
+      })
+      .catch((error) => console.log("error", error));
+  }*/
+
+  function jelentkez() {
+  const user_id = Number(localStorage.getItem("userId"));
+  const esemenyek_id = Number(route.params.id);
+
+  console.log("Küldött adatok:", { user_id, esemenyek_id });
+
+  fetch("http://localhost:3300/user/jelentkez", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id, esemenyek_id }), // Itt biztosítjuk a helyes kulcsokat!
+  })
+    .then(async (result) => {
+      if (!result.ok) {
+        const errorMessage = await result.text();
+        throw new Error(`Hiba: ${errorMessage}`);
+      }
+      alert("Siker");
+    })
+    .catch((error) => console.log("Hiba:", error));
+}
 
 </script>
 
@@ -55,7 +101,7 @@ onMounted(() => {
         <h3 style="width: 500px; transform: translateX(-20px);">{{ event?.esemeny_date }} {{ event?.kezdetido }} {{ event?.vegeido }}</h3>
         <h5 style="padding-top: 15px;">{{ event.leiras  }}</h5>
         <h4 style="padding-top: 30px; transform: translateX(-25px); width: 500px;"><img style="height: 50px;width: 50px;  object-fit: cover; object-position: center ; border-radius: 50%;" src="/user.jpg" alt=""> Rózsa Péter</h4>
-        <button style="width: 300px; height: 80px;">Jelentkezés</button>
+        <button @click="jelentkez()" style="width: 300px; height: 80px;">Jelentkezés</button>
     </div>
     <img class="kep" src="/conecrt.jpg" alt="">
 </div>

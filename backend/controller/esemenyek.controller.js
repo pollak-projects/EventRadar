@@ -51,6 +51,7 @@ router.put("/update", async (req, res) => {
 router.post("/create", async (req, res) => {
   try {
     const {
+      user,
       esemeny_nev,
       leiras,
       helyszin,
@@ -60,6 +61,7 @@ router.post("/create", async (req, res) => {
       kategoria
     } = req.body;
     const event = await CreateEvent(
+      user,
       esemeny_nev,
       leiras,
       helyszin,
