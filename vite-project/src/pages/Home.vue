@@ -1,5 +1,5 @@
 <script setup>
-import {  ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import Navbar from "../components/Navbar.vue";
 var modal = document.getElementById("id01");
 
@@ -9,16 +9,16 @@ window.onclick = function (event) {
   }
 };
 
-document.body.addEventListener("pointermove", (e)=>{
+document.body.addEventListener("pointermove", (e) => {
   const { currentTarget: el, clientX: x, clientY: y } = e;
   const { top: t, left: l, width: w, height: h } = el.getBoundingClientRect();
-  el.style.setProperty('--posX',  x-l-w/2);
-  el.style.setProperty('--posY',  y-t-h/2);
-})
+  el.style.setProperty("--posX", x - l - w / 2);
+  el.style.setProperty("--posY", y - t - h / 2);
+});
 const reviews = ref([
   { text: "Nagyon jó termék, mindenkinek ajánlom!", author: "Kovács Péter" },
   { text: "Gyors szállítás és kiváló minőség.", author: "Nagy Anna" },
-  { text: "Megéri az árát, biztosan újra vásárolok.", author: "Tóth László" }
+  { text: "Megéri az árát, biztosan újra vásárolok.", author: "Tóth László" },
 ]);
 const currentIndex = ref(0);
 let intervalId = null;
@@ -29,15 +29,17 @@ const startSlider = () => {
   }, 5000);
 };
 
-const name = ref('');
-const email = ref('');
-const message = ref('');
+const name = ref("");
+const email = ref("");
+const message = ref("");
 
 const sendMessage = () => {
-  alert(`Üzenet elküldve!\nNév: ${name.value}\nEmail: ${email.value}\nÜzenet: ${message.value}`);
-  name.value = '';
-  email.value = '';
-  message.value = '';
+  alert(
+    `Üzenet elküldve!\nNév: ${name.value}\nEmail: ${email.value}\nÜzenet: ${message.value}`
+  );
+  name.value = "";
+  email.value = "";
+  message.value = "";
 };
 
 onMounted(() => {
@@ -158,16 +160,8 @@ onBeforeUnmount(() => {
       <button>fasz</button>
     </div>
   </div>
-  
-  <div class="slider-container container" style="width: 300px;
-  height: 150px;
-  overflow: hidden;
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+
+  <div class="slider-container">
     <transition name="fade" mode="out-in">
       <div v-if="reviews.length" :key="currentIndex" class="review">
         <p>{{ reviews[currentIndex]?.text }}</p>
@@ -175,17 +169,32 @@ onBeforeUnmount(() => {
       </div>
     </transition>
   </div>
-<br>
-  <div class="container" style="background-image: url(/moderndik2.png);  min-height: 100vh;">
+  <br />
+  <div
+    class="container"
+    style=""
+  >
     <div class="contact-card">
       <h2>Kapcsolat</h2>
       <form @submit.prevent="sendMessage">
-        <input type="text" v-model="name" placeholder="Név" required>
-        <input type="email" v-model="email" placeholder="Email" required>
+        <input type="text" v-model="name" placeholder="Név" required />
+        <input type="email" v-model="email" placeholder="Email" required />
         <textarea v-model="message" placeholder="Üzenet" required></textarea>
-        <button type="submit">Küldés <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
-  <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
-</svg></button>
+        <button type="submit">
+          Küldés
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-send-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"
+            />
+          </svg>
+        </button>
       </form>
     </div>
   </div>
@@ -205,15 +214,28 @@ onBeforeUnmount(() => {
   gap: 20px;
   background: white;
   justify-content: center;
+  margin: 0 auto;
+  width: 600px;
+  height: 150px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .review {
   width: 100%;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
@@ -224,6 +246,9 @@ onBeforeUnmount(() => {
   gap: 20px;
   background: white;
   justify-content: center;
+  background-image: url(/moderndik2.png); 
+  min-height: 80vh; 
+  max-width : 100vw;
 }
 
 .contact-card {
@@ -278,19 +303,63 @@ onBeforeUnmount(() => {
   font-family: "MonumentBold";
 }
 
-.event-container {
+.slidecards {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  align-items: center;
+  gap: 20px;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 20px;
 }
+
 .event-card {
-  background: #f8f8f8;
-  padding: 15px;
-  margin: 10px;
-  width: 200px;
-  height: 300px;
-  border-radius: 10px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.event-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.event-card h3 {
+  margin: 15px 0 5px;
+  font-size: 1.4rem;
+
+}
+
+.event-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.event-card button {
+  background: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 15px;
+}
+
+.event-card button:hover {
+  background: #e0484d;
 }
 .kep {
   width: 100%;
@@ -370,7 +439,7 @@ onBeforeUnmount(() => {
   }
 }
 
-.body{
+.body {
   height: 100vh;
   margin: 0;
   --x: calc(var(--posX, 0) * 0.1px);
@@ -378,12 +447,12 @@ onBeforeUnmount(() => {
   background-image: radial-gradient(
     circle at calc(50% + var(--x)) calc(50% + var(--y)),
     black 0%,
-    #ffb366 30%, /* Világos narancssárga nagyobb arányban */
-    #ff6600 70%, /* Sötét narancssárga is nagyobb arányban */
-    black 100%
-  );  
-  background-size: 100% 90%; /* Csökkentett magasság */
-  background-repeat: no-repeat; /* Megakadályozza a kép ismétlődését */
+    #ffb366 30%,
+   #ff6600 70%,
+   black 100%
+  );
+  background-size: 100% 95%; 
+  background-repeat: no-repeat; 
   text-align: center;
   color: white;
   padding: 420px 0;
@@ -394,21 +463,16 @@ onBeforeUnmount(() => {
 
 @keyframes color-shift {
   0% {
-    background: linear-gradient(to right, #FF5733, #FFC300);
+    background: linear-gradient(to right, #ff5733, #ffc300);
   }
   50% {
-    background: linear-gradient(to right, #FFC300, #FF5733);
+    background: linear-gradient(to right, #ffc300, #ff5733);
   }
   100% {
-    background: linear-gradient(to right, #FF5733, #FFC300);
+    background: linear-gradient(to right, #ff5733, #ffc300);
   }
 }
 
-.fade-in {
-  width: 100%;
-  height: 300px; /* vagy amilyen magasra szeretnéd */
-  animation: color-shift 10s infinite alternate; /* 10 másodperces animáció, végtelen ismétléssel */
-}
 </style>
 
 <script>

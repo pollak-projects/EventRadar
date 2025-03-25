@@ -135,7 +135,7 @@ onMounted( async () => {
         <input type="file" accept="image/jpeg" ref="imgs" />
       </div>
 
-      <button type="submit" @click="Save">Esemény mentése</button>
+      <button type="submit" @click="Save">Változtatások mentése</button>
     </form>
   </div>
 </template>
