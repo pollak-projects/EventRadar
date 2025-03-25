@@ -58,7 +58,8 @@ router.post("/create", async (req, res) => {
       esemeny_date,
       kezdetido,
       vegeido,
-      kategoria
+      kategoria,
+      foszam
     } = req.body;
     const event = await CreateEvent(
       user,
@@ -68,7 +69,8 @@ router.post("/create", async (req, res) => {
       esemeny_date,
       kezdetido,
       vegeido,
-      kategoria
+      kategoria,
+      foszam
     );
     res.status(201).json(event);
   } catch (error) {

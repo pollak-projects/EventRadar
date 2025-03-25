@@ -1,6 +1,6 @@
 import express from "express";
 //import { transporter } from "../services/emailsender.js";
-import { imageSaveToDB, imageGetFromDB, jelentkezes } from "../services/user.service.js";
+import { imageSaveToDB, imageGetFromDB, jelentkezes, esemenyUser } from "../services/user.service.js";
 
 
 import {
@@ -134,6 +134,18 @@ router.post("/jelentkez", async (req, res) => {
   }
   catch (error)
   {
+    res.status(400).json({message: error.message})
+  }
+}) 
+
+router.get(`/votes/:id`, async (req, res) => {
+  const id = Number(req.params.id);
+  try {
+    const data = await esemenyUser(id)
+    console.log(data)
+    res.status(201).json(data)
+  }
+  catch (error) {
     res.status(400).json({message: error.message})
   }
 })

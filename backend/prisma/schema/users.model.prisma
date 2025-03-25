@@ -1,7 +1,7 @@
 model Users {
     id Int @id @default(autoincrement())
     username String @unique
-    email String @unique
+    email String 
     password String
     create_date DateTime @default(now()) @db.Date
     updated_date DateTime?
