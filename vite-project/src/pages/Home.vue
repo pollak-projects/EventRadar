@@ -170,10 +170,7 @@ onBeforeUnmount(() => {
     </transition>
   </div>
   <br />
-  <div
-    class="container"
-    style=""
-  >
+  <div class="container" style="">
     <div class="contact-card">
       <h2>Kapcsolat</h2>
       <form @submit.prevent="sendMessage">
@@ -246,9 +243,9 @@ onBeforeUnmount(() => {
   gap: 20px;
   background: white;
   justify-content: center;
-  background-image: url(/moderndik2.png); 
-  min-height: 80vh; 
-  max-width : 100vw;
+  background-image: url(/moderndik2.png);
+  min-height: 80vh;
+  max-width: 100vw;
 }
 
 .contact-card {
@@ -337,7 +334,6 @@ onBeforeUnmount(() => {
 .event-card h3 {
   margin: 15px 0 5px;
   font-size: 1.4rem;
-
 }
 
 .event-card p {
@@ -448,11 +444,11 @@ onBeforeUnmount(() => {
     circle at calc(50% + var(--x)) calc(50% + var(--y)),
     black 0%,
     #ffb366 30%,
-   #ff6600 70%,
-   black 100%
+    #ff6600 70%,
+    black 100%
   );
-  background-size: 100% 95%; 
-  background-repeat: no-repeat; 
+  background-size: 100% 95%;
+  background-repeat: no-repeat;
   text-align: center;
   color: white;
   padding: 420px 0;
@@ -472,7 +468,6 @@ onBeforeUnmount(() => {
     background: linear-gradient(to right, #ff5733, #ffc300);
   }
 }
-
 </style>
 
 <script>
