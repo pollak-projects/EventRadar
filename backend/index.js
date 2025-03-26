@@ -15,6 +15,7 @@ import { passwordReset } from "./services/emailsender.service.js";
 import { esemenyekController } from "./controller/esemenyek.controller.js";
 import {ertekelesController} from "./controller/ertekeles.controller.js";
 import { ertesitesController } from "./controller/ertesites.controller.js";
+import { contactController } from "./controller/contact.controller.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/auth", authController);
 app.use("/event", esemenyekController)
 app.use("/ertekeles", ertekelesController)
 app.use("/ertesites", ertesitesController)
+app.use("/contact", contactController)
 
 
 app.use(
@@ -60,6 +62,7 @@ app.use("/user", /*verifyUserGroups(["ADMIN", "USER"]),*/ userController);
 app.use("/auth", authController);
 app.use("/group", /*verifyUserGroups(["ADMIN"]),*/ groupController);
 app.use("/static", express.static("public"));
+
 
 app.get("/", async (req, res) => {
   res.render("admin", {});

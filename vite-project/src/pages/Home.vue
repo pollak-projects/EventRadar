@@ -20,6 +20,7 @@ const reviews = ref([
   { text: "Gyors szállítás és kiváló minőség.", author: "Nagy Anna" },
   { text: "Megéri az árát, biztosan újra vásárolok.", author: "Tóth László" },
 ]);
+
 const currentIndex = ref(0);
 let intervalId = null;
 
@@ -33,6 +34,7 @@ const name = ref("");
 const email = ref("");
 const message = ref("");
 
+
 const sendMessage = () => {
   alert(
     `Üzenet elküldve!\nNév: ${name.value}\nEmail: ${email.value}\nÜzenet: ${message.value}`
@@ -41,6 +43,36 @@ const sendMessage = () => {
   email.value = "";
   message.value = "";
 };
+
+const reviewData = defineModel({
+  default: {
+    nev: "",
+    email: "",
+    uzenet: "",
+    
+  }
+});
+
+function reviewSend() {
+  console.log(reviewData.value);
+    fetch(`http://localhost:3300/contact/reviewsend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nev: reviewData.value.nev,
+        email: reviewData.value.email,
+        uzenet: reviewData.value.uzenet,
+      
+      }),
+    })
+      .then(async (result) => {
+        alert("Siker");
+        location.reload();
+      })
+      .catch((error) => console.log("error", error));
+}
 
 onMounted(() => {
   startSlider();
@@ -170,14 +202,20 @@ onBeforeUnmount(() => {
     </transition>
   </div>
   <br />
-  <div class="container" style="">
+  <div class="container" style="" >
     <div class="contact-card">
       <h2>Kapcsolat</h2>
-      <form @submit.prevent="sendMessage">
-        <input type="text" v-model="name" placeholder="Név" required />
-        <input type="email" v-model="email" placeholder="Email" required />
-        <textarea v-model="message" placeholder="Üzenet" required></textarea>
-        <button type="submit">
+      <form>
+        <input type="text" v-model="reviewData.nev" placeholder="Név" required />
+        <input type="email" v-model="reviewData.email" placeholder="Email" required />
+        <select v-model="subject" class="subject-dropdown" required>
+                <option value="targy" disabled >Válassz</option>
+                <option value=""  >Vélemény írása</option>
+                <option value="Általános érdeklődés">Hiba bejelentése</option>
+                <option value="Egyéb">Egyéb</option>
+            </select>
+        <textarea v-model="reviewData.uzenet" placeholder="Üzenet" required></textarea>
+        <button type="button" @click="reviewSend()">
           Küldés
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +250,7 @@ onBeforeUnmount(() => {
   background: white;
   justify-content: center;
   margin: 0 auto;
-  width: 600px;
+  width: 700px;
   height: 150px;
   overflow: hidden;
   text-align: center;
@@ -256,6 +294,27 @@ onBeforeUnmount(() => {
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+.subject-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    appearance: none; /* Removes default browser styling */
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 16px;
+}
+
+.subject-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .contact-card h2 {
   margin-bottom: 20px;
