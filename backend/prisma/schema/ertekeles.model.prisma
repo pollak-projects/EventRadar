@@ -7,5 +7,4 @@ model Ertekeles {
     rating Int
     create_date DateTime @default(now()) @db.Date
     update_date DateTime 
-
 }

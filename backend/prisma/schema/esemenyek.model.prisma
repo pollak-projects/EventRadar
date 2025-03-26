@@ -16,5 +16,5 @@ model Esemenyek {
     kep String?
     Eventcat Eventcat @relation(fields: [kategoria], references: [nev])
     kategoria String
-    foszam Int ?
+    foszam Int?
 }
