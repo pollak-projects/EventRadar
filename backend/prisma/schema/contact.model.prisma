@@ -1,0 +1,7 @@
+model contact {
+  id     Int    @id @default(autoincrement())
+  nev    String @db.VarChar(30)
+  email  String @db.VarChar(40)
+  uzenet String @db.Text
+  kiirat Int
+}

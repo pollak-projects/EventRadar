@@ -1,6 +1,6 @@
 <script setup>
-import Navbar from '../components/Navbar.vue';
-import { RouterLink } from 'vue-router';
+import Navbar from "../components/Navbar.vue";
+import { RouterLink } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
@@ -8,29 +8,25 @@ import { jsx } from "vue/jsx-runtime";
 const rawImg = ref();
 const imgs = ref();
 const reader = new FileReader();
-const imga = ref()
+const imga = ref();
 
 function Save() {
-    const fileInput = imgs.value
-    const megengedettFormatum = fileInput.files[0].name.includes("jpg")
-    if (megengedettFormatum) {
-         reader.onload = async function (e) {
-        rawImg.value = reader.result;
-        //console.log(rawImg.value);
-        await FileUpload(rawImg.value);
+  const fileInput = imgs.value;
+  const megengedettFormatum = fileInput.files[0].name.includes("jpg");
+  if (megengedettFormatum) {
+    reader.onload = async function (e) {
+      rawImg.value = reader.result;
+      //console.log(rawImg.value);
+      await FileUpload(rawImg.value);
     };
 
     if (fileInput && fileInput.files[0]) {
-        reader.readAsDataURL(fileInput.files[0]);
-    } 
-    }else{
-      alert("Nem támogatott fájl formátum.")
+      reader.readAsDataURL(fileInput.files[0]);
     }
-
+  } else {
+    alert("Nem támogatott fájl formátum.");
+  }
 }
-
-
-
 
 async function FileUpload(file) {
   console.log(file);
@@ -52,7 +48,7 @@ async function FileUpload(file) {
         } else {
           alert("Sikertelen feltöltés");
         }
-        location.reload()
+        location.reload();
       })
       .catch((error) => console.error("Hiba kijelentkezés közben:", error));
   });
@@ -76,63 +72,86 @@ async function GetTaskThree(kapottTipus) {
   });
 }
 
-
 const user = ref();
 const route = useRoute();
 
-
-
-
 function GetUser() {
-  fetch(`http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(
+    `http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then(async (res) => {
       const data = await res.json();
       console.log(data);
-      user.value = data
+      user.value = data;
     })
     .catch((error) => console.log("error", error));
 }
 
-onMounted( async () => {
-  GetUser()
-  imga.value =  await GetTaskThree(1)
-  console.log(imga.value)
-})
+function showFileDialog() {
+  document.getElementById("file").click();
+}
 
+onMounted(async () => {
+  GetUser();
+  imga.value = await GetTaskThree(1);
+  console.log(imga.value);
+});
 </script>
 
 <template>
-  <Navbar/>
-  <br>
+  <Navbar />
+  <br />
   <div class="event-form">
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
-      <img :src="imga" alt="" class="kep">
+      <div
+        alt=""
+        id="prof-img"
+        @click="showFileDialog()"
+        :style="'background-image: url(' + imga + ');'"
+      ></div>
       <div class="form-group">
         <label for="event-name">Név:</label>
-        <input type="text" id="event-name" :value="user?.username" required disabled/>
+        <input
+          type="text"
+          id="event-name"
+          :value="user?.username"
+          required
+          disabled
+        />
       </div>
 
-      
       <div class="form-group">
         <label for="location">Email cím:</label>
-        <input type="text" id="location" :value="user?.email" disabled required />
+        <input
+          type="text"
+          id="location"
+          :value="user?.email"
+          disabled
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="event-date">Regisztráció dátuma:</label>
-        <input type="date" id="event-date" :value="user?.create_date" disabled required />
+        <input
+          type="date"
+          id="event-date"
+          :value="user?.create_date"
+          disabled
+          required
+        />
       </div>
 
-  
-      <div  class="form-group">
+      <div class="form-group" style="display: none">
         <label for="image-upload">Kép feltöltése:</label>
-        <input type="file" accept="image/jpeg" ref="imgs" />
+        <input type="file" id="file" accept="image/jpeg" ref="imgs" />
       </div>
 
       <button type="submit" @click="Save">Változtatások mentése</button>
@@ -141,11 +160,30 @@ onMounted( async () => {
 </template>
 
 <style scoped>
-.kep{
-    vertical-align: middle;
-  width: 50px;
-  height: 50px;
+#prof-img {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
   border-radius: 50%;
+  border: 3px solid white;
+  display: block;
+  margin: 0 auto;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#prof-img:hover::before{
+  content: "Kép csere";
+  position: relative;
+  font-size: larger;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
 }
 .event-form {
   max-width: 600px;
@@ -153,7 +191,7 @@ onMounted( async () => {
   padding: 20px;
   background: url(/moderndik2.png);
   border-radius: 8px;
-  font-family: 'MonumentBold';
+  font-family: "MonumentBold";
   background-size: cover;
 }
 
@@ -174,7 +212,8 @@ label {
   color: #555;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
