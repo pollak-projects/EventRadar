@@ -12,7 +12,8 @@ export async function CreateEvent(
   esemeny_date,
   kezdetido,
   vegeido,
-  kategoria
+  kategoria,
+  foszam
 ) {
   console.log(esemeny_date)
   await prisma.esemenyek.create({
@@ -32,6 +33,7 @@ export async function CreateEvent(
         minutes: String(vegeido).split(":")[1],
       }),
       kategoria: kategoria,
+      foszam: foszam
     },
   });
 }

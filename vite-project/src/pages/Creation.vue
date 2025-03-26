@@ -22,7 +22,8 @@ const eventData = defineModel({
     selectedKategoria: ref(""),
     kezdetido: "",
     vegeido: "",
-    leiras: ""
+    leiras: "",
+    maxfo: ""
   },
 });
 
@@ -43,6 +44,7 @@ function creation() {
       kezdetido: eventData.value.kezdetido,
       vegeido: eventData.value.vegeido,
       kategoria: eventData.value.selectedKategoria.value,
+      foszam: eventData.value.maxfo
     }),
   })
     .then(async (result) => {
@@ -105,6 +107,11 @@ const handleSubmit = () => {
       <div class="form-group">
         <label for="end-time">Óra (befejezés):</label>
         <input type="time" id="end-time" v-model="eventData.vegeido" required />
+      </div>
+
+      <div class="form-group">
+        <label for="end-time">Max létszám</label>
+        <input type="number" id="end-time" v-model="eventData.maxfo" required />
       </div>
 
       <div class="form-group">

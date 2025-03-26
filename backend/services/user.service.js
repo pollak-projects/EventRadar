@@ -112,3 +112,12 @@ export async function jelentkezes(user_id, esemenyek_id) {
     }
   })
 }
+
+export async function esemenyUser(id)
+{
+  return await prisma.user_esemenyek.findMany({
+    where: {
+      esemenyek_id: id,
+    },
+  });
+}
