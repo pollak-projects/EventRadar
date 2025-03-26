@@ -3,7 +3,7 @@ import app from "../../index.js";
 
 test("POST user/forgot-password should pass", async () => {
   const response = await request(app).post("/user/forgot-password").send({
-    email: "test",
+    email: "test@test.com",
   });
   expect(response.status).toBe(200);
 });

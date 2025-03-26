@@ -42,7 +42,7 @@ router.get("/getId/:ertekeles_id", async (req , res) => {
   const { ertekeles_id } = req.params;
   try {
     const event = await GetRatingById(ertekeles_id);
-    res.status(200).json(user);
+    res.status(200).json(event);
   } catch (error) {
     res.status(400).json(error.message);
   }
