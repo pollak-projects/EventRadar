@@ -33,6 +33,11 @@ const router = createRouter({
       name: "Profile",
       component: import("../pages/profile.vue"),
     },
+    {
+      path: "/MyEvent",
+      name: "MyEvent",
+      component: import("../pages/MyEvent.vue")
+    }
   ],
 });
 

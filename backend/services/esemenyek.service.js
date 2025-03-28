@@ -79,3 +79,12 @@ export async function eventDelete() {
     });
 }
 
+export async function getEventByCreate(user) {
+  const data = await prisma.esemenyek.findMany( {
+    where: {
+      user: user
+    }
+  })
+  return data;
+}
+

@@ -131,8 +131,8 @@ onMounted(() => {
         <div class="leiras asztaligep" v-for="event in events">
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
           <h3 style="width: 500px; transform: translateX(-20px)">
-            {{ event?.esemeny_date }} {{ event?.kezdetido }}
-            {{ event?.vegeido }}
+            {{ event?.esemeny_date.split("T")[0].replace(/./g, ".") }} <br> {{ event?.kezdetido.split("T")[1].split(".")[0].slice(0, -3) }} -
+            {{event?.vegeido.split("T")[1].split(".")[0].slice(0, -3) }}
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4>Jelentkezési Limit: {{ szam }}</h4>

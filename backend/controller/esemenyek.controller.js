@@ -6,6 +6,7 @@ import {
   GetAllEvent,
   getAllEventById,
   CreateEvent,
+  getEventByCreate,
 } from "../services/esemenyek.service.js";
 
 const router = express.Router();
@@ -98,5 +99,16 @@ router.get(`/getId/:id`, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+
+router.get(`/getEventCreate/:id`, async (req, res) => {
+  const user = Number(req.params.id);
+  try {
+    const event = await getEventByCreate(user);
+    res.status(200).json(event)
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+})
 
 export { router as esemenyekController };

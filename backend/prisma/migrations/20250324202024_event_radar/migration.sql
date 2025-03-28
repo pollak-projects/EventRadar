@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `ertekeles` DROP COLUMN `comment`;
+/*ALTER TABLE `ertekeles` DROP COLUMN `comment`;*/

@@ -1,103 +1,36 @@
 <script setup>
-import { RouterLink } from "vue-router";
-import Navbar from "../components/Navbar.vue";
-import { ref, onMounted } from "vue";
+    import { RouterLink } from "vue-router";
+    import Navbar from "../components/Navbar.vue";
+    import {ref, onMounted} from "vue"
 
-const events = ref();
-const Selected = ref("Válassz");
+    const events = ref();
 
-const handleCategoryChange = (event) => {
-  console.log(event.target.value);
-  Selected.value = event.target.value;
-};
-
-const kategoriak = ref([
-  "Koncert",
-  "Túrázás",
-  "Színház",
-  "Kiállítás",
-  "Szűk körű rendezvény",
-  "Egyéb",
-]);
-
-function getAllEvents() {
-  fetch(`http://localhost:3300/event/getAll`).then(async (res) => {
-    const data = await res.json();
-    console.log(data);
-    events.value = data;
-  });
-}
+    function getEvents() {
+        fetch(`http://localhost:3300/event/getEventCreate/${localStorage.getItem("userId")}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            })
+            .then(async (res) => {
+                const data = await res.json();
+                events.value = data
+            })
+            .catch ((error) => console.log("error", error))
+        }
+    
 
 onMounted(() => {
-  getAllEvents();
+  getEvents();
 });
 </script>
-
 <template>
-  <Navbar />
-  <div class="container">
-    <div class="row">
-      <div
-        class="accordion accordion-flush"
-        id="accordionFlushExample"
-        style=""
-      >
-        <div
-          class="accordion-item"
-          style="margin-top: 10px;"
-        >
-          <h2 class="accordion-header">
-            <button
-              class="accordion-button collapsed accordion-btn-icon"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseOne"
-              aria-expanded="false"
-              aria-controls="flush-collapseOne"
-              style="width: fit-content"
-            ></button>
-          </h2>
-          <div
-            id="flush-collapseOne"
-            class="accordion-collapse collapse"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div class="accordion-body filtergepes filtermobilos" >
-              <label style="margin-right: 10px;font-weight: bold;">Kategória:</label>
-              <select
-                class="form-control select2"
-                @change="handleCategoryChange"
-                style="margin-right: 70px;"
-              >
-                <option value="Válassz" >Válassz</option>
-                <option v-for="kategoria in kategoriak">
-                  {{ kategoria }}
-                </option>
-              </select>
-              
-              <label style="margin-right: 10px;font-weight: bold;">Kategória</label>
-              <select
-                class="form-control select2"
-                @change="handleCategoryChange"
-              >
-                <option value="Válassz">Válassz</option>
-                <option v-for="kategoria in kategoriak">
-                  {{ kategoria }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <RouterLink class="button1" to="/MyEvent" aria-current="page" style="text-decoration: none; " >Saját Eseményeim</RouterLink>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="cards">
+
+<Navbar />
+
+<div class="cards">
     <div v-for="event in events">
-      <div
-        class="card"
-        v-if="event.kategoria == Selected || Selected == 'Válassz'"
-      >
+      <div class="card">
         <h1>{{ event.esemeny_nev }}</h1>
         <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
         <RouterLink
@@ -111,8 +44,8 @@ onMounted(() => {
       </div>
     </div>
   </div>
-</template>
 
+</template>
 <style scoped>
 
 
