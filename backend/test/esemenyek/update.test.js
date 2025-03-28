@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../../index.js";
 
 test("PUT esemenyek/update should pass", async () => {
-  const response = await request(app).put("/esemenyek/update").send({
+  const response = await request(app).put("/event/update").send({
     id: 1,
     esemeny_nev: "teszt",
     leiras: "teszt",

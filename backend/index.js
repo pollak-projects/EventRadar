@@ -13,7 +13,7 @@ import { verifyUserGroups } from "./middleware/auth.middleware.js";
 import { registration } from "./services/emailsender.service.js";
 import { passwordReset } from "./services/emailsender.service.js";
 import { esemenyekController } from "./controller/esemenyek.controller.js";
-import {ertekelesController} from "./controller/ertekeles.controller.js";
+import { ertekelesController } from "./controller/ertekeles.controller.js";
 import { ertesitesController } from "./controller/ertesites.controller.js";
 import { contactController } from "./controller/contact.controller.js";
 
@@ -68,12 +68,12 @@ app.get("/", async (req, res) => {
   res.render("admin", {});
 });
 
-app.post("/test", async(req, res)=> {
+app.post("/test/registration", async(req, res)=> {
   await registration("zstamas2006@gmail.com");
   res.send("Ok")
 })
 
-app.post("/test", async (req, res) => {
+app.post("/test/password-reset", async (req, res) => {
   await passwordReset("zstamas2006@gmail.com");
   res.send("Ok");
 });

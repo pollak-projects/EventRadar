@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../../index.js";
 
 test("POST esemenyek/create should pass", async () => {
-  const response = await request(app).post("/esemenyek/create").send({
+  const response = await request(app).post("/event/create").send({
     esemeny_nev: "test",
     leiras: "test",
     helyszin: "test",
