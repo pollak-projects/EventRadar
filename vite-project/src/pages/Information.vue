@@ -106,7 +106,11 @@ onMounted(() => {
         <div class="leiras" v-for="event in events">
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
           <img class="kep" src="/conecrt.jpg" alt="" />
-          <h3 style="width: 200px">2025.01.01 15 órától 17 óráig</h3>
+          <h3 class="date-box-mobil">
+            {{new Date(event.esemeny_date).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' })}}
+            {{new Date(event.kezdetido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}} -
+            {{new Date(event.vegeido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}}
+          </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4 style="padding-top: 30px; width: 200px">
             <img
@@ -122,6 +126,7 @@ onMounted(() => {
             />
             Rózsa Péter
           </h4>
+          <h4>Jelentkezési Limit: {{ szam }}</h4>
           <button style="width: 300px; height: 80px">Jelentkezés</button>
         </div>
       </div>
@@ -130,9 +135,10 @@ onMounted(() => {
       <div class="keret">
         <div class="leiras asztaligep" v-for="event in events">
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
-          <h3 style="width: 500px; transform: translateX(-20px)">
-            {{ event?.esemeny_date.split("T")[0].replace(/./g, ".") }} <br> {{ event?.kezdetido.split("T")[1].split(".")[0].slice(0, -3) }} -
-            {{event?.vegeido.split("T")[1].split(".")[0].slice(0, -3) }}
+          <h3 class="date-box">
+            {{new Date(event.esemeny_date).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' })}}
+            {{new Date(event.kezdetido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}} -
+            {{new Date(event.vegeido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}}
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4>Jelentkezési Limit: {{ szam }}</h4>
@@ -168,6 +174,28 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
+.date-box {
+  background-color: #d8461a;
+  padding: 10px;
+  border-radius: 5px;
+  width: 340px; 
+  transform: translateX(-20px);
+  color: white;
+}
+
+.date-box-mobil {
+  background-color: #d8461a;
+  padding: 10px;
+  border-radius: 5px;
+  width: 280px; 
+  margin-left: 60px;
+  margin-top: 10px;
+  transform: translateX(-20px);
+  color: white;
+}
+
+
 .hatter {
   background: url("/moderndik3.png");
   background-repeat: no-repeat;
@@ -188,6 +216,7 @@ button:hover {
   }
   .cim {
     font-size: 300%;
+    color: rgb(100, 0, 0);
   }
   .leiras {
     padding-left: 30px;
@@ -199,11 +228,15 @@ button:hover {
     padding-top: 10px;
     width: 600px;
   }
+
+
   .kep {
-    height: 500px;
-    width: auto;
-    padding-left: 250px;
-  }
+  height: 500px;
+  width: auto;
+  padding-left: 250px;
+
+  
+}
   button {
     width: 100%;
     padding: 10px;
