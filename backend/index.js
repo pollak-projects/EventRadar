@@ -20,12 +20,25 @@ import { contactController } from "./controller/contact.controller.js";
 const app = express();
 
 const corsOptions = {
-  origin: [
-    "http://localhost:5173"
- ],
+  origin: "http://localhost:5176",
   credentials: true,
   optionsSuccessStatus: 200,
 };
+app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5176");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
+// Engedélyezd a preflight kéréseket
+app.options("*", cors(corsOptions));
+
+
+
 app.use(express.json({limit: "50mb"}));
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -47,14 +60,12 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: false, // Fejlesztéskor legyen false
       maxAge: 24 * 60 * 60 * 1000,
-      domain: "",
-      sameSite: "none",
+      sameSite: "lax",
     },
   })
 );
-
 
 app.set("view engine", "ejs");
 
