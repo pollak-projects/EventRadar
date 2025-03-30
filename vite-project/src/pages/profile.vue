@@ -102,6 +102,16 @@ onMounted(async () => {
   imga.value = await GetTaskThree(1);
   console.log(imga.value);
 });
+
+function formatDate(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0'); 
+  const day = String(d.getDate()).padStart(2, '0'); 
+  return `${year}-${month}-${day}`;  
+}
+
+
 </script>
 
 <template>
@@ -143,7 +153,7 @@ onMounted(async () => {
         <input
           type="date"
           id="event-date"
-          :value="user?.create_date"
+          :value="formatDate(user?.create_date)"
           disabled
           required
         />
