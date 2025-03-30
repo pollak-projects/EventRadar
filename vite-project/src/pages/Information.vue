@@ -133,7 +133,7 @@ onMounted(() => {
     </div>
     <div class="asztaligep">
       <div class="keret">
-        <div class="leiras asztaligep" v-for="event in events">
+        <div class="leiras-asztaligep" v-for="event in events">
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
           <h3 class="date-box">
             {{new Date(event.esemeny_date).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' })}}
@@ -141,7 +141,7 @@ onMounted(() => {
             {{new Date(event.vegeido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}}
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
-          <h4>Jelentkezési Limit: {{ szam }}</h4>
+          <h4 class="jelentkezesi-limit">Jelentkezési Limit: {{ szam }}</h4>
           <h4
             style="
               padding-top: 30px;
@@ -175,6 +175,12 @@ onMounted(() => {
 
 <style scoped>
 
+.jelentkezesi-limit {
+  background-color: rgba(110, 107, 107, 0.5); /* Átlátszó szürke háttér */
+  padding: 5px 10px; /* Kicsi belső margó */
+  border-radius: 10px; /* Lekerekített sarkok */
+  display: inline-block; /* Méret igazítása a tartalomhoz */
+}
 .date-box {
   background-color: #d8461a;
   padding: 10px;
@@ -243,7 +249,7 @@ button:hover {
     background-color: #f44336;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
   }

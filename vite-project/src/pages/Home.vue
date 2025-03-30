@@ -87,9 +87,9 @@ onBeforeUnmount(() => {
   <Navbar />
   <div class="header">
     <div class="body">
-      <h1>
+      <h1 class="felirat">
         HIRDESD NÁLUNK AZ <br class="szoveg" />
-        ESEMÉNYEID
+        ESEMÉNYEID! 
       </h1>
     </div>
   </div>
@@ -242,6 +242,35 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+
+.felirat {
+  background-color: rgba(255, 60, 0, 0.616);
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 1000px;
+  margin: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s forwards;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.felirat:hover {
+  
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
 .slider-container {
   display: flex;
   flex-direction: column;
@@ -501,7 +530,7 @@ onBeforeUnmount(() => {
   --y: calc(var(--posY, 0) * 0.1px);
   background-image: radial-gradient(
     circle at calc(50% + var(--x)) calc(50% + var(--y)),
-    black 0%,
+    rgba(0, 0, 0, 0.692) 0%,
     #ffb366 30%,
     #ff6600 70%,
     black 100%

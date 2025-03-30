@@ -482,6 +482,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease-in-out; 
+  margin-top: -90px;
 }
 
 @keyframes fadeIn {
@@ -534,6 +535,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   animation: fadeInError 0.3s ease-in-out;
+  margin-top: -90px;
 }
 
 @keyframes fadeInError {
