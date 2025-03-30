@@ -254,7 +254,15 @@ onBeforeUnmount(() => {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s forwards;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.719);
+ 
+  margin: auto;
+}
+@media only screen and (max-width: 768px) {
+  .felirat {
+    font-size: 20px;
+    width: 90%;
+  }
 }
 
 @keyframes fadeInUp {
@@ -554,6 +562,22 @@ onBeforeUnmount(() => {
   }
   100% {
     background: linear-gradient(to right, #ff5733, #ffc300);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .slider-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .review {
+    font-size: 17px;
+    padding: 10px;
+  }
+
+  .review span {
+    font-size: 12px;
   }
 }
 </style>

@@ -485,6 +485,7 @@ onMounted(() => {
   margin-top: -90px;
 }
 
+
 @keyframes fadeIn {
   0% {
     transform: scale(0.8);
@@ -523,6 +524,7 @@ onMounted(() => {
   color: #ddd; 
   text-decoration: none;
 }
+
 
 .failed-modal {
   position: fixed;
@@ -578,6 +580,51 @@ onMounted(() => {
   text-decoration: none;
 }
 
+
+@media only screen and (max-width: 768px) {
+  .success-modal {
+    margin-top: 0; /* Ne mozduljon el felfelé */
+    align-items: flex-start; /* Hogy ne tolódjon ki a képernyőről */
+    padding: 10px; 
+  }
+
+  .success-modal .modal-content {
+    width: 90%; /* Szinte teljes szélesség mobilon */
+    max-width: 350px; /* De ne legyen túl széles */
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+  .success-modal .close {
+    font-size: 24px; 
+    position: absolute;
+    top: 5px; 
+    right: 10px; 
+  }
+  .failed-modal {
+    margin-top: 0; /* Ne csússzon ki felfelé */
+    align-items: flex-start; /* Hogy ne tolódjon ki a képernyőről */
+    padding: 10px;
+  }
+
+  .failed-modal .modal-content {
+    width: 90%; /* Mobilon szélesebb legyen */
+    max-width: 350px; /* De ne legyen túl nagy */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .failed-modal .close {
+    font-size: 24px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+}
 
 
 
