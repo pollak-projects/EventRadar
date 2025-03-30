@@ -101,14 +101,22 @@ function login() {
         localStorage.setItem("refreshToken", data.refresh_token);
         localStorage.setItem("userId", data.user_id);
         loggedin.value = true;
-        alert("nagyon joo bejelentkeztél");
-        location.reload();
+        
+        document.getElementById('successModal').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('successModal').style.display = 'none';
+          location.reload()
+        }, 2000);
       } else {
-        alert("nem jo valami");
+        document.getElementById('failedModalLogin').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('failedModalLogin').style.display = 'none';
+        }, 2000);
       }
     })
     .catch((error) => console.log("error", error));
 }
+
 
 function register() {
   console.log(regData.value);
@@ -128,12 +136,18 @@ function register() {
       }),
     })
       .then(async (result) => {
-        alert("Siker");
-        location.reload();
+        document.getElementById('successModalReg').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('successModalReg').style.display = 'none';
+          location.reload()
+        }, 2000);
       })
       .catch((error) => console.log("error", error));
   } else {
-    alert("Nem egyezik a két jelszó");
+    document.getElementById('failedModalReg').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('failedModalReg').style.display = 'none';
+        }, 2000);
   }
 }
 
@@ -328,6 +342,21 @@ onMounted(() => {
           </div>
         </form>
       </div>
+      <div id="successModal" class="success-modal" style="display: none;">
+  <div class="modal-content">
+    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    <h2>Sikeres bejelentkezés!</h2>
+    <p>Gratulálunk, sikeresen bejelentkeztél!</p>
+  </div>
+</div>
+<div id="failedModalLogin" class="failed-modal" style="display: none;">
+  <div class="modal-content">
+    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    <h2>Sikertelen belépés!</h2>
+    <p>Hibás felhasználónév / jelszó!</p>
+  </div>
+</div>
+
       <div ref="regmodal" class="modal">
         <form class="modal-content" :onsubmit="register" method="post">
           <div class="imgcontainer">
@@ -394,6 +423,21 @@ onMounted(() => {
           </div>
         </form>
       </div>
+      <div id="successModalReg" class="success-modal" style="display: none;">
+  <div class="modal-content">
+    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    <h2>Sikeres regisztráció!</h2>
+    <p>Üdv az EventRadar oldalon!</p>
+  </div>
+</div>
+<div id="failedModalReg" class="failed-modal" style="display: none;">
+  <div class="modal-content">
+    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    <h2>Sikertelen regisztráció!</h2>
+    <p>A két jelszó nem egyezik!</p>
+  </div>
+</div>
+
       <div class="modal" ref="forgotpass">
         <form
           class="modal-content animate"
@@ -426,6 +470,115 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out; 
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745; 
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
+  text-align: center;
+  width: 30%; 
+  max-width: 400px; 
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.success-modal .close {
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.success-modal .close:hover,
+.success-modal .close:focus {
+  color: #ddd; 
+  text-decoration: none;
+}
+
+.failed-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  animation: fadeInError 0.3s ease-in-out;
+}
+
+@keyframes fadeInError {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.failed-modal .modal-content {
+  background-color: #dc3545; 
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%; 
+  max-width: 400px; 
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+
+.failed-modal .close {
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.failed-modal .close:hover,
+.failed-modal .close:focus {
+  color: #ddd; 
+  text-decoration: none;
+}
+
+
+
+
 .logo {
   padding-top: 5px;
   -webkit-transition: all 0.3s ease-out;
