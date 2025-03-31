@@ -281,14 +281,8 @@ onBeforeUnmount(() => {
     transform: translateY(0);
   }
 }
-<<<<<<< Updated upstream
 
 
-=======
-.felirat:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
->>>>>>> Stashed changes
 .slider-container {
   display: flex;
   flex-direction: column;
