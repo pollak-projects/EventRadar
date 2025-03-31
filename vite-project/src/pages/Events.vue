@@ -11,6 +11,11 @@ const handleCategoryChange = (event) => {
   Selected.value = event.target.value;
 };
 
+const handleDateChange = (event) =>{
+  console.log(event.target.value);
+  Selected.value = event.target.value;
+}
+
 const kategoriak = ref([
   "Koncert",
   "Túrázás",
@@ -19,6 +24,7 @@ const kategoriak = ref([
   "Szűk körű rendezvény",
   "Egyéb",
 ]);
+
 
 function getAllEvents() {
   fetch(`http://localhost:3300/event/getAll`).then(async (res) => {
@@ -75,16 +81,15 @@ onMounted(() => {
                 </option>
               </select>
               
-              <label style="margin-right: 10px;font-weight: bold;">Kategória</label>
-              <select
-                class="form-control select2"
-                @change="handleCategoryChange"
-              >
-                <option value="Válassz">Válassz</option>
-                <option v-for="kategoria in kategoriak">
-                  {{ kategoria }}
-                </option>
-              </select>
+              <label style="margin-right: 10px;font-weight: bold;">Dátum:</label>
+              <div class="form-group">
+        <input
+          type="date"
+          id="event-date"
+          required
+          @change=""
+        />
+      </div>
             </div>
           </div>
           <RouterLink class="button1" to="/MyEvent" aria-current="page" style="text-decoration: none; " >Saját Eseményeim</RouterLink>
