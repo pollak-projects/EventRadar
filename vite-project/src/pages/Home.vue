@@ -15,11 +15,6 @@ document.body.addEventListener("pointermove", (e) => {
   el.style.setProperty("--posX", x - l - w / 2);
   el.style.setProperty("--posY", y - t - h / 2);
 });
-const reviews = ref([
-  { text: "Nagyon jó termék, mindenkinek ajánlom!", author: "Kovács Péter" },
-  { text: "Gyors szállítás és kiváló minőség.", author: "Nagy Anna" },
-  { text: "Megéri az árát, biztosan újra vásárolok.", author: "Tóth László" },
-]);
 
 const currentIndex = ref(0);
 let intervalId = null;
@@ -30,49 +25,47 @@ const startSlider = () => {
   }, 5000);
 };
 
-const name = ref("");
-const email = ref("");
-const message = ref("");
-
-
-const sendMessage = () => {
-  alert(
-    `Üzenet elküldve!\nNév: ${name.value}\nEmail: ${email.value}\nÜzenet: ${message.value}`
-  );
-  name.value = "";
-  email.value = "";
-  message.value = "";
-};
-
 const reviewData = defineModel({
   default: {
     nev: "",
     email: "",
     uzenet: "",
-    
-  }
+  },
 });
 
 function reviewSend() {
   console.log(reviewData.value);
-    fetch(`http://localhost:3300/contact/reviewsend`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nev: reviewData.value.nev,
-        email: reviewData.value.email,
-        uzenet: reviewData.value.uzenet,
-      
-      }),
+  fetch(`http://localhost:3300/contact/reviewsend`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nev: reviewData.value.nev,
+      email: reviewData.value.email,
+      uzenet: reviewData.value.uzenet,
+    }),
+  })
+    .then(async (result) => {
+      alert("Siker");
+      location.reload();
     })
-      .then(async (result) => {
-        alert("Siker");
-        location.reload();
-      })
-      .catch((error) => console.log("error", error));
+    .catch((error) => console.log("error", error));
 }
+
+const reviews = ref([]);
+
+function getAllEvents() {
+  fetch(`http://localhost:3300/contact/getreview`).then(async (res) => {
+    const data = await res.json();
+    console.log(data);
+    reviews.value = data;
+  });
+}
+
+onMounted(() => {
+  getAllEvents();
+});
 
 onMounted(() => {
   startSlider();
@@ -89,7 +82,7 @@ onBeforeUnmount(() => {
     <div class="body">
       <h1 class="felirat">
         HIRDESD NÁLUNK AZ <br class="szoveg" />
-        ESEMÉNYEID! 
+        ESEMÉNYEID!
       </h1>
     </div>
   </div>
@@ -196,25 +189,39 @@ onBeforeUnmount(() => {
   <div class="slider-container">
     <transition name="fade" mode="out-in">
       <div v-if="reviews.length" :key="currentIndex" class="review">
-        <p>{{ reviews[currentIndex]?.text }}</p>
-        <span>- {{ reviews[currentIndex]?.author }}</span>
+        <p>{{ reviews[currentIndex]?.uzenet }}</p>
+        <span>- {{ reviews[currentIndex]?.nev }}</span>
       </div>
     </transition>
   </div>
   <br />
-  <div class="container" style="" >
+  <div class="container" style="">
     <div class="contact-card">
       <h2>Kapcsolat</h2>
       <form>
-        <input type="text" v-model="reviewData.nev" placeholder="Név" required />
-        <input type="email" v-model="reviewData.email" placeholder="Email" required />
+        <input
+          type="text"
+          v-model="reviewData.nev"
+          placeholder="Név"
+          required
+        />
+        <input
+          type="email"
+          v-model="reviewData.email"
+          placeholder="Email"
+          required
+        />
         <select v-model="subject" class="subject-dropdown" required>
-                <option value="targy" disabled >Válassz</option>
-                <option value=""  >Vélemény írása</option>
-                <option value="Általános érdeklődés">Hiba bejelentése</option>
-                <option value="Egyéb">Egyéb</option>
-            </select>
-        <textarea v-model="reviewData.uzenet" placeholder="Üzenet" required></textarea>
+          <option value="targy" disabled>Válassz</option>
+          <option value="">Vélemény írása</option>
+          <option value="Általános érdeklődés">Hiba bejelentése</option>
+          <option value="Egyéb">Egyéb</option>
+        </select>
+        <textarea
+          v-model="reviewData.uzenet"
+          placeholder="Üzenet"
+          required
+        ></textarea>
         <button type="button" @click="reviewSend()">
           Küldés
           <svg
@@ -242,7 +249,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-
 .felirat {
   background-color: rgba(255, 60, 0, 0.616);
   padding: 30px 40px;
@@ -255,7 +261,7 @@ onBeforeUnmount(() => {
   transform: translateY(30px);
   animation: fadeInUp 0.8s forwards;
   color: rgba(0, 0, 0, 0.719);
- 
+
   margin: auto;
 }
 @media only screen and (max-width: 768px) {
@@ -275,8 +281,14 @@ onBeforeUnmount(() => {
     transform: translateY(0);
   }
 }
+<<<<<<< Updated upstream
 
 
+=======
+.felirat:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+>>>>>>> Stashed changes
 .slider-container {
   display: flex;
   flex-direction: column;
@@ -331,25 +343,25 @@ onBeforeUnmount(() => {
   text-align: center;
 }
 .subject-dropdown {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #333;
-    appearance: none; /* Removes default browser styling */
-    background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px top 50%;
-    background-size: 16px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  appearance: none; /* Removes default browser styling */
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 16px;
 }
 
 .subject-dropdown:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .contact-card h2 {
   margin-bottom: 20px;

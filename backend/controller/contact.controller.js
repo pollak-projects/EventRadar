@@ -17,7 +17,7 @@ router.post("/reviewsend", async (req, res) => {
 
 router.get("/getreview", async (req, res) => {
   try {
-    await GetReview();
+    const uzenet = await GetReview();
     res.status(200).json(uzenet);
   } catch (error) {
     res.status(400).json({ message: error.message });
