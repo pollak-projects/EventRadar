@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
     </div>
   </div>
   <div class="cim">
-    <h1>Népszerű események</h1>
+    <h1>Közelgő események</h1>
   </div>
   <div class="slidecards telefonslide">
     <div id="carouselExample" class="carousel slide">
@@ -250,7 +250,7 @@ onBeforeUnmount(() => {
   width: 1000px;
   margin: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.6);
+
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s forwards;
@@ -275,10 +275,8 @@ onBeforeUnmount(() => {
     transform: translateY(0);
   }
 }
-.felirat:hover {
-  
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
+
+
 .slider-container {
   display: flex;
   flex-direction: column;
