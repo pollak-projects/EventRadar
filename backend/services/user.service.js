@@ -74,7 +74,12 @@ export async function imageGetFromDB(kapottTipus) {
       id: 2,
     },
   });
-  console.log(data);
+
+  if (!data || !data.profilkep) {
+    console.error("Nincs kép az adatbázisban vagy az adatok üresek.");
+    return null; // Vagy egy alapértelmezett kép
+  }
+
   let buffer = Buffer.from(data.profilkep);
   const base64 = buffer.toString("base64");
 
