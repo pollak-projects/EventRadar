@@ -58,7 +58,6 @@ const reviews = ref([]);
 function getAllEvents() {
   fetch(`http://localhost:3300/contact/getreview`).then(async (res) => {
     const data = await res.json();
-    console.log(data);
     reviews.value = data;
   });
 }
@@ -250,13 +249,12 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .felirat {
-  background-color: rgba(255, 60, 0, 0.616);
-  padding: 30px 40px;
-  border-radius: 10px;
-  width: 1000px;
-  margin: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
+
+ 
+  margin: auto;
+
+  font-size: 55px;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s forwards;
@@ -266,8 +264,8 @@ onBeforeUnmount(() => {
 }
 @media only screen and (max-width: 768px) {
   .felirat {
-    font-size: 20px;
-    width: 90%;
+    font-size: 34px;
+    width: 100%;
   }
 }
 

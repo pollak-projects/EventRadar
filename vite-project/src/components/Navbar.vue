@@ -326,7 +326,7 @@ onMounted(() => {
 
           <div
             class="container"
-            style="
+            style=" 
               background-color: #f1f1f1;
               align-items: center;
               align-content: center;
@@ -344,14 +344,13 @@ onMounted(() => {
       </div>
       <div id="successModal" class="success-modal" style="display: none;">
   <div class="modal-content">
-    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    
     <h2>Sikeres bejelentkezés!</h2>
     <p>Gratulálunk, sikeresen bejelentkeztél!</p>
   </div>
 </div>
 <div id="failedModalLogin" class="failed-modal" style="display: none;">
   <div class="modal-content">
-    <span @click="closeModal" id="closeModal" class="close">&times;</span>
     <h2>Sikertelen belépés!</h2>
     <p>Hibás felhasználónév / jelszó!</p>
   </div>
@@ -425,14 +424,14 @@ onMounted(() => {
       </div>
       <div id="successModalReg" class="success-modal" style="display: none;">
   <div class="modal-content">
-    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    
     <h2>Sikeres regisztráció!</h2>
     <p>Üdv az EventRadar oldalon!</p>
   </div>
 </div>
 <div id="failedModalReg" class="failed-modal" style="display: none;">
   <div class="modal-content">
-    <span @click="closeModal" id="closeModal" class="close">&times;</span>
+    
     <h2>Sikertelen regisztráció!</h2>
     <p>A két jelszó nem egyezik!</p>
   </div>

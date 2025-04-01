@@ -6,6 +6,7 @@ import { ref, onMounted } from "vue";
 const events = ref();
 const Selected = ref("Válassz");
 
+
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
   Selected.value = event.target.value;

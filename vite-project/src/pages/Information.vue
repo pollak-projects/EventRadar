@@ -1,6 +1,6 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
@@ -9,6 +9,8 @@ const events = ref();
 const route = useRoute();
 const szam = ref();
 const jelent = ref();
+
+const router = useRouter();
 
 function GetJelentkezes() {
   fetch(`http://localhost:3300/user/votes/${route.params.id}`, {
@@ -64,7 +66,6 @@ function maradek() {
         console.log(hossz);
         szam.value = szam.value - hossz;
       }
-
     }
   });
 }
@@ -87,11 +88,13 @@ function jelentkez() {
         const errorMessage = await result.text();
         throw new Error(`Hiba: ${errorMessage}`);
       }
-      alert("Siker");
+
+      setTimeout(() => {
+        router.back();
+      }, 1000);
     })
     .catch((error) => console.log("Hiba:", error));
 }
-
 onMounted(() => {
   GetEvent();
 });
@@ -107,9 +110,26 @@ onMounted(() => {
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
           <img class="kep" src="/conecrt.jpg" alt="" />
           <h3 class="date-box-mobil">
-            {{new Date(event.esemeny_date).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' })}}
-            {{new Date(event.kezdetido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}} -
-            {{new Date(event.vegeido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}}
+            {{
+              new Date(event.esemeny_date).toLocaleDateString("hu-HU", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+            }}
+            {{
+              new Date(event.kezdetido).toLocaleTimeString("hu-HU", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            }}
+            -
+            {{
+              new Date(event.vegeido).toLocaleTimeString("hu-HU", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            }}
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4 style="padding-top: 30px; width: 200px">
@@ -127,7 +147,7 @@ onMounted(() => {
             Rózsa Péter
           </h4>
           <h4>Jelentkezési Limit: {{ szam }}</h4>
-          <button style="width: 300px; height: 80px">Jelentkezés</button>
+          <button class="jelentkezes">Jelentkezés</button>
         </div>
       </div>
     </div>
@@ -136,9 +156,26 @@ onMounted(() => {
         <div class="leiras-asztaligep" v-for="event in events">
           <h1 class="cim">{{ event?.esemeny_nev }}</h1>
           <h3 class="date-box">
-            {{new Date(event.esemeny_date).toLocaleDateString('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit' })}}
-            {{new Date(event.kezdetido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}} -
-            {{new Date(event.vegeido).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}}
+            {{
+              new Date(event.esemeny_date).toLocaleDateString("hu-HU", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+            }}
+            {{
+              new Date(event.kezdetido).toLocaleTimeString("hu-HU", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            }}
+            -
+            {{
+              new Date(event.vegeido).toLocaleTimeString("hu-HU", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            }}
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4 class="jelentkezesi-limit">Jelentkezési Limit: {{ szam }}</h4>
@@ -162,10 +199,27 @@ onMounted(() => {
             />
             Rózsa Péter
           </h4>
-          <button @click="jelentkez() " v-if="!szam == 0" style="width: 300px; height: 80px">
+
+          <button
+            @click="jelentkez()"
+            v-if="!szam == 0"
+            style="width: 300px; height: 80px"
+          >
             Jelentkezés
           </button>
-          <h3 v-if="szam == 0" style="width: 300px; height: 80px"> Már nem lehet jelentkezni az eseményre! </h3>
+          <div
+            id="successModalJelentkezes"
+            class="success-modal"
+            style="display: none"
+          >
+            <div class="modal-content">
+              <h2>S!</h2>
+              <p>Gratulálunk, sikeresen bejelentkeztél!</p>
+            </div>
+          </div>
+          <h3 v-if="szam == 0" style="width: 300px; height: 80px">
+            Már nem lehet jelentkezni az eseményre!
+          </h3>
         </div>
         <img class="kep" src="/conecrt.jpg" alt="" />
       </div>
@@ -174,7 +228,42 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: -90px;
+}
 
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: "Arial", sans-serif;
+  color: white;
+}
 .jelentkezesi-limit {
   background-color: rgba(110, 107, 107, 0.5); /* Átlátszó szürke háttér */
   padding: 5px 10px; /* Kicsi belső margó */
@@ -185,7 +274,7 @@ onMounted(() => {
   background-color: #d8461a;
   padding: 10px;
   border-radius: 5px;
-  width: 340px; 
+  width: 360px;
   transform: translateX(-20px);
   color: white;
 }
@@ -194,13 +283,12 @@ onMounted(() => {
   background-color: #d8461a;
   padding: 10px;
   border-radius: 5px;
-  width: 280px; 
+  width: 280px;
   margin-left: 60px;
   margin-top: 10px;
   transform: translateX(-20px);
   color: white;
 }
-
 
 .hatter {
   background: url("/moderndik3.png");
@@ -220,29 +308,29 @@ button:hover {
   .mobil {
     display: none;
   }
-  .cim {
-    font-size: 300%;
-    color: rgb(100, 0, 0);
-  }
+
   .leiras {
     padding-left: 30px;
     padding-top: 10px;
     width: 350px;
+    background-color: white;
+    border-radius: 10px; /* Lekerekített sarkok */
+    display: inline-block; /* Méret igazítása a tartalomhoz */
   }
   .cim {
     transform: translateX(-30px);
     padding-top: 10px;
     width: 600px;
+    font-size: 300%;
+    color: rgb(100, 0, 0);
+    padding-left: 10px;
   }
 
-
   .kep {
-  height: 500px;
-  width: auto;
-  padding-left: 250px;
-
-  
-}
+    height: 500px;
+    width: auto;
+    padding-left: 250px;
+  }
   button {
     width: 100%;
     padding: 10px;
@@ -251,7 +339,7 @@ button:hover {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 25px;
   }
   .keret {
     margin: 100px;

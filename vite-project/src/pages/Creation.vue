@@ -49,6 +49,7 @@ function creation() {
   })
     .then(async (result) => {
       alert("Siker");
+      location.reload();
     })
     .catch((error) => console.log("error", error));
 }
