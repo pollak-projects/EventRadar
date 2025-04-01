@@ -61,7 +61,7 @@ function maradek() {
     if (szam.value == null) {
       szam.value = "Nincs Limitálva";
     } else {
-      if (data && !szam.value == 0) {
+      if (data && !szam.value <= 0) {
         const hossz = data.length;
         console.log(hossz);
         szam.value = szam.value - hossz;
