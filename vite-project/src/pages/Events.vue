@@ -5,15 +5,69 @@ import { ref, onMounted } from "vue";
 
 const events = ref();
 const Selected = ref("Válassz");
+const user = ref();
+const szumo = ref();
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
   Selected.value = event.target.value;
 };
 
-const handleDateChange = (event) =>{
+const handleDateChange = (event) => {
   console.log(event.target.value);
   Selected.value = event.target.value;
+};
+
+function EventDelete(id) {
+  fetch(`http://localhost:3300/event/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id,
+    }),
+  })
+    .then(async (result) => {
+      alert("Siker");
+    })
+    .catch((error) => console.log("Hiba:", error));
+}
+
+function getEvents() {
+  fetch(
+    `http://localhost:3300/event/getEventCreate/${localStorage.getItem(
+      "userId"
+    )}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then(async (res) => {
+      const data = await res.json();
+      szumo.value = data;
+    })
+    .catch((error) => console.log("error", error));
+}
+
+function GetUserById() {
+  fetch(
+    `http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then(async (res) => {
+      const data = await res.json();
+      user.value = data;
+    })
+    .catch((error) => console.log("error", error));
 }
 
 const kategoriak = ref([
@@ -25,7 +79,6 @@ const kategoriak = ref([
   "Egyéb",
 ]);
 
-
 function getAllEvents() {
   fetch(`http://localhost:3300/event/getAll`).then(async (res) => {
     const data = await res.json();
@@ -36,6 +89,8 @@ function getAllEvents() {
 
 onMounted(() => {
   getAllEvents();
+  GetUserById();
+  getEvents();
 });
 </script>
 
@@ -48,10 +103,7 @@ onMounted(() => {
         id="accordionFlushExample"
         style=""
       >
-        <div
-          class="accordion-item"
-          style="margin-top: 10px;"
-        >
+        <div class="accordion-item" style="margin-top: 10px">
           <h2 class="accordion-header">
             <button
               class="accordion-button collapsed accordion-btn-icon"
@@ -68,43 +120,49 @@ onMounted(() => {
             class="accordion-collapse collapse"
             data-bs-parent="#accordionFlushExample"
           >
-            <div class="accordion-body filtergepes filtermobilos" >
-              <label style="margin-right: 10px;font-weight: bold;">Kategória:</label>
+            <div class="accordion-body filtergepes filtermobilos">
+              <label style="margin-right: 10px; font-weight: bold"
+                >Kategória:</label
+              >
               <select
                 class="form-control select2"
                 @change="handleCategoryChange"
-                style="margin-right: 70px;"
+                style="margin-right: 70px"
               >
-                <option value="Válassz" >Válassz</option>
+                <option value="Válassz">Válassz</option>
                 <option v-for="kategoria in kategoriak">
                   {{ kategoria }}
                 </option>
               </select>
-              
-              <label style="margin-right: 10px;font-weight: bold;">Dátum:</label>
+
+              <label style="margin-right: 10px; font-weight: bold"
+                >Dátum:</label
+              >
               <div class="form-group">
-        <input
-          type="date"
-          id="event-date"
-          required
-          @change=""
-        />
-      </div>
+                <input type="date" id="event-date" required @change="" />
+              </div>
             </div>
           </div>
-          <RouterLink class="button1" to="/MyEvent" aria-current="page" style="text-decoration: none; " >Saját Eseményeim</RouterLink>
+          <RouterLink
+            class="button1"
+            to="/MyEvent"
+            aria-current="page"
+            style="text-decoration: none"
+            >Saját Eseményeim</RouterLink
+          >
         </div>
       </div>
     </div>
   </div>
-  <div class="cards">
-    <div v-for="event in events">
-      <div
-        class="card"
-        v-if="event.kategoria == Selected || Selected == 'Válassz'"
-      >
-        <h1>{{ event.esemeny_nev }}</h1>
-        <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
+  <div class="cards" >
+  <div v-for="event in events">
+    <div
+      class="card"
+      v-if="event.kategoria == Selected || Selected == 'Válassz'"
+    >
+      <h1>{{ event.esemeny_nev }}</h1>
+      <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
+      <div class="fill">
         <RouterLink
           class="info-button"
           :to="'/information/' + event.id"
@@ -113,13 +171,39 @@ onMounted(() => {
           Információk
           <span class="info-icon"></span>
         </RouterLink>
+        <button
+          @click="EventDelete(event.id)"
+          v-if="user?.groupsNeve == 'Admin' || event.user == user.id"
+          class="csirke"
+        >
+          X
+        </button>
       </div>
     </div>
   </div>
+  </div> 
 </template>
 
 <style scoped>
+.fill {
+  display: flex;
+}
 
+.csirke {
+  background-color: #cc1104;
+  border-radius: 15px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  align-items: center;
+  gap: 5px;
+  width: 15%;
+  justify-content: center;
+  border: #ffffff 100px;
+  display: block;
+  margin-left: auto;
+}
 
 .button1:hover {
   background-color: #cc1104;
@@ -257,7 +341,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;
   }
-  .filtergepes{
+  .filtergepes {
     display: block;
   }
   .button1 {
@@ -273,10 +357,10 @@ body {
 }
 
 @media only screen and (min-width: 600px) {
-.filtergepes{
-  display: flex;
-  width: 800px;
-} 
+  .filtergepes {
+    display: flex;
+    width: 800px;
+  }
 
   .button1 {
     width: 100%;

@@ -71,7 +71,7 @@ export async function eventUpdate(id, esemeny_nev, leiras, helyszin, esemeny_dat
   });
 }
 
-export async function eventDelete() {
+export async function eventDelete(id) {
     await prisma.esemenyek.delete({
       where: {
         id: id,
