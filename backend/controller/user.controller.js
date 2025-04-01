@@ -11,6 +11,7 @@ import {
   Groups,
   getUsersById
 } from "../services/user.service.js";
+import { passwordReset } from "../services/emailsender.service.js";
 
 const router = express.Router();
 
@@ -39,6 +40,7 @@ router.post("/forgot-password", async (req, res) => {
   try {
     const user = await forgotPassword(email);
     res.status(200).json(user);
+    await passwordReset(email)
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
