@@ -8,6 +8,14 @@ const Selected = ref("Válassz");
 const user = ref();
 const szumo = ref();
 
+const loginmodal = ref();
+function loginmodalbe() {
+  if (loginmodal.value.style.cssText == "display: block;") {
+    loginmodal.value.style.display = "none";
+  } else {
+    loginmodal.value.style.display = "block";
+  }
+}
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
@@ -54,6 +62,7 @@ function getEvents() {
     .catch((error) => console.log("error", error));
 }
 
+
 function GetUserById() {
   fetch(
     `http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`,
@@ -89,6 +98,7 @@ function getAllEvents() {
 }
 
 onMounted(() => {
+  loginmodalbe();
   getAllEvents();
   GetUserById();
   getEvents();
@@ -97,6 +107,76 @@ onMounted(() => {
 
 <template>
   <Navbar />
+
+  <div class="modal" ref="loginmodal">
+        <form
+          class="modal-content animate"
+          method="post"
+          onSubmit="return checkPassword(this)"
+        >
+          <div class="imgcontainer">
+            <span @click="loginmodalbe()" class="close" title="Close Modal"
+              >&times;</span
+            >
+            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>Felhasználónév</b></label>
+            <input
+              type="text"
+              placeholder=" "
+              name="uname"
+              required
+            />
+
+            <label for="psw"><b>Jelszó</b></label>
+            <input
+              type="password"
+              placeholder=""
+              name="psw"
+              required
+            />
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              style="margin-top: 15px; width: 100%"
+              @click=""
+            >
+              Bejelentkezés
+            </button>
+
+            <span class="psw"
+              ><a style="text-decoration: underline; color: #0000EE; cursor: pointer;"
+                @click="
+                  loginmodalbe();
+                "
+              >
+                Elfelejtetted a jelszavadat?
+          </a></span
+            >
+          </div>
+
+          <div
+            class="container"
+            style=" 
+              background-color: #f1f1f1;
+              align-items: center;
+              align-content: center;
+            "
+          >
+            <span
+              @click="
+                loginmodalbe();
+              "
+              >Nincs fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Regisztráció</a></span
+            >
+          </div>
+        </form>
+      </div>
+
+
   <div class="container">
     <div class="row">
       <div
@@ -182,10 +262,13 @@ onMounted(() => {
       </div>
     </div>
   </div>
-  </div> 
+  </div>
 </template>
 
 <style scoped>
+
+
+
 .fill {
   display: flex;
 }
@@ -346,6 +429,8 @@ body {
     display: block;
   }
   .button1 {
+    padding: 8px 16px;
+    font-weight: bold;
     width: 100px;
     padding: 10px;
     background-color: #f44336;
@@ -364,14 +449,18 @@ body {
   }
 
   .button1 {
-    width: 100%;
     padding: 10px;
     background-color: #f44336;
     color: white;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    align-items: center;
+    width: 15%;
+    justify-content: center;
+    display: block;
+    margin-left: auto;
+    text-align: center;
   }
 }
 </style>
