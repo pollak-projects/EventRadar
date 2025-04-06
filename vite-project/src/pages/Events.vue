@@ -194,7 +194,7 @@ onMounted(() => {
               aria-expanded="false"
               aria-controls="flush-collapseOne"
               style="width: fit-content"
-            ></button>
+            ></button>  
           </h2>
           <div
             id="flush-collapseOne"
@@ -224,15 +224,17 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <RouterLink
+          
+        </div>
+      </div>
+      <RouterLink
             class="button1"
             to="/MyEvent"
             aria-current="page"
-            style="text-decoration: none"
+            style="text-decoration: none;margin-left: auto;text-align: center;margin-right: 15px;"
+            
             >Saját Eseményeim</RouterLink
           >
-        </div>
-      </div>
     </div>
   </div>
   <div class="cards" >
@@ -431,7 +433,7 @@ body {
   .button1 {
     padding: 8px 16px;
     font-weight: bold;
-    width: 100px;
+    width: 110px;
     padding: 10px;
     background-color: #f44336;
     color: white;

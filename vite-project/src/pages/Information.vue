@@ -146,7 +146,7 @@ onMounted(() => {
             Rózsa Péter {{ event.user }}
           </h4>
           <h4>Jelentkezési Limit: {{ szam }}</h4>
-          <button class="jelentkezes">Jelentkezés</button>
+          <button class="jelentkezes" style="width: 200px;">Jelentkezés</button>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@ onMounted(() => {
               src="/user.jpg"
               alt=""
             />
-            Rózsa Péter 
+            Rózsa Péter {{ event.user }}
           </h4>
 
           <button
