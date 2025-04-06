@@ -231,6 +231,7 @@ onMounted(() => {
           <RouterLink
             class="nav-link signinmobile"
             to="/Profile"
+            :class="{ active: route.name == 'Profile' }"
             aria-current="page"
             >Adataim</RouterLink
           >

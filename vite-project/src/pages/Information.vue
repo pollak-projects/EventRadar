@@ -94,6 +94,7 @@ function jelentkez() {
     })
     .catch((error) => console.log("Hiba:", error));
 }
+
 onMounted(() => {
   GetEvent();
 });
@@ -140,7 +141,7 @@ onMounted(() => {
                 object-position: center;
                 border-radius: 50%;
               "
-              src="/user.jpg"
+              
               alt=""
             />
             Rózsa Péter {{ event.user }}
@@ -193,7 +194,7 @@ onMounted(() => {
                 object-position: center;
                 border-radius: 50%;
               "
-              src="/user.jpg"
+              
               alt=""
             />
             Rózsa Péter {{ event.user }}
