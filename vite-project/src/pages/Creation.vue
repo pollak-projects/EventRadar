@@ -1,6 +1,6 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue"; // <--- watch-ot is importáljuk
 
 const fileInputVisible = ref(false);
 
@@ -20,13 +20,18 @@ const eventData = defineModel({
     vegeido: "",
     helyszin: "",
     selectedKategoria: ref(""),
-    kezdetido: "",
-    vegeido: "",
     leiras: "",
     maxfo: ""
   },
 });
 
+// ===== Itt figyeljük az eventData.maxfo-t =====
+watch(() => eventData.value.maxfo, (newVal) => {
+  if (newVal !== "" && Number(newVal) < 1) {
+    eventData.value.maxfo = 1;
+  }
+});
+// ===============================================
 
 function creation() {
   console.log(eventData.value);
@@ -112,7 +117,7 @@ const handleSubmit = () => {
 
       <div class="form-group">
         <label for="end-time">Max létszám</label>
-        <input type="number" id="end-time" v-model="eventData.maxfo" required />
+        <input type="number"  min="1" id="end-time" v-model="eventData.maxfo" required />
       </div>
 
       <div class="form-group">

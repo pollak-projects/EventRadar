@@ -7,6 +7,8 @@ const events = ref();
 const Selected = ref("Válassz");
 const user = ref();
 const szumo = ref();
+const loggedin = localStorage.getItem("userId")
+
 
 const loginmodal = ref();
 function loginmodalbe() {
@@ -98,7 +100,6 @@ function getAllEvents() {
 }
 
 onMounted(() => {
-  loginmodalbe();
   getAllEvents();
   GetUserById();
   getEvents();
@@ -108,74 +109,7 @@ onMounted(() => {
 <template>
   <Navbar />
 
-  <div class="modal" ref="loginmodal">
-        <form
-          class="modal-content animate"
-          method="post"
-          onSubmit="return checkPassword(this)"
-        >
-          <div class="imgcontainer">
-            <span @click="loginmodalbe()" class="close" title="Close Modal"
-              >&times;</span
-            >
-            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
-          </div>
-
-          <div class="container">
-            <label for="uname"><b>Felhasználónév</b></label>
-            <input
-              type="text"
-              placeholder=" "
-              name="uname"
-              required
-            />
-
-            <label for="psw"><b>Jelszó</b></label>
-            <input
-              type="password"
-              placeholder=""
-              name="psw"
-              required
-            />
-
-            <button
-              class="btn btn-primary"
-              type="button"
-              style="margin-top: 15px; width: 100%"
-              @click=""
-            >
-              Bejelentkezés
-            </button>
-
-            <span class="psw"
-              ><a style="text-decoration: underline; color: #0000EE; cursor: pointer;"
-                @click="
-                  loginmodalbe();
-                "
-              >
-                Elfelejtetted a jelszavadat?
-          </a></span
-            >
-          </div>
-
-          <div
-            class="container"
-            style=" 
-              background-color: #f1f1f1;
-              align-items: center;
-              align-content: center;
-            "
-          >
-            <span
-              @click="
-                loginmodalbe();
-              "
-              >Nincs fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Regisztráció</a></span
-            >
-          </div>
-        </form>
-      </div>
-
+  
 
   <div class="container">
     <div class="row">
@@ -256,7 +190,7 @@ onMounted(() => {
         </RouterLink>
         <button
           @click="EventDelete(event.id)"
-          v-if="user?.groupsNeve == 'Admin' || event.user == user.id"
+          v-if="user?.groupsNeve == 'Admin' || event?.user == user?.id && loggedin"
           class="csirke"
         >
           X

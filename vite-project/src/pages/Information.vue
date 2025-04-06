@@ -5,12 +5,46 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
 
+const userID = Number(localStorage.getItem("userId"))
 const events = ref();
 const route = useRoute();
 const szam = ref();
 const jelent = ref();
+let data = []
+
+
+const loggedin = localStorage.getItem("userId")
 
 const router = useRouter();
+
+function already() {
+  const user = loggedin; // például itt deklarálod
+  
+  fetch(`http://localhost:3300/user/already/${route.params.id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user }),
+  })
+  .then(async (res) => {
+    data = await res.json();
+    console.log(data[0]);
+    jelent.value = data.value;
+  })
+  .catch((err) => {
+    console.error('Fetch error:', err);
+  });
+}
+
+const loginmodal = ref();
+function loginmodalbe() {
+  if (loginmodal.value.style.cssText == "display: block;") {
+    loginmodal.value.style.display = "none";
+  } else {
+    loginmodal.value.style.display = "block";
+  }
+}
 
 function GetJelentkezes() {
   fetch(`http://localhost:3300/user/votes/${route.params.id}`, {
@@ -75,6 +109,8 @@ function jelentkez() {
 
   console.log("Küldött adatok:", { user_id, esemenyek_id });
 
+if(loggedin)
+{
   fetch("http://localhost:3300/user/jelentkez", {
     method: "POST",
     headers: {
@@ -94,7 +130,14 @@ function jelentkez() {
     })
     .catch((error) => console.log("Hiba:", error));
 }
+else 
+{
+  loginmodalbe();
+}
+}
+
 onMounted(() => {
+  already();
   GetEvent();
 });
 </script>
@@ -102,6 +145,79 @@ onMounted(() => {
 <template>
   <div class="hatter">
     <Navbar />
+
+
+
+    <div class="modal" ref="loginmodal">
+        <form
+          class="modal-content animate"
+          method="post"
+          onSubmit="return checkPassword(this)"
+        >
+          <div class="imgcontainer">
+            <span @click="loginmodalbe()" class="close" title="Close Modal"
+              >&times;</span
+            >
+            <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+          </div>
+
+          <div class="container">
+            <label for="uname"><b>Felhasználónév</b></label>
+            <input
+              type="text"
+              placeholder=" "
+              name="uname"
+              required
+            />
+
+            <label for="psw"><b>Jelszó</b></label>
+            <input
+              type="password"
+              placeholder=""
+              name="psw"
+              required
+            />
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              style="margin-top: 15px; width: 100%"
+              @click=""
+            >
+              Bejelentkezés
+            </button>
+
+            <span class="psw"
+              ><a style="text-decoration: underline; color: #0000EE; cursor: pointer;"
+                @click="
+                  loginmodalbe();
+                "
+              >
+                Elfelejtetted a jelszavadat?
+          </a></span
+            >
+          </div>
+
+          <div
+            class="container"
+            style=" 
+              background-color: #f1f1f1;
+              align-items: center;
+              align-content: center;
+            "
+          >
+            <span
+              @click="
+                loginmodalbe();
+              "
+              >Nincs fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Regisztráció</a></span
+            >
+          </div>
+        </form>
+      </div>
+
+
+
 
     <div class="mobil">
       <div class="keret">
@@ -201,9 +317,8 @@ onMounted(() => {
 
           <button
             @click="jelentkez()"
-            v-if="!szam == 0"
-            style="width: 300px; height: 80px"
-          >
+            v-if="!szam == 0 && event.user != userID && !data[0]"
+            style="width: 300px; height: 80px">
             Jelentkezés
           </button>
           <div
@@ -216,6 +331,12 @@ onMounted(() => {
               <p>Gratulálunk, sikeresen bejelentkeztél!</p>
             </div>
           </div>
+          <h3 v-if="data[0]">
+            Már jelentkeztél!
+          </h3>
+          <h3 v-if="event.user == userID">
+            Nem tudsz jelentkezni a saját eseményedre :D
+          </h3>
           <h3 v-if="szam == 0" style="width: 300px; height: 80px">
             Már nem lehet jelentkezni az eseményre!
           </h3>

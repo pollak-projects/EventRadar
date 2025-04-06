@@ -126,3 +126,13 @@ export async function esemenyUser(id)
     },
   });
 }
+
+export async function already(user, esemeny)
+{
+  return await prisma.user_esemenyek.findMany({
+    where: {
+      user_id: user,
+      esemenyek_id: esemeny,
+    },
+  });
+}
