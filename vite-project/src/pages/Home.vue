@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import { RouterLink } from "vue-router";
 import Navbar from "../components/Navbar.vue";
+
+const events = ref();
 var modal = document.getElementById("id01");
 
 window.onclick = function (event) {
@@ -56,6 +59,19 @@ function reviewSend() {
 const reviews = ref([]);
 
 function getAllEvents() {
+  fetch(`http://localhost:3300/event/getAll`).then(async (res) => {
+    const data = await res.json();
+    console.log(data);
+    events.value = data;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const futureEvents = data.filter(event => event.esemeny_date.split('T')[0] >= today);
+    const sortedEvents = futureEvents.sort((a, b) => new Date(a.esemeny_date) - new Date(b.esemeny_date));
+    events.value = sortedEvents.slice(0, 3);
+  });
+}
+
+function getAllReviews() {
   fetch(`http://localhost:3300/contact/getreview`).then(async (res) => {
     const data = await res.json();
     reviews.value = data;
@@ -64,6 +80,7 @@ function getAllEvents() {
 
 onMounted(() => {
   getAllEvents();
+  getAllReviews();
 });
 
 onMounted(() => {
@@ -90,31 +107,20 @@ onBeforeUnmount(() => {
   </div>
   <div class="slidecards telefonslide">
     <div id="carouselExample" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
+      <div class="carousel-inner" >
+        <div class="carousel-item active" v-for="event in events">
           <div class="event-card">
             <img src="/grinder.jpg" alt="kis tekerés" class="kep" />
-            <h3><i>kis tekerés</i></h3>
-            <p><b>2025.03.12</b></p>
-            <button>fasz</button>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="event-card">
-            <img src="/user.jpg" alt="kis tekerés" class="kep" />
-            <h3><i>kis majom</i></h3>
-
-            <p><b>2025.03.12</b></p>
-            <button>fasz</button>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="event-card">
-            <img src="/conecrt.jpg" alt="kis tekerés" class="kep" />
-            <h3><i>kis peti</i></h3>
-            <p>{{ truncateText(text, 80) }}</p>
-
-            <button>fasz</button>
+            <h3><i>{{ event.esemeny_nev }}</i></h3>
+            <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
+            <p><b>{{ truncateText(event.leiras, 80) }}</b></p>
+            <RouterLink
+          class="pirosgomb"
+          :to="'/information/' + event.id"
+          style="text-decoration: none"
+        >
+          Tovább
+        </RouterLink>
           </div>
         </div>
       </div>
@@ -165,25 +171,22 @@ onBeforeUnmount(() => {
     </div>
   </div>
   <div class="slidecards szamitoslide">
+    <div v-for="event in events">
     <div class="event-card">
       <img src="/grinder.jpg" alt="kis tekerés" class="kep" />
-      <h3><i>kis tekerés</i></h3>
-      <p><b>2025.03.12</b></p>
-      <button>fasz</button>
-    </div>
-    <div class="event-card">
-      <img src="/user.jpg" alt="kis tekerés" class="kep" />
-      <h3><i>kis majom</i></h3>
-      <p><b>2025.03.12</b></p>
-      <button>fasz</button>
-    </div>
-    <div class="event-card">
-      <img src="/conecrt.jpg" alt="kis tekerés" class="kep" />
-      <h3><i>kis peti</i></h3>
-      <p><b>2025.03.12</b></p>
-      <button>fasz</button>
+      <h3><i>{{ event.esemeny_nev }}</i></h3>
+      <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
+      <p><b>{{ truncateText(event.leiras, 80) }}</b></p>
+      <RouterLink
+          class="pirosgomb"
+          :to="'/information/' + event.id"
+          style="text-decoration: none"
+        >
+          Tovább
+        </RouterLink>
     </div>
   </div>
+</div>
 
   <div class="slider-container">
     <transition name="fade" mode="out-in">
@@ -221,7 +224,7 @@ onBeforeUnmount(() => {
           placeholder="Üzenet"
           required
         ></textarea>
-        <button type="button" @click="reviewSend()">
+        <button type="button" class="pirosgomb" @click="reviewSend()">
           Küldés
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -249,17 +252,12 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .felirat {
-
-
- 
   margin: auto;
-
   font-size: 55px;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.8s forwards;
   color: rgba(0, 0, 0, 0.719);
-
   margin: auto;
 }
 @media only screen and (max-width: 768px) {
@@ -371,7 +369,7 @@ onBeforeUnmount(() => {
 .contact-card textarea {
   min-height: 100px;
 }
-.contact-card button {
+.contact-card .pirosgomb {
   width: 100%;
   padding: 12px;
   background: #f44336;
@@ -383,7 +381,7 @@ onBeforeUnmount(() => {
   cursor: pointer;
   transition: background 0.3s;
 }
-.contact-card button:hover {
+.contact-card .pirosgomb:hover {
   background: #d32f2f;
 }
 .hero {
@@ -415,6 +413,9 @@ onBeforeUnmount(() => {
   overflow: hidden;
   max-width: 300px;
   text-align: center;
+  display: flex;
+  flex-direction: column; /* Flexbox-elrendezés */
+  justify-content: space-between; /* A tartalom terjedése között */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -440,7 +441,8 @@ onBeforeUnmount(() => {
   margin-bottom: 15px;
 }
 
-.event-card button {
+.event-card .pirosgomb {
+  align-self: center; /* A gomb középre igazítása */
   background: #ff5a5f;
   color: white;
   border: none;
@@ -449,12 +451,13 @@ onBeforeUnmount(() => {
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s;
-  margin-bottom: 15px;
+  margin-bottom: 15px; /* Távolság a kártya alsó szélétől */
 }
 
-.event-card button:hover {
+.event-card .pirosgomb:hover {
   background: #e0484d;
-}
+} 
+
 .kep {
   width: 100%;
 }

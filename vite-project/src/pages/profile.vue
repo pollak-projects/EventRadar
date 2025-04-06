@@ -89,7 +89,14 @@ function GetUser() {
       const data = await res.json();
       console.log(data);
       user.value = data;
+
+      if (!data.profileImage) {
+        imga.value = "/public/user2.jpg"; // Alapértelmezett kép elérési útja
+      } else {
+        imga.value = data.profileImage; // Egyébként használd a felhasználó profilképét
+      }
     })
+    
     .catch((error) => console.log("error", error));
 }
 
@@ -121,11 +128,11 @@ function formatDate(date) {
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
       <div
-        alt=""
-        id="prof-img"
-        @click="showFileDialog()"
-        :style="'background-image: url(' + imga + ');'"
-      ></div>
+  alt=""
+  id="prof-img"
+  @click="showFileDialog()"
+  :style="'background-image: url(' + (imga || 'public/user2.jpg') + ');'"
+></div>
       <div class="form-group">
         <label for="event-name">Név:</label>
         <input
