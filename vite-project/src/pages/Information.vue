@@ -34,7 +34,6 @@ function GetEvent() {
   })
     .then(async (res) => {
       const data = await res.json();
-      console.log(data);
       events.value = data;
       szam.value = events.value[0].foszam;
       console.log(data);
@@ -144,7 +143,7 @@ onMounted(() => {
               src="/user.jpg"
               alt=""
             />
-            Rózsa Péter
+            Rózsa Péter {{ event.user }}
           </h4>
           <h4>Jelentkezési Limit: {{ szam }}</h4>
           <button class="jelentkezes">Jelentkezés</button>
@@ -197,7 +196,7 @@ onMounted(() => {
               src="/user.jpg"
               alt=""
             />
-            Rózsa Péter
+            Rózsa Péter 
           </h4>
 
           <button
@@ -327,9 +326,9 @@ button:hover {
   }
 
   .kep {
-    height: 500px;
+    height: 400px;
     width: auto;
-    padding-left: 250px;
+    
   }
   button {
     width: 100%;
