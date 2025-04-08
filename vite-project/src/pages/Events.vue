@@ -277,6 +277,18 @@ onMounted(() => {
               Információk
               <span class="info-icon"></span>
             </RouterLink>
+            <RouterLink
+             style="margin-left: auto; text-decoration: none"
+              @click=""
+              v-if="
+                user?.groupsNeve == 'Admin' ||
+                (event?.user == user?.id && loggedin)
+              "
+              :to="'/Edit/' + event.id"
+              class="info-button"
+            >
+              Edit
+            </RouterLink> 
             <button
               @click="EventDelete(event.id)"
               v-if="
@@ -287,6 +299,7 @@ onMounted(() => {
             >
               X
             </button>
+           
           </div>
         </div>
       </div>
