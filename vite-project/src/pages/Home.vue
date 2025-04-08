@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
       <div class="carousel-inner" >
         <div class="carousel-item active" v-for="event in events">
           <div class="event-card">
-            <img src="/grinder.jpg" alt="kis tekerés" class="kep" />
+            <img src="/conecrt.jpg" alt="kis tekerés" class="kep" />
             <h3><i>{{ event.esemeny_nev }}</i></h3>
             <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
             <p><b>{{ truncateText(event.leiras, 80) }}</b></p>
@@ -173,7 +173,7 @@ onBeforeUnmount(() => {
   <div class="slidecards szamitoslide">
     <div v-for="event in events">
     <div class="event-card">
-      <img src="/grinder.jpg" alt="kis tekerés" class="kep" />
+      <img src="/conecrt.jpg"  class="kep" />
       <h3><i>{{ event.esemeny_nev }}</i></h3>
       <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
       <p><b>{{ truncateText(event.leiras, 80) }}</b></p>

@@ -2,4 +2,5 @@ model Eventcat{
     id Int @id @default(autoincrement())
     nev String @unique
     esemenyek_id Esemenyek[]
+    image Bytes? @db.LongBlob
 }
