@@ -9,7 +9,6 @@ const user = ref();
 const szumo = ref();
 const selectedDate = ref("");
 const applyFilters = ref(false); // Kezdetben nem alkalmazzuk a szűrést
-const loggedin = localStorage.getItem("userId");
 
 const loginmodal = ref();
 
@@ -271,7 +270,14 @@ onMounted(() => {
               !selectedDate))
         "
       >
-        <div class="card">
+        <div
+          class="card"
+          :style="
+            'background-image: url(' +
+            (event.Eventcat.image || 'public/user2.jpg') +
+            ');'
+          "
+        >
           <h1>{{ event.esemeny_nev }}</h1>
           <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
           <h6>{{ event.kategoria }}</h6>
@@ -284,18 +290,6 @@ onMounted(() => {
               Információk
               <span class="info-icon"></span>
             </RouterLink>
-            <RouterLink
-             style="margin-left: auto; text-decoration: none"
-              @click=""
-              v-if="
-                user?.groupsNeve == 'Admin' ||
-                (event?.user == user?.id && loggedin)
-              "
-              :to="'/Edit/' + event.id"
-              class="info-button"
-            >
-              Edit
-            </RouterLink> 
             <button
               @click="EventDelete(event.id)"
               v-if="
@@ -306,7 +300,6 @@ onMounted(() => {
             >
               X
             </button>
-           
           </div>
         </div>
       </div>
