@@ -262,7 +262,13 @@ onMounted(() => {
             Rózsa Péter {{ event.user }}
           </h4>
           <h4>Jelentkezési Limit: {{ szam }}</h4>
-          <button class="jelentkezes" style="width: 200px;">Jelentkezés</button>
+          <button class="jelentkezes" v-if="!szam == 0 && event.user != userID && !data[0]" style="width: 200px;">Jelentkezés</button>
+          <h3 v-if="event.user == userID">
+            Nem tudsz jelentkezni a saját eseményedre :D
+          </h3>
+          <h3 v-if="szam == 0" style="width: 300px; height: 80px">
+            Már nem lehet jelentkezni az eseményre!
+          </h3>
         </div>
       </div>
     </div>

@@ -7,20 +7,33 @@
     const loggedin = localStorage.getItem("userId");
     const user = ref();
 
+    const showDeleteModal = ref(false);
+    const eventToDelete = ref(null);
+
     function EventDelete(id) {
+     eventToDelete.value = id; 
+     showDeleteModal.value = true; 
+}
+
+function confirmDelete() {
   fetch(`http://localhost:3300/event/delete`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id: id,
+      id: eventToDelete.value,
     }),
   })
     .then(async (result) => {
-      alert("Siker");
+      showDeleteModal.value = false;
+      location.reload();
     })
     .catch((error) => console.log("Hiba:", error));
+}
+
+function cancelDelete() {
+  showDeleteModal.value = false; 
 }
 
     function getEvents() {
@@ -89,9 +102,88 @@ onMounted(() => {
       </div>
     </div>
   </div>
+    <div v-if="showDeleteModal" class="deleteEvent-modal">
+    <div class="modal-content">
+      <h2>Biztosan törölni szeretnéd ezt az eseményt?</h2>
+      <div class="modal-buttons">
+        <button @click="confirmDelete" class="confirm-btn">Igen</button>
+        <button @click="cancelDelete" class="cancel-btn">Nem</button>
+      </div>
+    </div>
+  </div>
 
 </template>
 <style scoped>
+.deleteEvent-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 10;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.deleteEvent-modal .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 300px;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+.deleteEvent-modal .modal-buttons {
+  margin-top: 20px;
+}
+
+.deleteEvent-modal .confirm-btn,
+.deleteEvent-modal .cancel-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.deleteEvent-modal .confirm-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.deleteEvent-modal .cancel-btn {
+  background-color: #dc3545; 
+  color: white;
+}
+
+.deleteEvent-modal .confirm-btn:hover,
+.deleteEvent-modal .cancel-btn:hover {
+  opacity: 0.8;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .deleteEvent-modal .modal-content {
+    width: 80%;
+  }
+}
+
 .csirke {
   background-color: #cc1104;
   border-radius: 15px;
