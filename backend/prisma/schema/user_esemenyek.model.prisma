@@ -2,7 +2,7 @@ model User_esemenyek {
     user_id Int
     user Users @relation(fields: [user_id], references: [id])
     esemenyek_id Int
-    esemenyek Esemenyek @relation(fields: [esemenyek_id], references: [id])
+    esemenyek Esemenyek @relation(fields: [esemenyek_id], references: [id], onDelete: Cascade)
     join_date DateTime
     @@id([user_id, esemenyek_id])
 }

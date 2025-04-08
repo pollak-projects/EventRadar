@@ -4,6 +4,24 @@
     import {ref, onMounted} from "vue"
 
     const events = ref();
+    const loggedin = localStorage.getItem("userId");
+    const user = ref();
+
+    function EventDelete(id) {
+  fetch(`http://localhost:3300/event/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id,
+    }),
+  })
+    .then(async (result) => {
+      alert("Siker");
+    })
+    .catch((error) => console.log("Hiba:", error));
+}
 
     function getEvents() {
         fetch(`http://localhost:3300/event/getEventCreate/${localStorage.getItem("userId")}`, {
@@ -20,7 +38,24 @@
         }
     
 
+        function GetUserById() {
+  fetch(
+    `http://localhost:3300/user/getUserById/${localStorage.getItem("userId")}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+    .then(async (res) => {
+      const data = await res.json();
+      user.value = data;
+    })
+    .catch((error) => console.log("error", error));
+}
 onMounted(() => {
+  GetUserById();
   getEvents();
 });
 </script>
@@ -41,13 +76,37 @@ onMounted(() => {
           Információk
           <span class="info-icon"></span>
         </RouterLink>
+        <button
+              @click="EventDelete(event.id)"
+              v-if="
+                user?.groupsNeve == 'Admin' ||
+                (event?.user == user?.id && loggedin)
+              "
+              class="csirke"
+            >
+              X
+            </button>
       </div>
     </div>
   </div>
 
 </template>
 <style scoped>
-
+.csirke {
+  background-color: #cc1104;
+  border-radius: 15px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  align-items: center;
+  gap: 5px;
+  width: 15%;
+  justify-content: center;
+  border: #ffffff 100px;
+  display: block;
+  margin-left: auto;
+}
 
 .button1:hover {
   background-color: #cc1104;

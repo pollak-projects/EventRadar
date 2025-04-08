@@ -7,8 +7,9 @@ const events = ref();
 const Selected = ref("Válassz");
 const user = ref();
 const szumo = ref();
-const selectedDate = ref('');
-const applyFilters = ref(false);  // Kezdetben nem alkalmazzuk a szűrést
+const selectedDate = ref("");
+const applyFilters = ref(false); // Kezdetben nem alkalmazzuk a szűrést
+const loggedin = localStorage.getItem("userId");
 
 const loginmodal = ref();
 
@@ -22,7 +23,7 @@ function loginmodalbe() {
 
 const handleCategoryChange = (event) => {
   console.log(event.target.value);
-  Selected.value = event.target.value;    
+  Selected.value = event.target.value;
 };
 
 function handleReset() {
@@ -114,11 +115,16 @@ onMounted(() => {
 <template>
   <Navbar />
 
-  
   <div class="modal" ref="loginmodal">
-    <form class="modal-content animate" method="post" onSubmit="return checkPassword(this)">
+    <form
+      class="modal-content animate"
+      method="post"
+      onSubmit="return checkPassword(this)"
+    >
       <div class="imgcontainer">
-        <span @click="loginmodalbe()" class="close" title="Close Modal">&times;</span>
+        <span @click="loginmodalbe()" class="close" title="Close Modal"
+          >&times;</span
+        >
         <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
       </div>
 
@@ -129,21 +135,38 @@ onMounted(() => {
         <label for="psw"><b>Jelszó</b></label>
         <input type="password" placeholder="" name="psw" required />
 
-        <button class="btn btn-primary" type="button" style="margin-top: 15px; width: 100%" @click="">
+        <button
+          class="btn btn-primary"
+          type="button"
+          style="margin-top: 15px; width: 100%"
+          @click=""
+        >
           Bejelentkezés
         </button>
 
         <span class="psw">
           <a
-            style="text-decoration: underline; color: #0000EE; cursor: pointer;"
+            style="text-decoration: underline; color: #0000ee; cursor: pointer"
             @click="loginmodalbe()"
             >Elfelejtetted a jelszavadat?</a
           >
         </span>
       </div>
 
-      <div class="container" style="background-color: #f1f1f1; align-items: center; align-content: center;">
-        <span @click="loginmodalbe()">Nincs fiókod? <a style="text-decoration: underline; color: #0000EE; cursor: pointer;">Regisztráció</a></span>
+      <div
+        class="container"
+        style="
+          background-color: #f1f1f1;
+          align-items: center;
+          align-content: center;
+        "
+      >
+        <span @click="loginmodalbe()"
+          >Nincs fiókod?
+          <a style="text-decoration: underline; color: #0000ee; cursor: pointer"
+            >Regisztráció</a
+          ></span
+        >
       </div>
     </form>
   </div>
@@ -161,41 +184,71 @@ onMounted(() => {
               aria-expanded="false"
               aria-controls="flush-collapseOne"
               style="width: fit-content"
-            ></button>  
+            ></button>
           </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionFlushExample"
+          >
             <div class="accordion-body filtergepes filtermobilos">
-              <label style="margin-right: 10px; font-weight: bold">Kategória:</label>
-              <select class="form-control select2" @change="handleCategoryChange" style="margin-right: 70px" v-model="Selected">
+              <label style="margin-right: 10px; font-weight: bold"
+                >Kategória:</label
+              >
+              <select
+                class="form-control select2"
+                @change="handleCategoryChange"
+                style="margin-right: 70px"
+                v-model="Selected"
+              >
                 <option value="Válassz">Válassz</option>
-                <option v-for="kategoria in kategoriak" :key="kategoria">{{ kategoria }}</option>
+                <option v-for="kategoria in kategoriak" :key="kategoria">
+                  {{ kategoria }}
+                </option>
               </select>
 
-              <label style="margin-right: 10px; font-weight: bold">Dátum:</label>
+              <label style="margin-right: 10px; font-weight: bold"
+                >Dátum:</label
+              >
               <div class="form-group">
                 <div>
-                  <input type="date" @change="handleDateChange" v-model="selectedDate" />
+                  <input
+                    type="date"
+                    @change="handleDateChange"
+                    v-model="selectedDate"
+                  />
                 </div>
               </div>
-              <button @click="applyFilters = true" class="btn btn-primary" style="margin-top: 15px; width: 100%">
-        Szűrés alkalmazása
-      </button>
+              <button
+                @click="applyFilters = true"
+                class="btn btn-primary"
+                style="margin-top: 15px; width: 100%"
+              >
+                Szűrés alkalmazása
+              </button>
 
-      <button @click="handleReset" class="btn btn-secondary" style="margin-top: 15px; width: 100%">
-        Szűrők visszaállítása
-      </button>
+              <button
+                @click="handleReset"
+                class="btn btn-secondary"
+                style="margin-top: 15px; width: 100%"
+              >
+                Szűrők visszaállítása
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      
-
       <RouterLink
         class="button1"
         to="/MyEvent"
         aria-current="page"
-        style="text-decoration: none;margin-left: auto;text-align: center;margin-right: 15px;"
+        style="
+          text-decoration: none;
+          margin-left: auto;
+          text-align: center;
+          margin-right: 15px;
+        "
       >
         Saját Eseményeim
       </RouterLink>
@@ -204,8 +257,14 @@ onMounted(() => {
   <div class="cards">
     <div v-for="event in events" :key="event.id">
       <!-- Szűrési logika: Kategória és dátum -->
-      <div v-if="!applyFilters || (event.kategoria === Selected || Selected === 'Válassz') && 
-                  (event.esemeny_date.split('T')[0] === selectedDate || !selectedDate)">
+      <div
+        v-if="
+          !applyFilters ||
+          ((event.kategoria === Selected || Selected === 'Válassz') &&
+            (event.esemeny_date.split('T')[0] === selectedDate ||
+              !selectedDate))
+        "
+      >
         <div class="card">
           <h1>{{ event.esemeny_nev }}</h1>
           <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
@@ -220,7 +279,10 @@ onMounted(() => {
             </RouterLink>
             <button
               @click="EventDelete(event.id)"
-              v-if="user?.groupsNeve == 'Admin' || event?.user == user?.id && loggedin"
+              v-if="
+                user?.groupsNeve == 'Admin' ||
+                (event?.user == user?.id && loggedin)
+              "
               class="csirke"
             >
               X
@@ -232,12 +294,7 @@ onMounted(() => {
   </div>
 </template>
 
-
-
 <style scoped>
-
-
-
 .fill {
   display: flex;
 }

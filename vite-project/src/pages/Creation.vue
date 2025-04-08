@@ -21,19 +21,25 @@ const eventData = defineModel({
     helyszin: "",
     selectedKategoria: ref(""),
     leiras: "",
-    maxfo: ""
+    maxfo: "",
   },
 });
 
 // ===== Itt figyeljük az eventData.maxfo-t =====
-watch(() => eventData.value.maxfo, (newVal) => {
-  if (newVal !== "" && Number(newVal) < 1) {
-    eventData.value.maxfo = 1;
+watch(
+  () => eventData.value.maxfo,
+  (newVal) => {
+    if (newVal !== "" && Number(newVal) < 1) {
+      eventData.value.maxfo = 1;
+    }
   }
-});
+);
 // ===============================================
 
 function creation() {
+  let foszam = eventData.value.maxfo;
+
+  console.log(foszam)
   console.log(eventData.value);
   fetch(`http://localhost:3300/event/create`, {
     method: "POST",
@@ -43,13 +49,13 @@ function creation() {
     body: JSON.stringify({
       user: Number(localStorage.getItem("userId")),
       esemeny_nev: eventData.value.esemeny_nev,
-      leiras : eventData.value.leiras,
+      leiras: eventData.value.leiras,
       helyszin: eventData.value.helyszin,
       esemeny_date: eventData.value.esemeny_date,
       kezdetido: eventData.value.kezdetido,
       vegeido: eventData.value.vegeido,
       kategoria: eventData.value.selectedKategoria.value,
-      foszam: eventData.value.maxfo
+      foszam: foszam,
     }),
   })
     .then(async (result) => {
@@ -78,7 +84,7 @@ const handleSubmit = () => {
   <Navbar />
   <br />
   <div class="event-form">
-    <h2 style="color:black;">Új esemény hozzáadása</h2>
+    <h2 style="color: black">Új esemény hozzáadása</h2>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="event-name">Esemény neve:</label>
@@ -117,7 +123,13 @@ const handleSubmit = () => {
 
       <div class="form-group">
         <label for="end-time">Max létszám</label>
-        <input type="number"  min="1" id="end-time" v-model="eventData.maxfo" required />
+        <input
+          type="number"
+          min="1"
+          id="end-time"
+          v-model="eventData.maxfo"
+          required
+        />
       </div>
 
       <div class="form-group">
@@ -130,15 +142,9 @@ const handleSubmit = () => {
         />
       </div>
 
-
       <div class="form-group">
         <label for="leiras">Leirás:</label>
-        <input
-          type="text"
-          id="leiras"
-          v-model="eventData.leiras"
-          required
-        />
+        <input type="text" id="leiras" v-model="eventData.leiras" required />
       </div>
 
       <div class="form-group">
@@ -157,10 +163,9 @@ const handleSubmit = () => {
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="image-upload" />
       </div>
-      <div style="text-align: center;">
-        <button type="button"  @click="creation()">Esemény mentése</button>
+      <div style="text-align: center">
+        <button type="button" @click="creation()">Esemény mentése</button>
       </div>
-
     </form>
   </div>
 </template>
@@ -172,7 +177,7 @@ const handleSubmit = () => {
   padding: 20px;
   background: url(/moderndik2.png);
   border-radius: 8px;
-  font-family: 'MonumentBold';
+  font-family: "MonumentBold";
   background-size: cover;
 }
 
@@ -216,5 +221,4 @@ button {
 button:hover {
   background-color: #cc1104;
 }
-
 </style>
