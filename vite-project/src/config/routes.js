@@ -36,8 +36,13 @@ const router = createRouter({
     {
       path: "/MyEvent",
       name: "MyEvent",
-      component: import("../pages/MyEvent.vue")
-    }
+      component: import("../pages/MyEvent.vue"),
+    },
+    {
+      path: "/Edit/:id",
+      name: "Edit",
+      component: import("../pages/Edit.vue"),
+    },
   ],
 });
 
