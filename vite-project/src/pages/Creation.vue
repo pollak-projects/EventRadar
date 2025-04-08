@@ -37,6 +37,18 @@ watch(
 // ===============================================
 
 function creation() {
+  if (
+    !eventData.value.esemeny_nev ||
+    !eventData.value.esemeny_date ||
+    !eventData.value.kezdetido ||
+    !eventData.value.vegeido ||
+    !eventData.value.helyszin ||
+    !eventData.value.selectedKategoria.value ||
+    !eventData.value.leiras
+  ) {
+    return;
+  }
+
   let foszam = eventData.value.maxfo;
 
   console.log(foszam)
@@ -59,8 +71,11 @@ function creation() {
     }),
   })
     .then(async (result) => {
-      alert("Siker");
-      location.reload();
+      document.getElementById("successModalCreation").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("successModalCreation").style.display = "none";
+          location.reload();
+        }, 2000);
     })
     .catch((error) => console.log("error", error));
 }
@@ -128,6 +143,7 @@ const handleSubmit = () => {
           min="1"
           id="end-time"
           v-model="eventData.maxfo"
+          placeholder="Opcionális"
           required
         />
       </div>
@@ -168,9 +184,95 @@ const handleSubmit = () => {
       </div>
     </form>
   </div>
+  <div id="successModalCreation" class="success-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Sikeresen létrehoztad az eseményt!</h2>
+        </div>
+      </div>
 </template>
 
 <style scoped>
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.success-modal .close {
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.success-modal .close:hover,
+.success-modal .close:focus {
+  color: #ddd;
+  text-decoration: none;
+}
+.success-modal .modal-content h2,
+.success-modal .modal-content p {
+  color: white;
+}
+
+@media only screen and (max-width: 768px) {
+  .success-modal {
+    margin-top: 0;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .success-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+  .success-modal .close {
+    font-size: 24px; 
+    position: absolute;
+    top: 5px; 
+    right: 10px; 
+  }
+}
+
 .event-form {
   max-width: 600px;
   margin: 0 auto;
