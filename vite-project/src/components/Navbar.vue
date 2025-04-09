@@ -150,13 +150,6 @@ function register() {
   }
 }
 
-fetch("http://localhost:3300/user/forgot-password", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({}),
-});
 
 onMounted(() => {
   GetUserById();
