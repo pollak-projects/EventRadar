@@ -29,13 +29,8 @@ router.put("/update", async (req, res) => {
     helyszin,
     esemeny_date,
     kezdetido,
-<<<<<<< Updated upstream
-    vegeido,
-    kategoria,
-=======
     hossz,
-    kategoria
->>>>>>> Stashed changes
+    kategoria,
   } = req.body;
   try {
     const event = await eventUpdate(
