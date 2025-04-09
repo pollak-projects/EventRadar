@@ -24,7 +24,10 @@ function Save() {
       reader.readAsDataURL(fileInput.files[0]);
     }
   } else {
-    alert("Nem támogatott fájl formátum.");
+    document.getElementById("failedModalInformation").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("failedModalInformation").style.display = "none";
+        }, 2000);
   }
 }
 
@@ -43,12 +46,17 @@ async function FileUpload(file) {
     })
       .then((response) => {
         if (response.ok) {
-          alert("Sikeres feltöltés");
+          document.getElementById("successModalInformation").style.display = "flex";
+          setTimeout(() => {
+          document.getElementById("successModalInformation").style.display = "none";
           resolve(response);
+          location.reload();
+          }, 2000);
+        
         } else {
           alert("Sikertelen feltöltés");
         }
-        location.reload();
+        
       })
       .catch((error) => console.error("Hiba kijelentkezés közben:", error));
   });
@@ -174,9 +182,153 @@ function formatDate(date) {
       <button type="submit" @click="Save">Változtatások mentése</button>
     </form>
   </div>
+  <div id="successModalInformation" class="success-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Változtatások mentve!</h2>
+        </div>
+      </div>
+  <div id="failedModalInformation" class="failed-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Nem támogatott fájl formátum!</h2>
+        </div>
+      </div>
 </template>
 
 <style scoped>
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.success-modal .close {
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.success-modal .close:hover,
+.success-modal .close:focus {
+  color: #ddd;
+  text-decoration: none;
+}
+.success-modal .modal-content h2,
+.success-modal .modal-content p {
+  color: white;
+}
+
+.failed-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.failed-modal .modal-content {
+  background-color: #df1919;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.failed-modal .modal-content h2,
+.failed-modal .modal-content p {
+  color: white;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .success-modal {
+    margin-top: 0;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .success-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+
+  .failed-modal {
+    margin-top: 0;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .failed-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+}
+
 #prof-img {
   width: 150px;
   height: 150px;
