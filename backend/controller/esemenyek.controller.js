@@ -30,7 +30,7 @@ router.put("/update", async (req, res) => {
     esemeny_date,
     kezdetido,
     hossz,
-    kategoria,
+    kategoria
   } = req.body;
   try {
     const event = await eventUpdate(
