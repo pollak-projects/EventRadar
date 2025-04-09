@@ -10,7 +10,7 @@ export async function CreateEvent(
   helyszin,
   esemeny_date,
   kezdetido,
-  vegeido,
+  hossz,
   kategoria,
   foszam
 ) {
@@ -27,10 +27,7 @@ export async function CreateEvent(
         hours: String(kezdetido).split(":")[0],
         minutes: String(kezdetido).split(":")[1],
       }),
-      vegeido: set(new Date(), {
-        hours: String(vegeido).split(":")[0],
-        minutes: String(vegeido).split(":")[1],
-      }),
+      hossz: hossz,
       kategoria: kategoria,
       foszam: foszam,
     },
@@ -61,7 +58,18 @@ export async function getAllEventById(id) {
     where: {
       id: id,
     },
+    include: {
+      user_id: true,
+    },
   });
+
+  let buffer = Buffer.from(data[0].user_id.profilkep);
+  const base64 = buffer.toString("base64");
+
+  const profilkep =
+    "data:image/png" + ";base64," + base64.slice(base64.indexOf("base64") + 6);
+
+  data[0].user_id.profilkep = profilkep;
   return data;
 }
 
@@ -86,10 +94,7 @@ export async function eventUpdate(
         hours: kezdetido.split(":")[0],
         minutes: kezdetido.split(":")[1],
       }),
-      vegeido: set(new Date(), {
-        hours: vegeido.split(":")[0],
-        minutes: vegeido.split(":")[1],
-      }),
+      hossz: hossz,
       kategoria: kategoria,
     },
   });

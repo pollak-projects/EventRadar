@@ -56,6 +56,8 @@ router.put("/update", async (req, res) => {
   }
 });
 
+
+
 router.delete("/delete", async (req, res) => {
   const { id } = req.body;
   try {
@@ -76,9 +78,9 @@ router.get("/getGroups", async (req, res) => {
 });
 
 router.post("/postImages", async (req, res) => {
-  const { file } = req.body;
+  const { file, id } = req.body;
   console.log(file);
-  const data = await imageSaveToDB(file);
+  const data = await imageSaveToDB(file, id);
   res.status(200).json(data);
 });
 

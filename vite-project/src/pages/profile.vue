@@ -9,6 +9,9 @@ const rawImg = ref();
 const imgs = ref();
 const reader = new FileReader();
 const imga = ref();
+const email = ref("");
+const username = ref("");
+const id = ref();
 
 function Save() {
   const fileInput = imgs.value;
@@ -42,6 +45,7 @@ async function FileUpload(file) {
       credentials: "include",
       body: JSON.stringify({
         file: file,
+        id: Number(localStorage.getItem("userId")),
       }),
     })
       .then((response) => {
@@ -95,16 +99,42 @@ function GetUser() {
   )
     .then(async (res) => {
       const data = await res.json();
-      console.log(data);
       user.value = data;
+      id.value = user.value.id;
+      username.value = user.value.username;
+      email.value = user.value.email;
 
-      if (!data.profileImage) {
+      if (!data.profilkep) {
         imga.value = "/public/user2.jpg"; // Alapértelmezett kép elérési útja
       } else {
-        imga.value = data.profileImage; // Egyébként használd a felhasználó profilképét
+        imga.value = data.profilkep; // Egyébként használd a felhasználó profilképét
       }
     })
-    
+
+    .catch((error) => console.log("error", error));
+}
+
+function UpdateUser() {
+  const fileInput = imgs.value;
+  if (fileInput && fileInput.files[0]) Save();
+
+  fetch(`http://localhost:3300/user/update/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id.value,
+      email: email.value,
+      username: username.value,
+    }),
+  })
+    .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+      user.value = data;
+    })
+
     .catch((error) => console.log("error", error));
 }
 
@@ -115,18 +145,16 @@ function showFileDialog() {
 onMounted(async () => {
   GetUser();
   imga.value = await GetTaskThree(1);
-  console.log(imga.value);
+  console.log(user.value);
 });
 
 function formatDate(date) {
   const d = new Date(date);
   const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0'); 
-  const day = String(d.getDate()).padStart(2, '0'); 
-  return `${year}-${month}-${day}`;  
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
-
-
 </script>
 
 <template>
@@ -136,50 +164,26 @@ function formatDate(date) {
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
       <div
-  alt=""
-  id="prof-img"
-  @click="showFileDialog()"
-  :style="'background-image: url(' + (imga || 'public/user2.jpg') + ');'"
-></div>
+        alt=""
+        id="prof-img"
+        @click="showFileDialog()"
+        :style="'background-image: url(' + imga + ');'"
+      ></div>
       <div class="form-group">
         <label for="event-name">Név:</label>
-        <input
-          type="text"
-          id="event-name"
-          :value="user?.username"
-          required
-          disabled
-        />
+        <input type="text" id="event-name" v-model="username" required />
       </div>
 
       <div class="form-group">
         <label for="location">Email cím:</label>
-        <input
-          type="text"
-          id="location"
-          :value="user?.email"
-          disabled
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="event-date">Regisztráció dátuma:</label>
-        <input
-          type="date"
-          id="event-date"
-          :value="formatDate(user?.create_date)"
-          disabled
-          required
-        />
+        <input type="text" id="location" v-model="email" required />
       </div>
 
       <div class="form-group" style="display: none">
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="file" accept="image/jpeg" ref="imgs" />
       </div>
-
-      <button type="submit" @click="Save">Változtatások mentése</button>
+      <button type="submit" @click="UpdateUser">Változások</button>
     </form>
   </div>
   <div id="successModalInformation" class="success-modal" style="display: none">
@@ -341,7 +345,7 @@ function formatDate(date) {
   background-size: cover;
   background-repeat: no-repeat;
 }
-#prof-img:hover::before{
+#prof-img:hover::before {
   content: "Kép csere";
   position: relative;
   font-size: larger;
