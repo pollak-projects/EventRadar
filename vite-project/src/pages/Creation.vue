@@ -37,6 +37,7 @@ watch(
 // ===============================================
 
 function creation() {
+
   if (
     !eventData.value.esemeny_nev ||
     !eventData.value.esemeny_date ||
@@ -50,6 +51,11 @@ function creation() {
   }
 
   let foszam = eventData.value.maxfo;
+ 
+  if(foszam == "")
+  {
+    foszam = null  
+  }
 
   console.log(foszam)
   console.log(eventData.value);
