@@ -179,7 +179,7 @@ onMounted(() => {
   <div class="container">
     <div class="row">
       <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item" style="margin-top: 10px">
+        <div class="accordion-item" style="margin-top: 10px; ">
           <h2 class="accordion-header">
             <button
               class="accordion-button collapsed accordion-btn-icon"
@@ -195,7 +195,18 @@ onMounted(() => {
             id="flush-collapseOne"
             class="accordion-collapse collapse"
             data-bs-parent="#accordionFlushExample"
+            style="border-bottom: 1px solid gray;margin-bottom: 10px;"
           >
+            <button
+              @click="handleReset"
+              class="btn"
+              role="button"
+              data-bs-toggle="button"
+              id="filterReset"
+              style="margin-left: auto"
+            >
+              <img src="/filter-remove.png" style="width: 20px" alt="" />
+            </button>
             <div class="accordion-body filtergepes filtermobilos">
               <label style="margin-right: 10px; font-weight: bold"
                 >Kategória:</label
@@ -218,6 +229,7 @@ onMounted(() => {
               <div class="form-group">
                 <div>
                   <input
+                  class="form-control"
                     type="date"
                     @change="handleDateChange"
                     v-model="selectedDate"
@@ -226,18 +238,13 @@ onMounted(() => {
               </div>
               <button
                 @click="applyFilters = true"
-                class="btn btn-primary"
-                style="margin-top: 15px; width: 100%"
+                class="btn"
+                role="button"
+                data-bs-toggle="button"
+                id="filterReset"
+                style="margin-left: auto; transform: translateX(20px)"
               >
-                Szűrés alkalmazása
-              </button>
-
-              <button
-                @click="handleReset"
-                class="btn btn-secondary"
-                style="margin-top: 15px; width: 100%"
-              >
-                Szűrők visszaállítása
+                <img src="/check-lg.svg" style="height: 25px" />
               </button>
             </div>
           </div>
@@ -280,7 +287,6 @@ onMounted(() => {
         >
           <h1>{{ event.esemeny_nev }}</h1>
           <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
-          <h6>{{ event.kategoria }}</h6>
           <div class="fill">
             <RouterLink
               class="info-button"
@@ -308,6 +314,17 @@ onMounted(() => {
 </template>
 
 <style scoped>
+#filterReset {
+  border: none !important;
+  outline: 0;
+  margin-left: auto; /* Ez biztosítja, hogy a gomb a jobb oldalra kerüljön */
+  display: block; /* A gomb egy blokk szintű elem legyen */
+}
+#filterReset:active,
+#filterReset:focus-visible {
+  border: none !important;
+  outline: 0;
+}
 .fill {
   display: flex;
 }
@@ -485,6 +502,8 @@ body {
   .filtergepes {
     display: flex;
     width: 800px;
+    align-items: center;
+        flex-direction: row;
   }
 
   .button1 {

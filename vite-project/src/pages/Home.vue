@@ -37,6 +37,14 @@ const reviewData = defineModel({
 });
 
 function reviewSend() {
+  if(
+    !reviewData.value.nev ||
+    !reviewData.value.email ||
+    !reviewData.value.uzenet
+  ) {
+    return;
+  }
+
   console.log(reviewData.value);
   fetch(`http://localhost:3300/contact/reviewsend`, {
     method: "POST",
@@ -50,8 +58,11 @@ function reviewSend() {
     }),
   })
     .then(async (result) => {
-      alert("Siker");
-      location.reload();
+      document.getElementById("successModalContact").style.display = "flex";
+          setTimeout(() => {
+          document.getElementById("successModalContact").style.display = "none";
+          location.reload();
+          }, 2000);
     })
     .catch((error) => console.log("error", error));
 }
@@ -110,7 +121,7 @@ onBeforeUnmount(() => {
       <div class="carousel-inner" >
         <div class="carousel-item active" v-for="event in events">
           <div class="event-card">
-            <img src="/conecrt.jpg" alt="kis tekerés" class="kep" />
+            <img :src="event.Eventcat.image" class="kep" />
             <h3><i>{{ event.esemeny_nev }}</i></h3>
             <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
             <p><b>{{ truncateText(event.leiras, 80) }}</b></p>
@@ -173,7 +184,7 @@ onBeforeUnmount(() => {
   <div class="slidecards szamitoslide">
     <div v-for="event in events">
     <div class="event-card">
-      <img src="/conecrt.jpg"  class="kep" />
+      <img :src="event.Eventcat.image"  class="kep" />
       <h3><i>{{ event.esemeny_nev }}</i></h3>
       <p><b>{{ event.esemeny_date.split("T")[0] }}</b></p>
       <p><b>{{ truncateText(event.leiras, 80) }}</b></p>
@@ -242,6 +253,11 @@ onBeforeUnmount(() => {
       </form>
     </div>
   </div>
+    <div id="successModalContact" class="success-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Üzenet elküldve!</h2>
+        </div>
+      </div>
 
   <footer
     class="d-flex flex-wrap justify-content-between align-items-center p-3 my-4 border-top"
@@ -251,6 +267,48 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.success-modal .modal-content h2,
+.success-modal .modal-content p {
+  color: white;
+}
+
 .felirat {
   margin: auto;
   font-size: 55px;
@@ -261,6 +319,21 @@ onBeforeUnmount(() => {
   margin: auto;
 }
 @media only screen and (max-width: 768px) {
+  .success-modal {
+    margin-top: 50;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .success-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+  
   .felirat {
     font-size: 34px;
     width: 100%;

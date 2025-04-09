@@ -14,7 +14,7 @@ export async function listAllGroup() {
 }
 
 export async function addGroup(neve) {
-  await prisma.groups
+  const data = await prisma.groups
     .create({
       data: {
         neve: neve,
@@ -24,6 +24,8 @@ export async function addGroup(neve) {
       console.error(err);
       throw new Error();
     });
+
+  return data;
 }
 
 export async function deleteGroup(neve) {

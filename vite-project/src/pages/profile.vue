@@ -9,6 +9,9 @@ const rawImg = ref();
 const imgs = ref();
 const reader = new FileReader();
 const imga = ref();
+const email = ref("");
+const username = ref("");
+const id = ref();
 
 function Save() {
   const fileInput = imgs.value;
@@ -24,7 +27,10 @@ function Save() {
       reader.readAsDataURL(fileInput.files[0]);
     }
   } else {
-    alert("Nem támogatott fájl formátum.");
+    document.getElementById("failedModalInformation").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("failedModalInformation").style.display = "none";
+        }, 2000);
   }
 }
 
@@ -39,16 +45,22 @@ async function FileUpload(file) {
       credentials: "include",
       body: JSON.stringify({
         file: file,
+        id: Number(localStorage.getItem("userId")),
       }),
     })
       .then((response) => {
         if (response.ok) {
-          alert("Sikeres feltöltés");
+          document.getElementById("successModalInformation").style.display = "flex";
+          setTimeout(() => {
+          document.getElementById("successModalInformation").style.display = "none";
           resolve(response);
+          location.reload();
+          }, 2000);
+        
         } else {
           alert("Sikertelen feltöltés");
         }
-        location.reload();
+        
       })
       .catch((error) => console.error("Hiba kijelentkezés közben:", error));
   });
@@ -87,16 +99,42 @@ function GetUser() {
   )
     .then(async (res) => {
       const data = await res.json();
-      console.log(data);
       user.value = data;
+      id.value = user.value.id;
+      username.value = user.value.username;
+      email.value = user.value.email;
 
-      if (!data.profileImage) {
+      if (!data.profilkep) {
         imga.value = "/public/user2.jpg"; // Alapértelmezett kép elérési útja
       } else {
-        imga.value = data.profileImage; // Egyébként használd a felhasználó profilképét
+        imga.value = data.profilkep; // Egyébként használd a felhasználó profilképét
       }
     })
-    
+
+    .catch((error) => console.log("error", error));
+}
+
+function UpdateUser() {
+  const fileInput = imgs.value;
+  if (fileInput && fileInput.files[0]) Save();
+
+  fetch(`http://localhost:3300/user/update/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id.value,
+      email: email.value,
+      username: username.value,
+    }),
+  })
+    .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+      user.value = data;
+    })
+
     .catch((error) => console.log("error", error));
 }
 
@@ -107,18 +145,16 @@ function showFileDialog() {
 onMounted(async () => {
   GetUser();
   imga.value = await GetTaskThree(1);
-  console.log(imga.value);
+  console.log(user.value);
 });
 
 function formatDate(date) {
   const d = new Date(date);
   const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0'); 
-  const day = String(d.getDate()).padStart(2, '0'); 
-  return `${year}-${month}-${day}`;  
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
-
-
 </script>
 
 <template>
@@ -128,55 +164,175 @@ function formatDate(date) {
     <h2>Profil adatai</h2>
     <form @submit.prevent="handleSubmit">
       <div
-  alt=""
-  id="prof-img"
-  @click="showFileDialog()"
-  :style="'background-image: url(' + (imga || 'public/user2.jpg') + ');'"
-></div>
+        alt=""
+        id="prof-img"
+        @click="showFileDialog()"
+        :style="'background-image: url(' + imga + ');'"
+      ></div>
       <div class="form-group">
         <label for="event-name">Név:</label>
-        <input
-          type="text"
-          id="event-name"
-          :value="user?.username"
-          required
-          disabled
-        />
+        <input type="text" id="event-name" v-model="username" required />
       </div>
 
       <div class="form-group">
         <label for="location">Email cím:</label>
-        <input
-          type="text"
-          id="location"
-          :value="user?.email"
-          disabled
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="event-date">Regisztráció dátuma:</label>
-        <input
-          type="date"
-          id="event-date"
-          :value="formatDate(user?.create_date)"
-          disabled
-          required
-        />
+        <input type="text" id="location" v-model="email" required />
       </div>
 
       <div class="form-group" style="display: none">
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="file" accept="image/jpeg" ref="imgs" />
       </div>
-
-      <button type="submit" @click="Save">Változtatások mentése</button>
+      <button type="submit" @click="UpdateUser">Változások</button>
     </form>
   </div>
+  <div id="successModalInformation" class="success-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Változtatások mentve!</h2>
+        </div>
+      </div>
+  <div id="failedModalInformation" class="failed-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Nem támogatott fájl formátum!</h2>
+        </div>
+      </div>
 </template>
 
 <style scoped>
+.success-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-modal .modal-content {
+  background-color: #28a745;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.success-modal .close {
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.success-modal .close:hover,
+.success-modal .close:focus {
+  color: #ddd;
+  text-decoration: none;
+}
+.success-modal .modal-content h2,
+.success-modal .modal-content p {
+  color: white;
+}
+
+.failed-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.failed-modal .modal-content {
+  background-color: #df1919;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+}
+
+.failed-modal .modal-content h2,
+.failed-modal .modal-content p {
+  color: white;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .success-modal {
+    margin-top: 0;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .success-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+
+  .failed-modal {
+    margin-top: 0;
+    align-items: flex-start;
+    padding: 10px; 
+  }
+
+  .failed-modal .modal-content {
+    width: 90%; 
+    max-width: 350px; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    text-align: center;
+  }
+
+}
+
 #prof-img {
   width: 150px;
   height: 150px;
@@ -189,7 +345,7 @@ function formatDate(date) {
   background-size: cover;
   background-repeat: no-repeat;
 }
-#prof-img:hover::before{
+#prof-img:hover::before {
   content: "Kép csere";
   position: relative;
   font-size: larger;

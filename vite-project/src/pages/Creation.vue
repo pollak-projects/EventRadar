@@ -17,7 +17,7 @@ const eventData = defineModel({
     esemeny_nev: "",
     esemeny_date: "",
     kezdetido: "",
-    vegeido: "",
+    hossz: "",
     helyszin: "",
     selectedKategoria: ref(""),
     leiras: "",
@@ -42,7 +42,7 @@ function creation() {
     !eventData.value.esemeny_nev ||
     !eventData.value.esemeny_date ||
     !eventData.value.kezdetido ||
-    !eventData.value.vegeido ||
+    !eventData.value.hossz ||
     !eventData.value.helyszin ||
     !eventData.value.selectedKategoria.value ||
     !eventData.value.leiras
@@ -71,7 +71,7 @@ function creation() {
       helyszin: eventData.value.helyszin,
       esemeny_date: eventData.value.esemeny_date,
       kezdetido: eventData.value.kezdetido,
-      vegeido: eventData.value.vegeido,
+      hossz: eventData.value.hossz,
       kategoria: eventData.value.selectedKategoria.value,
       foszam: foszam,
     }),
@@ -138,8 +138,8 @@ const handleSubmit = () => {
       </div>
 
       <div class="form-group">
-        <label for="end-time">Óra (befejezés):</label>
-        <input type="time" id="end-time" v-model="eventData.vegeido" required />
+        <label for="end-time">Esemény becsült hossza óraban:</label>
+        <input type="number" id="end-time" v-model="eventData.hossz" required />
       </div>
 
       <div class="form-group">

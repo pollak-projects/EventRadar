@@ -18,7 +18,22 @@ export async function getUsersById(id) {
       id: id,
     },
   });
+
+  let buffer = Buffer.from(data.profilkep);
+  const base64 = buffer.toString("base64");
+
+  console.log(base64.slice(base64.indexOf("base64")));
+  const profilkep =
+    "data:image/png" + ";base64," + base64.slice(base64.indexOf("base64") + 6);
+
+  data.profilkep = profilkep;
+
   return data;
+}
+
+
+export async function upadtePassword(params) {
+  
 }
 
 export async function forgotPassword(id) {
@@ -90,13 +105,13 @@ export async function imageGetFromDB(kapottTipus) {
   return profilkep;
 }
 
-export async function imageSaveToDB(image) {
+export async function imageSaveToDB(image, id) {
   const imageBlob = Buffer.from(image, "base64");
   console.log(imageBlob);
   try {
     const result = await prisma.users.update({
       where: {
-        id: 2,
+        id: id,
       },
       data: {
         profilkep: imageBlob,
@@ -111,15 +126,14 @@ export async function imageSaveToDB(image) {
 export async function jelentkezes(user_id, esemenyek_id) {
   await prisma.user_esemenyek.create({
     data: {
-      user_id : user_id,
+      user_id: user_id,
       esemenyek_id: esemenyek_id,
-      join_date: new Date()
-    }
-  })
+      join_date: new Date(),
+    },
+  });
 }
 
-export async function esemenyUser(id)
-{
+export async function esemenyUser(id) {
   return await prisma.user_esemenyek.findMany({
     where: {
       esemenyek_id: id,
@@ -127,8 +141,7 @@ export async function esemenyUser(id)
   });
 }
 
-export async function already(user, esemeny)
-{
+export async function already(user, esemeny) {
   return await prisma.user_esemenyek.findMany({
     where: {
       user_id: user,
