@@ -30,7 +30,7 @@ router.put("/update", async (req, res) => {
     esemeny_date,
     kezdetido,
     vegeido,
-    kategoria
+    kategoria,
   } = req.body;
   try {
     const event = await eventUpdate(
@@ -60,7 +60,7 @@ router.post("/create", async (req, res) => {
       kezdetido,
       vegeido,
       kategoria,
-      foszam
+      foszam,
     } = req.body;
     const event = await CreateEvent(
       user,
@@ -100,15 +100,14 @@ router.get(`/getId/:id`, async (req, res) => {
   }
 });
 
-
 router.get(`/getEventCreate/:id`, async (req, res) => {
   const user = Number(req.params.id);
   try {
     const event = await getEventByCreate(user);
-    res.status(200).json(event)
+    res.status(200).json(event);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
-})
+});
 
 export { router as esemenyekController };

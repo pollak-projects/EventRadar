@@ -15,7 +15,7 @@ export async function CreateEvent(
   foszam
 ) {
   console.log(esemeny_date);
-  await prisma.esemenyek.create({
+  return await prisma.esemenyek.create({
     data: {
       user: user_id,
       esemeny_nev: esemeny_nev,
