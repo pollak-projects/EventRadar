@@ -167,4 +167,17 @@ router.post(`/already/:id`, async (req, res) => {
 })
 
 
+router.put(`/passwordChange/:id`, async (req, res) => {
+  const { password, passwordReset1, passwordReset2 } = req.body;
+  const user_id = Number(req.params.id)
+  try{
+    const data = await passwordReset(user_id, password, passwordReset1, passwordReset2)
+    res.status(201).json(data)
+  }
+  catch(error) {
+    res.status(400).json({message:error.message})
+  }
+})
+
+
 export { router as userController };
