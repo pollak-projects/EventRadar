@@ -78,7 +78,10 @@ export async function eventUpdate(
   esemeny_nev,
   leiras,
   helyszin,
-  esemeny_date
+  esemeny_date,
+  kezdetido,
+  hossz,
+  kategoria
 ) {
   await prisma.esemenyek.update({
     where: {

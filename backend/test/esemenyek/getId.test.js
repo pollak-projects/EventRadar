@@ -2,7 +2,7 @@
  import app from "../../index.js";
 
  test("GET esemenyek/getId should pass", async () => {
-    const id =  1;
+    const id =  2;
    const response = await request(app).get(`/event/getId/${id}`);
    expect(response.status).toBe(200);
  });

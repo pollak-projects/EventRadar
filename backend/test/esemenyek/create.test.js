@@ -14,7 +14,8 @@ test("POST esemenyek/create should pass", async () => {
     vegeido: "12:00",
     kategoria: "Koncert",
     foszam: 10,
-    user: 2
+    user: 2,
+    hossz: 3
   });
 
   if (foundEsemeny.body.length > 0) {

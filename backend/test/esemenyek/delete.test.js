@@ -18,10 +18,10 @@ test("DELETE esemenyek/delete should pass", async () => {
       helyszin: "teszt",
       esemeny_date: "2025-03-19",
       kezdetido: "10:00",
-      vegeido: "12:00",
       kategoria: "Koncert",
       user: 2,
       foszam: 10,
+      hossz: 3,
     });
 
     expect(addedesemenyek.status).toBe(201);

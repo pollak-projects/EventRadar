@@ -8,10 +8,10 @@ test("PUT esemenyek/update should pass", async () => {
     helyszin: "teszt",
     esemeny_date: "2025-03-19",
     kezdetido: "10:00",
-    vegeido: "12:00",
     kategoria: "Koncert",
     user: 2,
     foszam: 10,
+    hossz: 3,
   });
 
   const response = await request(app).put("/event/update").send({
@@ -21,8 +21,8 @@ test("PUT esemenyek/update should pass", async () => {
     helyszin: "teszt",
     esemeny_date: "2025-03-20",
     kezdetido: "13:00",
-    vegeido: "16:00",
     kategoria: "Színház",
+    hossz: 4,
   });
 
   console.log(response.body)
