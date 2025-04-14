@@ -63,13 +63,19 @@ export async function getAllEventById(id) {
     },
   });
 
-  let buffer = Buffer.from(data[0].user_id.profilkep);
-  const base64 = buffer.toString("base64");
+  try {
+    let buffer = Buffer.from(data[0].user_id.profilkep);
+    const base64 = buffer.toString("base64");
 
-  const profilkep =
-    "data:image/png" + ";base64," + base64.slice(base64.indexOf("base64") + 6);
+    const profilkep =
+      "data:image/png" +
+      ";base64," +
+      base64.slice(base64.indexOf("base64") + 6);
 
-  data[0].user_id.profilkep = profilkep;
+    data[0].user_id.profilkep = profilkep;
+  } catch (err) {
+    data[0].user_id.profilkep = null;
+  }
   return data;
 }
 

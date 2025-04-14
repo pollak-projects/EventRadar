@@ -4,6 +4,7 @@ import { RouterLink } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
+import { json } from "express";
 
 const rawImg = ref();
 const imgs = ref();
@@ -114,6 +115,33 @@ function GetUser() {
     .catch((error) => console.log("error", error));
 }
 
+const password = ref();
+const passwordUpdate1 = ref();
+const passwordUpdate2 = ref();
+
+function passwordUpdate() {
+  fetch(
+    `http://localhost:3300/user/passwordChange/${localStorage.getItem("userId")}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify ({
+        password: password,
+        passwordUpdate1: passwordUpdate1,
+        passwordUpdate2: passwordUpdate2
+      }),
+    }
+  )
+    .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+    })
+
+    .catch((error) => console.log("error", error));
+}
+
 function UpdateUser() {
   const fileInput = imgs.value;
   if (fileInput && fileInput.files[0]) Save();
@@ -143,6 +171,7 @@ function showFileDialog() {
 }
 
 onMounted(async () => {
+  passwordUpdate();
   GetUser();
   imga.value = await GetTaskThree(1);
   console.log(user.value);
@@ -173,7 +202,6 @@ function formatDate(date) {
         <label for="event-name">Név:</label>
         <input type="text" id="event-name" v-model="username" required />
       </div>
-
       <div class="form-group">
         <label for="location">Email cím:</label>
         <input type="text" id="location" v-model="email" required />
@@ -183,7 +211,26 @@ function formatDate(date) {
         <label for="image-upload">Kép feltöltése:</label>
         <input type="file" id="file" accept="image/jpeg" ref="imgs" />
       </div>
-      <button type="submit" @click="UpdateUser">Változások</button>
+      <button type="submit" @click="UpdateUser">Módosítás</button>
+    </form>
+  </div>
+  <br>
+  <div class="event-form">
+    <h2>Jelszó módosítás</h2>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="event-name">Eredeti jelszó:</label>
+        <input type="text" id="event-name" />
+      </div>
+      <div class="form-group">
+        <label for="event-name">Új jelszó:</label>
+        <input type="text" id="event-name" />
+      </div>
+      <div class="form-group">
+        <label for="location">Jelszó újra:</label>
+        <input type="text" id="location"  />
+      </div>
+      <button type="submit" @click="passwordUpdate">Változások</button>
     </form>
   </div>
   <div id="successModalInformation" class="success-modal" style="display: none">

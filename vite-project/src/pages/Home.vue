@@ -652,10 +652,11 @@ onBeforeUnmount(() => {
   .review {
     font-size: 17px;
     padding: 10px;
+    
   }
 
   .review span {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 </style>

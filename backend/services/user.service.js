@@ -69,6 +69,31 @@ export async function userUpdate(id, username, email, groupsNeve, password) {
   });
 }
 
+export async function passwordUpdate (user_id, password, newpassword1, newPassword2) {
+  const user = await prisma.users.findUnique({
+    where: {
+      id: user_id
+    }
+  })
+
+  if(newpassword1 == newPassword2 && bcrypt.compare(password, user.password)){
+    const cryptedpwd = await encrypt(newPassword2);
+
+    await prisma.users.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        password: cryptedpwd,
+      },
+    });
+  }
+  else{
+    throw new Error("Nem egyezik a két jelszó");
+    
+  }
+}
+
 export async function userDelete(id) {
   await prisma.users.delete({
     where: {
