@@ -41,6 +41,7 @@ const szam = ref();
 const route = useRoute();
 
 function GetEvent() {
+  
   fetch(`http://localhost:3300/event/getId/${route.params.id}`, {
     method: "GET",
     headers: {
@@ -126,7 +127,7 @@ onMounted(() => {
 
       <div class="form-group">
         <label for="location">Helyszín:</label>
-        {{ event.helyszin }}
+
         <input type="text" id="location" required :value="event?.helyszin" />
       </div>
 
