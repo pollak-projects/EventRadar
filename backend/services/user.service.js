@@ -19,22 +19,23 @@ export async function getUsersById(id) {
     },
   });
 
-  let buffer = Buffer.from(data.profilkep);
-  const base64 = buffer.toString("base64");
+  if (data.profilkep) {
+    let buffer = Buffer.from(data.profilkep);
+    const base64 = buffer.toString("base64");
 
-  console.log(base64.slice(base64.indexOf("base64")));
-  const profilkep =
-    "data:image/png" + ";base64," + base64.slice(base64.indexOf("base64") + 6);
+    console.log(base64.slice(base64.indexOf("base64")));
+    const profilkep =
+      "data:image/png" +
+      ";base64," +
+      base64.slice(base64.indexOf("base64") + 6);
 
-  data.profilkep = profilkep;
+    data.profilkep = profilkep;
+  }
 
   return data;
 }
 
-
-export async function upadtePassword(params) {
-  
-}
+export async function upadtePassword(params) {}
 
 export async function forgotPassword(id) {
   const newPwd = Math.random().toString(36).slice(-8);
@@ -69,29 +70,32 @@ export async function userUpdate(id, username, email, groupsNeve, password) {
   });
 }
 
-export async function passwordUpdate (user_id, password, newpassword1, newPassword2) {
+export async function passwordUpdate(
+  user_id,
+  password,
+  newpassword1,
+  newPassword2
+) {
   const user = await prisma.users.findUnique({
     where: {
-      id: user_id
-    }
-  })
+      id: user_id,
+    },
+  });
 
   if(newpassword1 == newPassword2 && await bcrypt.compare(password, user.password)){
     const cryptedpwd = await encrypt(newPassword2);
 
-       return await prisma.users.update({
-         where: {
-           id: user_id,
-         },
-         data: {
-           password: cryptedpwd,
-         },
-       });
-
+    await prisma.users.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        password: cryptedpwd,
+      },
+    });
   }
   else{
     throw new Error("Nem egyezik a két jelszó");
-    
   }
 }
 
