@@ -4,7 +4,6 @@ import { RouterLink } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { jsx } from "vue/jsx-runtime";
-import { json } from "express";
 
 const rawImg = ref();
 const imgs = ref();
