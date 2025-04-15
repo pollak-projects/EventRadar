@@ -5,9 +5,6 @@ const prisma = new PrismaClient();
 
 export async function listAllGroup() {
   const data = await prisma.groups.findMany({
-    include: {
-      users: true,
-    },
   });
 
   return data;
