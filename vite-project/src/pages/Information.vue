@@ -306,7 +306,7 @@ onMounted(() => {
               "
               :src="event.user_id.profilkep"
             />
-            Rózsa Péter {{ event.user_id.username }}
+             {{ event.user_id.username }}
           </h4>
 
           <button

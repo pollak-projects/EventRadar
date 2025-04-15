@@ -226,6 +226,7 @@ onMounted(() => {
             to="/Profile"
             :class="{ active: route.name == 'Profile' }"
             aria-current="page"
+            v-if="loggedin"
             >Adataim</RouterLink
           >
           <RouterLink

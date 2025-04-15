@@ -76,17 +76,18 @@ export async function passwordUpdate (user_id, password, newpassword1, newPasswo
     }
   })
 
-  if(newpassword1 == newPassword2 && bcrypt.compare(password, user.password)){
+  if(newpassword1 == newPassword2 && await bcrypt.compare(password, user.password)){
     const cryptedpwd = await encrypt(newPassword2);
 
-    await prisma.users.update({
-      where: {
-        id: user_id,
-      },
-      data: {
-        password: cryptedpwd,
-      },
-    });
+       return await prisma.users.update({
+         where: {
+           id: user_id,
+         },
+         data: {
+           password: cryptedpwd,
+         },
+       });
+
   }
   else{
     throw new Error("Nem egyezik a két jelszó");

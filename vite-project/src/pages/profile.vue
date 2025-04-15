@@ -3,8 +3,6 @@ import Navbar from "../components/Navbar.vue";
 import { RouterLink } from "vue-router";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { jsx } from "vue/jsx-runtime";
-import { json } from "express";
 
 const rawImg = ref();
 const imgs = ref();
@@ -29,9 +27,9 @@ function Save() {
     }
   } else {
     document.getElementById("failedModalInformation").style.display = "flex";
-        setTimeout(() => {
-          document.getElementById("failedModalInformation").style.display = "none";
-        }, 2000);
+    setTimeout(() => {
+      document.getElementById("failedModalInformation").style.display = "none";
+    }, 2000);
   }
 }
 
@@ -51,17 +49,17 @@ async function FileUpload(file) {
     })
       .then((response) => {
         if (response.ok) {
-          document.getElementById("successModalInformation").style.display = "flex";
+          document.getElementById("successModalInformation").style.display =
+            "flex";
           setTimeout(() => {
-          document.getElementById("successModalInformation").style.display = "none";
-          resolve(response);
-          location.reload();
+            document.getElementById("successModalInformation").style.display =
+              "none";
+            resolve(response);
+            location.reload();
           }, 2000);
-        
         } else {
           alert("Sikertelen feltöltés");
         }
-        
       })
       .catch((error) => console.error("Hiba kijelentkezés közben:", error));
   });
@@ -115,22 +113,28 @@ function GetUser() {
     .catch((error) => console.log("error", error));
 }
 
-const password = ref();
-const passwordUpdate1 = ref();
-const passwordUpdate2 = ref();
+const password = ref("");
+const passwordUpdate1 = ref("");
+const passwordUpdate2 = ref("");
 
 function passwordUpdate() {
+  console.log(password.value);
+  console.log(passwordUpdate1.value);
+  console.log(passwordUpdate2.value);
+
   fetch(
-    `http://localhost:3300/user/passwordChange/${localStorage.getItem("userId")}`,
+    `http://localhost:3300/user/passwordChange/${localStorage.getItem(
+      "userId"
+    )}`,
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify ({
-        password: password,
-        passwordUpdate1: passwordUpdate1,
-        passwordUpdate2: passwordUpdate2
+      body: JSON.stringify({
+        password: password.value,
+        passwordReset1: passwordUpdate1.value,
+        passwordReset2: passwordUpdate2.value,
       }),
     }
   )
@@ -171,7 +175,6 @@ function showFileDialog() {
 }
 
 onMounted(async () => {
-  passwordUpdate();
   GetUser();
   imga.value = await GetTaskThree(1);
   console.log(user.value);
@@ -214,35 +217,42 @@ function formatDate(date) {
       <button type="submit" @click="UpdateUser">Módosítás</button>
     </form>
   </div>
-  <br>
+  <br />
   <div class="event-form">
     <h2>Jelszó módosítás</h2>
-    <form @submit.prevent="handleSubmit">
+    <form>
       <div class="form-group">
         <label for="event-name">Eredeti jelszó:</label>
-        <input type="text" id="event-name" />
+        <input
+          type="password"
+          id="event-name"
+          :value="password"
+          @change="(event) => (password = event.target.value)"
+        />
       </div>
       <div class="form-group">
         <label for="event-name">Új jelszó:</label>
-        <input type="text" id="event-name" />
+        <input type="password" id="event-name"  :value="passwordUpdate1"
+          @change="(event) => (passwordUpdate1 = event.target.value)"/>
       </div>
       <div class="form-group">
         <label for="location">Jelszó újra:</label>
-        <input type="text" id="location"  />
+        <input type="password" id="location" :value="passwordUpdate2"
+          @change="(event) => (passwordUpdate2 = event.target.value)"  />
       </div>
-      <button type="submit" @click="passwordUpdate">Változások</button>
+      <button type="button" @click="passwordUpdate()">Változások</button>
     </form>
   </div>
   <div id="successModalInformation" class="success-modal" style="display: none">
-        <div class="modal-content">
-          <h2>Változtatások mentve!</h2>
-        </div>
-      </div>
+    <div class="modal-content">
+      <h2>Változtatások mentve!</h2>
+    </div>
+  </div>
   <div id="failedModalInformation" class="failed-modal" style="display: none">
-        <div class="modal-content">
-          <h2>Nem támogatott fájl formátum!</h2>
-        </div>
-      </div>
+    <div class="modal-content">
+      <h2>Nem támogatott fájl formátum!</h2>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -279,7 +289,7 @@ function formatDate(date) {
   text-align: center;
   width: 30%;
   max-width: 400px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: white;
 }
 
@@ -336,7 +346,7 @@ function formatDate(date) {
   text-align: center;
   width: 30%;
   max-width: 400px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: white;
 }
 
@@ -345,39 +355,36 @@ function formatDate(date) {
   color: white;
 }
 
-
 @media only screen and (max-width: 768px) {
   .success-modal {
     margin-top: 0;
     align-items: flex-start;
-    padding: 10px; 
+    padding: 10px;
   }
 
   .success-modal .modal-content {
-    width: 90%; 
-    max-width: 350px; 
-    padding: 20px; 
-    border-radius: 10px; 
-    font-size: 1rem; 
+    width: 90%;
+    max-width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1rem;
     text-align: center;
   }
-
 
   .failed-modal {
     margin-top: 0;
     align-items: flex-start;
-    padding: 10px; 
+    padding: 10px;
   }
 
   .failed-modal .modal-content {
-    width: 90%; 
-    max-width: 350px; 
-    padding: 20px; 
-    border-radius: 10px; 
-    font-size: 1rem; 
+    width: 90%;
+    max-width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1rem;
     text-align: center;
   }
-
 }
 
 #prof-img {
@@ -413,6 +420,7 @@ function formatDate(date) {
   border-radius: 8px;
   font-family: "MonumentBold";
   background-size: cover;
+  margin-bottom: 20px;
 }
 
 h2 {
