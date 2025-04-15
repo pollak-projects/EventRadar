@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 export async function listAllGroup() {
   const data = await prisma.groups.findMany({
   });
-
   return data;
 }
 
