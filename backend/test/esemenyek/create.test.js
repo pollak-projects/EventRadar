@@ -11,7 +11,6 @@ test("POST esemenyek/create should pass", async () => {
     helyszin: "test",
     esemeny_date: "2025-03-19",
     kezdetido: "10:00",
-    vegeido: "12:00",
     kategoria: "Koncert",
     foszam: 10,
     user: 2,

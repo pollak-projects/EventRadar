@@ -38,9 +38,9 @@ function Save() {
       reader.readAsDataURL(fileInput.files[0]);
     }
   } else {
-    document.getElementById("failedModalInformation").style.display = "flex";
+    document.getElementById("failedModalProfile").style.display = "flex";
     setTimeout(() => {
-      document.getElementById("failedModalInformation").style.display = "none";
+      document.getElementById("failedModalProfile").style.display = "none";
     }, 2000);
   }
 }
@@ -61,10 +61,10 @@ async function FileUpload(file) {
     })
       .then((response) => {
         if (response.ok) {
-          document.getElementById("successModalInformation").style.display =
+          document.getElementById("successModalProfile").style.display =
             "flex";
           setTimeout(() => {
-            document.getElementById("successModalInformation").style.display =
+            document.getElementById("successModalProfile").style.display =
               "none";
             resolve(response);
             
@@ -159,9 +159,9 @@ async function passwordUpdate() {
       })
       .catch((error) => console.log("Hiba jelszó módosításkor:", error));
   } else {
-          document.getElementById("failedModalInformation2").style.display = "flex";
+          document.getElementById("failedModalProfile2").style.display = "flex";
         setTimeout(() => {
-          document.getElementById("failedModalInformation2").style.display = "none";
+          document.getElementById("failedModalProfile2").style.display = "none";
         }, 2000);
   }
 }
@@ -266,17 +266,17 @@ function formatDate(date) {
       <button type="button" @click="passwordUpdate()">Módosítás</button>
     </form>
   </div>
-  <div id="successModalInformation" class="success-modal" style="display: none">
+  <div id="successModalProfile" class="success-modal" style="display: none">
     <div class="modal-content">
       <h2>Változtatások mentve!</h2>
     </div>
   </div>
-  <div id="failedModalInformation" class="failed-modal" style="display: none">
+  <div id="failedModalProfile" class="failed-modal" style="display: none">
     <div class="modal-content">
       <h2>Nem támogatott fájl formátum!</h2>
     </div>
   </div>
-  <div id="failedModalInformation2" class="failed-modal" style="display: none">
+  <div id="failedModalProfile2" class="failed-modal" style="display: none">
     <div class="modal-content">
       <h2>A két jelszó nem egyezik!</h2>
     </div>

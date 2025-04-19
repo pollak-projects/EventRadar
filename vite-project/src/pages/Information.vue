@@ -129,7 +129,10 @@ function jelentkez() {
       })
       .catch((error) => console.log("Hiba:", error));
   } else {
-    loginmodalbe();
+          document.getElementById("failedModalInformation").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("failedModalInformation").style.display = "none";
+        }, 3000);
   }
 }
 
@@ -228,13 +231,7 @@ onMounted(() => {
                 minute: "2-digit",
               })
             }}
-            -
-            {{
-              new Date(event.vegeido).toLocaleTimeString("hu-HU", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            }}
+           <h3>{{ event.hossz }}</h3>
           </h3>
           <h5 style="padding-top: 15px">{{ event?.leiras }}</h5>
           <h4 style="padding-top: 30px; width: 200px">
@@ -316,16 +313,9 @@ onMounted(() => {
           >
             Jelentkezés
           </button>
-          <div
-            id="successModalJelentkezes"
-            class="success-modal"
-            style="display: none"
-          >
-            <div class="modal-content">
-              <h2>S!</h2>
-              <p>Gratulálunk, sikeresen bejelentkeztél!</p>
-            </div>
-          </div>
+         
+
+          
           <h3 v-if="data[0]">Már jelentkeztél!</h3>
           <h3 v-if="event.user == userID">
             Nem tudsz jelentkezni a saját eseményedre :D
@@ -336,6 +326,11 @@ onMounted(() => {
         </div>
         <img class="kep" src="/conecrt.jpg" alt="" />
       </div>
+    </div>
+  </div> 
+  <div id="failedModalInformation" class="failed-modal" style="display: none">
+    <div class="modal-content">
+      <h2>Jelentkezz be!</h2>
     </div>
   </div>
 </template>
@@ -377,11 +372,54 @@ onMounted(() => {
   font-family: "Arial", sans-serif;
   color: white;
 }
+
+.failed-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.failed-modal .modal-content {
+  background-color: #df1919;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30%;
+  max-width: 400px;
+  font-family: "Arial", sans-serif;
+  color: white;
+}
+
+.failed-modal .modal-content h2,
+.failed-modal .modal-content p {
+  color: white;
+}
+
 .jelentkezesi-limit {
-  background-color: rgba(110, 107, 107, 0.5); /* Átlátszó szürke háttér */
-  padding: 5px 10px; /* Kicsi belső margó */
-  border-radius: 10px; /* Lekerekített sarkok */
-  display: inline-block; /* Méret igazítása a tartalomhoz */
+  background-color: rgba(110, 107, 107, 0.5); 
+  padding: 5px 10px; 
+  border-radius: 10px;
+  display: inline-block;
 }
 .date-box {
   background-color: #d8461a;
