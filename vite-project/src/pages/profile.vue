@@ -11,6 +11,18 @@ const imga = ref();
 const email = ref("");
 const username = ref("");
 const id = ref();
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+  const userId = localStorage.getItem("userId");
+  if (userId) {
+    isLoggedIn.value = true;
+    GetUser();
+  } else {
+    isLoggedIn.value = false;
+  }
+});
+
 
 function Save() {
   const fileInput = imgs.value;
@@ -55,6 +67,7 @@ async function FileUpload(file) {
             document.getElementById("successModalInformation").style.display =
               "none";
             resolve(response);
+            
             location.reload();
           }, 2000);
         } else {
@@ -117,35 +130,41 @@ const password = ref("");
 const passwordUpdate1 = ref("");
 const passwordUpdate2 = ref("");
 
-function passwordUpdate() {
-  console.log(password.value);
-  console.log(passwordUpdate1.value);
-  console.log(passwordUpdate2.value);
-
-  fetch(
-    `http://localhost:3300/user/passwordChange/${localStorage.getItem(
-      "userId"
-    )}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        password: password.value,
-        passwordReset1: passwordUpdate1.value,
-        passwordReset2: passwordUpdate2.value,
-      }),
-    }
-  )
-    .then(async (res) => {
-      const data = await res.json();
-      console.log(data);
-    })
-
-    .catch((error) => console.log("error", error));
+async function passwordUpdate() {
+  if (passwordUpdate1.value === passwordUpdate2.value) {
+    fetch(
+      `http://localhost:3300/user/passwordChange/${localStorage.getItem("userId")}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: password.value,
+          passwordReset1: passwordUpdate1.value,
+          passwordReset2: passwordUpdate2.value,
+        }),
+      }
+    )
+      .then(async (res) => {
+        const data = await res.json();
+        console.log(data);
+        if (data.success) {
+         
+          const loginData = await login(username.value, passwordUpdate1.value); 
+          localStorage.setItem("access_token", loginData.access_token);
+          localStorage.setItem("refresh_token", loginData.refresh_token);
+          
+        }
+      })
+      .catch((error) => console.log("Hiba jelszó módosításkor:", error));
+  } else {
+          document.getElementById("failedModalInformation2").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("failedModalInformation2").style.display = "none";
+        }, 2000);
+  }
 }
-
 function UpdateUser() {
   const fileInput = imgs.value;
   if (fileInput && fileInput.files[0]) Save();
@@ -199,20 +218,21 @@ function formatDate(date) {
         alt=""
         id="prof-img"
         @click="showFileDialog()"
-        :style="'background-image: url(' + imga + ');'"
+        :style="'background-image: url(' + imga + ');' + (isLoggedIn ? '' : ' pointer-events: none;') "
+        
       ></div>
       <div class="form-group">
         <label for="event-name">Név:</label>
-        <input type="text" id="event-name" v-model="username" required />
+        <input type="text" id="event-name" v-model="username" :disabled="!isLoggedIn" required />
       </div>
       <div class="form-group">
         <label for="location">Email cím:</label>
-        <input type="text" id="location" v-model="email" required />
+        <input type="text" id="location" v-model="email" :disabled="!isLoggedIn" required />
       </div>
 
       <div class="form-group" style="display: none">
         <label for="image-upload">Kép feltöltése:</label>
-        <input type="file" id="file" accept="image/jpeg" ref="imgs" />
+        <input type="file" id="file" accept="image/jpeg" ref="imgs"  />
       </div>
       <button type="submit" @click="UpdateUser">Módosítás</button>
     </form>
@@ -228,19 +248,22 @@ function formatDate(date) {
           id="event-name"
           :value="password"
           @change="(event) => (password = event.target.value)"
+          :disabled="!isLoggedIn"
         />
       </div>
       <div class="form-group">
         <label for="event-name">Új jelszó:</label>
         <input type="password" id="event-name"  :value="passwordUpdate1"
-          @change="(event) => (passwordUpdate1 = event.target.value)"/>
+          @change="(event) => (passwordUpdate1 = event.target.value)"
+          :disabled="!isLoggedIn"/>
       </div>
       <div class="form-group">
         <label for="location">Jelszó újra:</label>
         <input type="password" id="location" :value="passwordUpdate2"
-          @change="(event) => (passwordUpdate2 = event.target.value)"  />
+          @change="(event) => (passwordUpdate2 = event.target.value)"
+          :disabled="!isLoggedIn"/>
       </div>
-      <button type="button" @click="passwordUpdate()">Változások</button>
+      <button type="button" @click="passwordUpdate()">Módosítás</button>
     </form>
   </div>
   <div id="successModalInformation" class="success-modal" style="display: none">
@@ -251,6 +274,11 @@ function formatDate(date) {
   <div id="failedModalInformation" class="failed-modal" style="display: none">
     <div class="modal-content">
       <h2>Nem támogatott fájl formátum!</h2>
+    </div>
+  </div>
+  <div id="failedModalInformation2" class="failed-modal" style="display: none">
+    <div class="modal-content">
+      <h2>A két jelszó nem egyezik!</h2>
     </div>
   </div>
 </template>

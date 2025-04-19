@@ -117,9 +117,22 @@ function login() {
     .catch((error) => console.log("error", error));
 }
 
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
 function register() {
   console.log(regData.value);
-  if (regData.value.password1 == regData.value.password2) {
+  if (!isValidEmail(regData.value.email)) {
+    document.getElementById("isValidEmail").style.display = "block";
+    setTimeout(() => {
+      document.getElementById("isValidEmail").style.display = "none";
+    }, 3000);
+    return;
+  }
+
+  if (regData.value.password1 === regData.value.password2) {
     fetch(`http://localhost:3300/auth/register`, {
       method: "POST",
       headers: {
@@ -367,6 +380,12 @@ onMounted(() => {
         <div class="modal-content">
           <h2>Sikertelen belépés!</h2>
           <p>Hibás felhasználónév / jelszó!</p>
+        </div>
+      </div>
+      <div id="isValidEmail" class="failed-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Sikertelen belépés!</h2>
+          <p>Kérjük, érvényes e-mail címet adj meg!</p>
         </div>
       </div>
 
