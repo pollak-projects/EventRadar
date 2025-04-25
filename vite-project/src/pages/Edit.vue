@@ -3,6 +3,12 @@ import { useRoute } from "vue-router";
 import Navbar from "../components/Navbar.vue";
 import { onMounted, ref, watch } from "vue"; // <--- watch-ot is importáljuk
 
+const nev = ref("");
+const leiras = ref("");
+const hossz = ref("");
+const datum = ref("");
+const kezdetido = ref("");
+
 const fileInputVisible = ref(false);
 
 const eventData = defineModel({
@@ -41,7 +47,6 @@ const szam = ref();
 const route = useRoute();
 
 function GetEvent() {
-  
   fetch(`http://localhost:3300/event/getId/${route.params.id}`, {
     method: "GET",
     headers: {
@@ -51,8 +56,15 @@ function GetEvent() {
     .then(async (res) => {
       const data = await res.json();
       events.value = data;
-      szam.value = events.value[0].foszam;
-      console.log(data);
+
+      const event = events.value[0];
+      nev.value = event.esemeny_nev;
+      leiras.value = event.leiras;
+      hossz.value = event.hossz;
+      datum.value = event.esemeny_date?.substring(0, 10);
+      kezdetido.value = event.kezdetido?.substring(0, 5);
+
+      szam.value = event.foszam;
       maradek();
     })
     .catch((error) => console.log("error", error));
@@ -80,6 +92,24 @@ onMounted(() => {
 <template>
   <Navbar />
   <br />
+
+  <div class="keret" style="flex-direction: column; padding: 30px">
+  <label>Neve:</label>
+  <input v-model="nev" type="text" />
+
+  <label>Leírás:</label>
+  <input v-model="leiras" type="text" />
+
+  <label>Hossz (percben):</label>
+  <input v-model="hossz" type="text" />
+
+  <label>Dátum:</label>
+  <input v-model="datum" type="date" />
+
+  <label>Kezdési idő:</label>
+  <input v-model="kezdetido" type="time" />
+</div>
+
   <div class="event-form">
     <h2 style="color: black">Esemény módosítása</h2>
     <form @submit.prevent="handleSubmit">
@@ -88,8 +118,7 @@ onMounted(() => {
         <input
           type="text"
           id="event-name"
-          :value="event?.esemeny_nev"
-          required
+          v-model="nev"
         />
       </div>
 
@@ -98,19 +127,19 @@ onMounted(() => {
         <input
           type="date"
           id="event-date"
-          :value="event?.esemeny_date"
+          v-model="datum"
           required
         />
       </div>
 
       <div class="form-group">
         <label for="start-time">Óra (kezdet):</label>
-        <input type="time" id="start-time" :value="event?.kezdetido" required />
+        <input type="time" id="start-time" v-model="kezdetido" required />
       </div>
 
       <div class="form-group">
-        <label for="end-time">Óra (befejezés):</label>
-        <input type="time" id="end-time" required />
+        <label for="end-time">Esemény becsült hossza óraban:</label>
+        <input type="number" id="end-time" v-model="hossz" required />
       </div>
 
       <div class="form-group">
@@ -133,7 +162,7 @@ onMounted(() => {
 
       <div class="form-group">
         <label for="leiras">Leirás:</label>
-        <input type="text" id="leiras" required />
+        <input type="text" id="leiras" v-model="leiras" required />
       </div>
 
       <div class="form-group">
