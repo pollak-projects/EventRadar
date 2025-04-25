@@ -1,0 +1,10 @@
+model Messages {
+  id         Int      @id @default(autoincrement()) 
+  userId     Int     
+  message    String  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt 
+  user       Users    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+}

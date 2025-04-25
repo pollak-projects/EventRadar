@@ -16,9 +16,13 @@ import { esemenyekController } from "./controller/esemenyek.controller.js";
 import { ertekelesController } from "./controller/ertekeles.controller.js";
 import { ertesitesController } from "./controller/ertesites.controller.js";
 import { contactController } from "./controller/contact.controller.js";
+import { chatMessageController } from "./controller/chatmessages.controller.js";
+import { createMessage } from "./services/chatmessages.service.js";
+import http from "http"; 
+import { Server } from "socket.io";
 
 const app = express();
-
+const prisma = new PrismaClient();
 const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true,
@@ -34,13 +38,21 @@ app.use((req, res, next) => {
   next();
 });
 
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173", 
+    methods: ["GET", "POST"],
+  },
+});
+
 // Engedélyezd a preflight kéréseket
 app.options("*", cors(corsOptions));
 
 
 
 app.use(express.json({limit: "50mb"}));
-app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use("/user", userController);
 
@@ -49,6 +61,7 @@ app.use("/event", esemenyekController)
 app.use("/ertekeles", ertekelesController)
 app.use("/ertesites", ertesitesController)
 app.use("/contact", contactController)
+app.use("/chatmessages", chatMessageController)
 
 
 app.use(
@@ -60,7 +73,7 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: false, // Fejlesztéskor legyen false
+      secure: false,
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: "lax",
     },
@@ -90,11 +103,33 @@ app.post("/test/password-reset", async (req, res) => {
 });
 
 if (process.env.NODE_ENV !== "test")
-  app.listen(3300, () => {
+  server.listen(3300, () => {
     console.log("Started at http://localhost:3300");
   });
-
-
+  
+  io.on("connection", (socket) => {
+    
+  
+    socket.on("sendMessage", async (data) => {
+      try {
+        const user = await prisma.users.findUnique({
+        where: {
+          id: data.userId,
+        },
+      });
+        const newMessage = {
+          message: data.message,
+          userName: user.username,
+          userImage: user.profilkep,
+        };
+        await createMessage(data.userId, data.message); 
+        io.emit("newMessage", newMessage); 
+      } catch (err) {
+        console.error("Hiba az üzenet mentése közben:", err);
+      }
+    }); 
+  });
+  export { io };
   
 
 export default app;

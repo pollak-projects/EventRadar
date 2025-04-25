@@ -13,4 +13,5 @@ model Users {
     Esemenyek Esemenyek[]
     pfp String?
     profilkep Bytes? @db.LongBlob
+     messages    Messages[]
 }
