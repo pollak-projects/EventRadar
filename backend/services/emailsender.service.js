@@ -22,7 +22,7 @@ export async function registration(email, username) {
       '<div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">' +
       '<div style="padding: 20px; text-align: center;">' +
       "<br>" +
-      '<img src="https://imgur.com/a/Nb5NF0j" alt="EventRadar logó" style="max-width: 200px; height: auto;"></div>' +
+      '<img src="https://i.ibb.co/mVV8py5J/Eventradar.png" alt="EventRadar logó" style="max-width: 200px; height: auto;"></div>' +
       '<div style="padding: 20px; color: #333333; font-size: 16px; line-height: 1.6;">' +
       '<h1 style="font-size: 24px; margin-bottom: 16px; color: #e94e1b;">Üdvözlünk az EventRadar közösségében!</h1>' +
       '<p style="margin: 0 0 16px 0;">Kedves ' +
