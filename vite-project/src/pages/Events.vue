@@ -47,6 +47,7 @@ function EventDelete(id) {
   })
     .then(async (result) => {
       alert("Siker");
+      location.reload()
     })
     .catch((error) => console.log("Hiba:", error));
 }

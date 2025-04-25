@@ -80,7 +80,7 @@ function creation() {
       document.getElementById("successModalCreation").style.display = "flex";
         setTimeout(() => {
           document.getElementById("successModalCreation").style.display = "none";
-          // location.reload();
+          location.reload();
         }, 2000);
     })
     .catch((error) => console.log("error", error));

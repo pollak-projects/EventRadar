@@ -15,18 +15,17 @@ const jelent = ref();
 let data = [];
 
 const loggedin = localStorage.getItem("userId");
-
+const showChatWindow = ref(Boolean(loggedin));
 const router = useRouter();
 
 function already() {
-  const user = loggedin;
-
+  const userId = loggedin;
   fetch(`http://localhost:3300/user/already/${route.params.id}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user }),
+    body: JSON.stringify({ userId }),
   })
     .then(async (res) => {
       data = await res.json();
@@ -149,7 +148,7 @@ onMounted(() => {
 <template>
   <div class="hatter">
     <Navbar />
-    <ChatWindow />
+    <ChatWindow v-if="showChatWindow" />
 
     <div class="modal" ref="loginmodal">
       <form
@@ -261,7 +260,7 @@ onMounted(() => {
         ✅ Jelentkezés
       </button>
 
-      <h3 v-if="data[0]">Már jelentkeztél!</h3>
+      <h3 class="already" v-if="data[0] && data[0].creatorId !== currentUserId">Már jelentkeztél!</h3>
       <h3 v-if="event.user == userID" class="self-event-alert">
         Nem tudsz jelentkezni a saját eseményedre!
       </h3>
@@ -316,7 +315,7 @@ onMounted(() => {
           ✅ Jelentkezés
         </button>
       
-          <h3 v-if="data[0]">Már jelentkeztél!</h3>
+        <h3 class="already" v-if="data[0] && data[0].creatorId !== currentUserId">Már jelentkeztél!</h3>
           <h3 v-if="event.user == userID" class="self-event-alert">
             Nem tudsz jelentkezni a saját eseményedre!
           </h3>
@@ -470,11 +469,9 @@ onMounted(() => {
   border: 5px solid #f3f4f6; 
   padding: 10px; 
   background: rgba(255, 255, 255, 0.7); 
-  transition: all 0.3s ease-in-out; 
 }
 
 .kep:hover {
-  transform: translateY(-50%) scale(1.05); 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); 
 }
   
@@ -576,6 +573,9 @@ onMounted(() => {
 .jelentkezes-btn:active {
   transform: scale(0.98) translateY(2px); 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+.already {
+  color: red
 }
 }
 
@@ -731,10 +731,10 @@ onMounted(() => {
   }
 
   .keret {
-
     background-color: #ffffff;
-    border-radius: 16px;
+    border-radius: 18px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
   }
 
   .keret:hover {
@@ -815,6 +815,10 @@ onMounted(() => {
     transform: scale(0.98) translateY(2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
+  .already {
+    color: red;
+  }
+
 }
 
 
