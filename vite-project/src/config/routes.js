@@ -43,6 +43,11 @@ const router = createRouter({
       name: "Edit",
       component: import("../pages/Edit.vue"),
     },
+    {
+      path: "/ChatWindow",
+      name: "ChatWindow",
+      component: import("../pages/ChatWindow.vue"),
+    },
   ],
 });
 

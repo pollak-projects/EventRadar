@@ -384,7 +384,7 @@ onMounted(() => {
       </div>
       <div id="isValidEmail" class="failed-modal" style="display: none">
         <div class="modal-content">
-          <h2>Sikertelen belépés!</h2>
+          <h2>Sikertelen regisztráció!</h2>
           <p>Kérjük, érvényes e-mail címet adj meg!</p>
         </div>
       </div>
