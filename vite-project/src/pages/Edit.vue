@@ -8,6 +8,8 @@ const leiras = ref("");
 const hossz = ref("");
 const datum = ref("");
 const kezdetido = ref("");
+const helyszin = ref("");
+const maxfo = ref("")
 
 const fileInputVisible = ref(false);
 
@@ -62,7 +64,9 @@ function GetEvent() {
       leiras.value = event.leiras;
       hossz.value = event.hossz;
       datum.value = event.esemeny_date?.substring(0, 10);
-      kezdetido.value = event.kezdetido?.substring(0, 5);
+      kezdetido.value = event.kezdetido;
+      maxfo.value = event.maxfo;
+      helyszin.value = event.helyszin;
 
       szam.value = event.foszam;
       maradek();
@@ -150,14 +154,14 @@ onMounted(() => {
           id="end-time"
           placeholder="Opcionális"
           required
-          :value="event?.foszam"
+          v-model="maxfo"
         />
       </div>
 
       <div class="form-group">
         <label for="location">Helyszín:</label>
 
-        <input type="text" id="location" required :value="event?.helyszin" />
+        <input type="text" id="location" required v-model="helyszin" />
       </div>
 
       <div class="form-group">
