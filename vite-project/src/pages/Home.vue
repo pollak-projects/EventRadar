@@ -251,6 +251,10 @@ onBeforeUnmount(() => {
           </svg>
         </button>
       </form>
+      <div class="email-contact" style="margin-top: 20px; text-align: center; font-size: 0.9rem;">
+      <p class="email-text">Szeretné inkább e-mailben felvenni velünk a kapcsolatot?</p>
+      <p class="email-address">Az alábbi címen várjuk üzenetét: <strong>eventradar.project@gmail.com</strong></p>
+    </div>
     </div>
   </div>
     <div id="successModalContact" class="success-modal" style="display: none">
@@ -267,6 +271,25 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.email-contact {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
+  text-align: center;
+}
+
+.email-text {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.email-address {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555;
+}
+
 .success-modal {
   position: fixed;
   top: 0;

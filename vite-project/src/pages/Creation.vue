@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar.vue";
 import { ref, watch } from "vue"; // <--- watch-ot is importáljuk
 
 const fileInputVisible = ref(false);
+const today = new Date().toISOString().split("T")[0];
 
 const eventData = defineModel({
   default: {
@@ -113,6 +114,7 @@ const handleSubmit = () => {
           type="text"
           id="event-name"
           v-model="eventData.esemeny_nev"
+          maxlength="191"
           required
         />
       </div>
@@ -123,6 +125,7 @@ const handleSubmit = () => {
           type="date"
           id="event-date"
           v-model="eventData.esemeny_date"
+          :min="today"
           required
         />
       </div>
@@ -143,7 +146,7 @@ const handleSubmit = () => {
       </div>
 
       <div class="form-group">
-        <label for="end-time">Max létszám</label>
+        <label for="end-time">Max létszám:</label>
         <input
           type="number"
           min="1"
@@ -160,13 +163,14 @@ const handleSubmit = () => {
           type="text"
           id="location"
           v-model="eventData.helyszin"
+          maxlength="191"
           required
         />
       </div>
 
       <div class="form-group">
         <label for="leiras">Leirás:</label>
-        <input type="text" id="leiras" v-model="eventData.leiras" required />
+        <input type="text" id="leiras" v-model="eventData.leiras" maxlength="191" required />
       </div>
 
       <div class="form-group">
