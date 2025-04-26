@@ -436,7 +436,7 @@ onBeforeUnmount(() => {
   border-radius: 5px;
   font-size: 16px;
   color: #333;
-  appearance: none; /* Removes default browser styling */
+  appearance: none;
   background-color: #fff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -510,8 +510,8 @@ onBeforeUnmount(() => {
   max-width: 300px;
   text-align: center;
   display: flex;
-  flex-direction: column; /* Flexbox-elrendezés */
-  justify-content: space-between; /* A tartalom terjedése között */
+  flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -538,7 +538,7 @@ onBeforeUnmount(() => {
 }
 
 .event-card .pirosgomb {
-  align-self: center; /* A gomb középre igazítása */
+  align-self: center; 
   background: #ff5a5f;
   color: white;
   border: none;
@@ -547,7 +547,7 @@ onBeforeUnmount(() => {
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s;
-  margin-bottom: 15px; /* Távolság a kártya alsó szélétől */
+  margin-bottom: 15px;
 }
 
 .event-card .pirosgomb:hover {

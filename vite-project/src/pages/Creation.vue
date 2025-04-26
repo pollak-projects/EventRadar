@@ -26,7 +26,7 @@ const eventData = defineModel({
   },
 });
 
-// ===== Itt figyeljük az eventData.maxfo-t =====
+
 watch(
   () => eventData.value.maxfo,
   (newVal) => {
@@ -35,7 +35,7 @@ watch(
     }
   }
 );
-// ===============================================
+
 
 function creation() {
 

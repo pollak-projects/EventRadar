@@ -34,7 +34,7 @@ const eventData = defineModel({
   },
 });
 
-// ===== Itt figyeljük az eventData.maxfo-t =====
+
 /*watch(
   () => eventData.value.maxfo,
   (newVal) => {
@@ -43,7 +43,7 @@ const eventData = defineModel({
     }
   }
 );*/
-// ===============================================
+
 const events = ref();
 const szam = ref();
 const route = useRoute();
