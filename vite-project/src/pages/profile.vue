@@ -117,9 +117,9 @@ function GetUser() {
       email.value = user.value.email;
 
       if (!data.profilkep) {
-        imga.value = "/public/user2.jpg"; // Alapértelmezett kép elérési útja
+        imga.value = "/public/user2.jpg";
       } else {
-        imga.value = data.profilkep; // Egyébként használd a felhasználó profilképét
+        imga.value = data.profilkep;
       }
     })
 

@@ -67,20 +67,29 @@ function cancelDelete() {
     })
     .catch((error) => console.log("error", error));
 }
+
 onMounted(() => {
   GetUserById();
   getEvents();
 });
 </script>
 <template>
-
-<Navbar />
-
-<div class="cards">
+  <Navbar />
+  
+  <div class="cards">
     <div v-for="event in events">
-      <div class="card">
-        <h1>{{ event.esemeny_nev }}</h1>
-        <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
+      <div
+        class="card"
+        :style="'background-image: url(' + (user?.profilkep|| '/public/user2.jpg') + ');'"
+      >
+      <h1 class="blurred-text">
+  <span class="blurred-background"></span>
+  {{ event.esemeny_nev }}
+</h1>
+<h2 class="blurred-text">
+  <span class="blurred-background"></span>
+  {{ event.esemeny_date.split('T')[0] }}
+</h2>
         <RouterLink
           class="info-button"
           :to="'/information/' + event.id"
@@ -90,19 +99,20 @@ onMounted(() => {
           <span class="info-icon"></span>
         </RouterLink>
         <button
-              @click="EventDelete(event.id)"
-              v-if="
-                user?.groupsNeve == 'Admin' ||
-                (event?.user == user?.id && loggedin)
-              "
-              class="csirke"
-            >
-              X
-            </button>
+          @click="EventDelete(event.id)"
+          v-if="
+            user?.groupsNeve == 'Admin' ||
+            (event?.user == user?.id && loggedin)
+          "
+          class="csirke"
+        >
+          X
+        </button>
       </div>
     </div>
   </div>
-    <div v-if="showDeleteModal" class="deleteEvent-modal">
+  
+  <div v-if="showDeleteModal" class="deleteEvent-modal">
     <div class="modal-content">
       <h2>Biztosan törölni szeretnéd ezt az eseményt?</h2>
       <div class="modal-buttons">
@@ -111,9 +121,41 @@ onMounted(() => {
       </div>
     </div>
   </div>
-
-</template>
+  
+  </template>
 <style scoped>
+.blurred-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  filter: blur(5px); 
+  z-index: -1;
+  border-radius: 5px; 
+  padding: 5px 15px; 
+  width: auto;
+  height: auto;
+}
+
+
+.blurred-text {
+  color: #fff; 
+  position: relative;
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  z-index: 1;
+  display: inline-block;
+}
+
+h2.blurred-text {
+  font-size: 1.2rem;
+  padding: 5px 15px;
+  font-weight: normal;
+}
 .deleteEvent-modal {
   position: fixed;
   top: 0;

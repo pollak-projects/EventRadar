@@ -8,7 +8,7 @@ const Selected = ref("Válassz");
 const user = ref();
 const szumo = ref();
 const selectedDate = ref("");
-const applyFilters = ref(false); // Kezdetben nem alkalmazzuk a szűrést
+const applyFilters = ref(false);
 
 const loginmodal = ref();
 
@@ -28,11 +28,11 @@ const handleCategoryChange = (event) => {
 function handleReset() {
   Selected.value = "Válassz";
   selectedDate.value = "";
-  applyFilters.value = false; // Reset szűrés
+  applyFilters.value = false; 
 }
 const handleDateChange = (event) => {
-  selectedDate.value = event.target.value; // A dátum helyes beállítása
-  console.log(selectedDate.value); // Ellenőrzés céljából kiírhatjuk a konzolra
+  selectedDate.value = event.target.value; 
+  console.log(selectedDate.value); 
 };
 
 function EventDelete(id) {
@@ -69,9 +69,9 @@ function getEvents() {
       szumo.value = data;
 
       if (!data.image) {
-        imga.value = "/public/user2.jpg"; // Alapértelmezett kép elérési útja
+        imga.value = "/public/user2.jpg"; 
       } else {
-        imga.value = data.image; // Egyébként használd a felhasználó profilképét
+        imga.value = data.image; 
       }
     })
     .catch((error) => console.log("error", error));
@@ -269,7 +269,6 @@ onMounted(() => {
   </div>
   <div class="cards">
     <div v-for="event in events" :key="event.id">
-      <!-- Szűrési logika: Kategória és dátum -->
       <div
         v-if="
           !applyFilters ||
@@ -278,14 +277,7 @@ onMounted(() => {
               !selectedDate))
         "
       >
-        <div
-          class="card"
-          :style="
-            'background-image: url(' +
-            (event.Eventcat.image || 'public/user2.jpg') +
-            ');'
-          "
-        >
+        <div class="card" :style=" 'background-image: url(' + (event.Eventcat.image || 'public/user2.jpg') + ');'" >
           <h1>{{ event.esemeny_nev }}</h1>
           <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
           <div class="fill">
@@ -329,8 +321,8 @@ onMounted(() => {
 #filterReset {
   border: none !important;
   outline: 0;
-  margin-left: auto; /* Ez biztosítja, hogy a gomb a jobb oldalra kerüljön */
-  display: block; /* A gomb egy blokk szintű elem legyen */
+  margin-left: auto; 
+  display: block;
 }
 #filterReset:active,
 #filterReset:focus-visible {

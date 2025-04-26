@@ -122,7 +122,7 @@ export async function imageGetFromDB(kapottTipus) {
 
   if (!data || !data.profilkep) {
     console.error("Nincs kép az adatbázisban vagy az adatok üresek.");
-    return null; // Vagy egy alapértelmezett kép
+    return null;
   }
 
   let buffer = Buffer.from(data.profilkep);

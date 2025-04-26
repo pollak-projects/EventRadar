@@ -47,7 +47,7 @@ const io = new Server(server, {
   },
 });
 
-// Engedélyezd a preflight kéréseket
+
 app.options("*", cors(corsOptions));
 
 
