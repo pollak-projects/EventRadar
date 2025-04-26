@@ -418,9 +418,10 @@ onMounted(() => {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
   width: 100%;         
-  max-width: 100%;       
+  max-width: 600px;
+  overflow-wrap: break-word;
+  word-break: break-word;
   margin-top: 20px;
   margin-left: 0;
   margin-right: 0;
