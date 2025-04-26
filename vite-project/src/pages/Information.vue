@@ -276,6 +276,7 @@ onMounted(() => {
 
 
     <div class="asztaligep">
+      <img class="kep" src="/conecrt.jpg" alt=""/>
       <div class="keret">
         <div class="leiras-asztaligep" v-for="event in events">
           <div class="event-header">
@@ -324,7 +325,6 @@ onMounted(() => {
           </h3>
         </div>
       </div>
-      <img class="kep" src="/conecrt.jpg" alt=""/>
     </div>
   </div> 
   <div id="failedModalInformation" class="failed-modal" style="display: none">
@@ -343,7 +343,11 @@ onMounted(() => {
   background: url("/moderndik3.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
 }
 
 /* Gépes nézet */
@@ -458,10 +462,10 @@ onMounted(() => {
   white-space: nowrap; 
 }
   .kep {
-  position: absolute;
-  right: 30%;
+  position: relative;
+  float: right;
+  margin: 20px;
   top: 40%;
-  transform: translateY(-50%);
   max-width: 900px;
   height: auto;
   border-radius: 15px; 
@@ -469,6 +473,15 @@ onMounted(() => {
   border: 5px solid #f3f4f6; 
   padding: 10px; 
   background: rgba(255, 255, 255, 0.7); 
+  transition: all 0.3s ease-in-out; 
+}
+
+@media (max-width: 1500px) {
+  img {
+    width: 80%;
+    float: none;
+    align-items: center;
+  }
 }
 
 .kep:hover {
@@ -555,22 +568,6 @@ onMounted(() => {
   background: linear-gradient(135deg, #6dbe20, #4c9b02);
   color: white;
   font-size: 1.6rem;
-  font-weight: 600;  
-  border: none;
-  border-radius: 50px; 
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out; 
-  margin-top: 20px;
-}
-
-.jelentkezes-btn:hover {
-  transform: translateY(-4px); 
-  box-shadow: 0 14px 30px rgba(255, 94, 98, 0.4); 
-  background: linear-gradient(135deg, #66cc47, #3c7d21); 
-}
-
-.jelentkezes-btn:active {
   transform: scale(0.98) translateY(2px); 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
@@ -578,6 +575,8 @@ onMounted(() => {
   color: red
 }
 }
+
+
 
 
 /* Telefonos nézet */

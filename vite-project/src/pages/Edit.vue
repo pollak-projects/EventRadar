@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import Navbar from "../components/Navbar.vue";
-import { onMounted, ref, watch } from "vue"; // <--- watch-ot is importáljuk
+import { onMounted, ref, watch, toRaw } from "vue"; // <--- watch-ot is importáljuk
 
 const nev = ref("");
 const leiras = ref("");
@@ -9,7 +9,8 @@ const hossz = ref("");
 const datum = ref("");
 const kezdetido = ref("");
 const helyszin = ref("");
-const maxfo = ref("")
+const maxfo = ref("");
+
 
 const fileInputVisible = ref(false);
 
@@ -23,14 +24,7 @@ const eventData = defineModel({
       "Workshop",
       "Egyéb",
     ],
-    esemeny_nev: "",
-    esemeny_date: "",
-    kezdetido: "",
-    vegeido: "",
-    helyszin: "",
-    selectedKategoria: ref(""),
-    leiras: "",
-    maxfo: "",
+    selectedKategoria: ref("")
   },
 });
 
@@ -59,17 +53,19 @@ function GetEvent() {
       const data = await res.json();
       events.value = data;
 
-      const event = events.value[0];
+
+      const event = toRaw(events.value[0]);
+      console.log(event)
       nev.value = event.esemeny_nev;
       leiras.value = event.leiras;
       hossz.value = event.hossz;
       datum.value = event.esemeny_date?.substring(0, 10);
-      kezdetido.value = event.kezdetido;
-      maxfo.value = event.maxfo;
+      kezdetido.value = event.kezdetido?.substring(11, 16);
+      console.log(kezdetido)
+      maxfo.value = event.foszam;
       helyszin.value = event.helyszin;
 
       szam.value = event.foszam;
-      maradek();
     })
     .catch((error) => console.log("error", error));
 }
@@ -97,22 +93,6 @@ onMounted(() => {
   <Navbar />
   <br />
 
-  <div class="keret" style="flex-direction: column; padding: 30px">
-  <label>Neve:</label>
-  <input v-model="nev" type="text" />
-
-  <label>Leírás:</label>
-  <input v-model="leiras" type="text" />
-
-  <label>Hossz (percben):</label>
-  <input v-model="hossz" type="text" />
-
-  <label>Dátum:</label>
-  <input v-model="datum" type="date" />
-
-  <label>Kezdési idő:</label>
-  <input v-model="kezdetido" type="time" />
-</div>
 
   <div class="event-form">
     <h2 style="color: black">Esemény módosítása</h2>
