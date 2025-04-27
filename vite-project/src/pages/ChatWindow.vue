@@ -32,6 +32,8 @@ methods: {
           this.messages.push(newMessage);
         }
         this.newMessage = ''; 
+        
+        this.scrollToBottom();
       } catch (err) {
         console.error("Hiba az üzenet küldésekor:", err);
       }
@@ -64,6 +66,7 @@ methods: {
         }
         return msg;
       }));
+      this.scrollToBottom();
     } catch (err) {
       console.error('Hiba az üzenetek lekérésekor:', err);
     }
@@ -75,6 +78,12 @@ methods: {
     } catch (err) {
       console.error('Hiba a felhasználói adatok lekérésekor:', err);
       return { username: 'Név Nélkül', profilkep: '' };
+    }
+  },
+  scrollToBottom() {
+    const chatMessages = this.$refs.chatMessages;
+    if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
   }
 },
@@ -101,7 +110,6 @@ mounted() {
 
 <template>
   <div>
-
     <div class="chat-sidebar" :class="{ open: isOpen }">
       <div v-if="isOpen" class="chat-header" @click="toggleChat">
         🔽 Chat bezárása
@@ -109,10 +117,9 @@ mounted() {
 
       <transition name="fade">
         <div class="chat-body" v-if="isOpen"> 
-          <div class="chat-messages">
+          <div class="chat-messages" ref="chatMessages">
             <div v-for="(msg, index) in messages" :key="index" class="chat-message">
               <div class="message-header">
-                <img v-if="msg.userImage" :src="msg.userImage"  class="user-avatar" />
                 <span class="user-name">{{ msg.userName || 'Név Nélkül' }}</span>
               </div>
               <div class="message-text">
