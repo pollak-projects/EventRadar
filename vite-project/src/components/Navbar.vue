@@ -326,22 +326,6 @@ onMounted(() => {
             >
               Bejelentkezés
             </button>
-
-            <span class="psw"
-              ><a
-                style="
-                  text-decoration: underline;
-                  color: #0000ee;
-                  cursor: pointer;
-                "
-                @click="
-                  loginmodalbe();
-                  forgotpassbeki();
-                "
-              >
-                Elfelejtetted a jelszavadat?
-              </a></span
-            >
           </div>
 
           <div
