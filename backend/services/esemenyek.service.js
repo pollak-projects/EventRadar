@@ -59,8 +59,18 @@ export async function getAllEventById(id) {
       id: id,
     },
     include: {
+      Eventcat: true,
       user_id: true,
     },
+  });
+
+  data.forEach((element) => {
+    let buffer = Buffer.from(element.Eventcat.image);
+    const base64 = buffer.toString("base64");
+
+    const profilkep = "data:image/png" + ";base64," + base64;
+
+    element.Eventcat.image = profilkep;
   });
 
   try {

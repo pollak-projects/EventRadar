@@ -185,10 +185,6 @@ const handleSubmit = () => {
           </option>
         </select>
       </div>
-      <div v-if="fileInputVisible" class="form-group">
-        <label for="image-upload">Kép feltöltése:</label>
-        <input type="file" id="image-upload" />
-      </div>
       <div style="text-align: center">
         <button type="button" @click="creation()">Esemény mentése</button>
       </div>

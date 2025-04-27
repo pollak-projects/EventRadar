@@ -29,18 +29,46 @@ const eventData = defineModel({
 });
 
 
-/*watch(
+
+watch(
   () => eventData.value.maxfo,
   (newVal) => {
     if (newVal !== "" && Number(newVal) < 1) {
-      eventData.value.maxfo = 1;
+      maxfo.value = 1;
     }
   }
-);*/
+);
 
 const events = ref();
 const szam = ref();
 const route = useRoute();
+
+function UpdateEvent() {
+  fetch("http://localhost:3300/event/update", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: Number(route.params.id),
+      esemeny_nev: nev.value,
+      leiras: leiras.value,
+      helyszin: helyszin.value,
+      esemeny_date: datum.value,
+      kezdetido: kezdetido.value,
+      hossz: hossz.value,
+      kategoria: eventData.value.selectedKategoria.value,
+    })
+  })
+  .then(async (result) => {
+      document.getElementById("successModalCreation").style.display = "flex";
+        setTimeout(() => {
+          document.getElementById("successModalCreation").style.display = "none";
+          location.reload();
+        }, 2000);
+    })
+    .catch((error) => console.log("error", error));
+}
 
 function GetEvent() {
   fetch(`http://localhost:3300/event/getId/${route.params.id}`, {
@@ -166,7 +194,7 @@ onMounted(() => {
         <input type="file" id="image-upload" />
       </div>
       <div style="text-align: center">
-        <button type="button" @click="creation()">Esemény mentése</button>
+        <button type="button" @click="UpdateEvent()">Esemény mentése</button>
       </div>
     </form>
   </div>

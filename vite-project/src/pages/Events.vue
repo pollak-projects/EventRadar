@@ -295,7 +295,7 @@ onMounted(() => {
               style="text-decoration: none"
               v-if="
                 user?.groupsNeve == 'Admin' ||
-                (event?.user == user?.id && loggedin)
+                (event?.user == user?.id || loggedin)
               "
             >
               Edit
@@ -304,7 +304,7 @@ onMounted(() => {
               @click="EventDelete(event.id)"
               v-if="
                 user?.groupsNeve == 'Admin' ||
-                (event?.user == user?.id && loggedin)
+                (event?.user == user?.id || loggedin)
               "
               class="csirke"
             >
