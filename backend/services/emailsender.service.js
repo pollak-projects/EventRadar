@@ -29,7 +29,6 @@ export async function registration(email, username) {
       username +
       "!</p>" +
       '<p style="margin: 0 0 16px 0;">Köszönjük, hogy regisztráltál az EventRadar platformon. Mostantól könnyedén nyomon követheted a legjobb eseményeket, koncerteket és rendezvényeket!</p>' +
-      '<p style="margin: 0 0 16px 0;">A profilod aktiválásához kérjük, kattints az alábbi gombra:</p>' +
       '<p style="margin: 20px 0 0 0;">Ha nem te regisztráltál, kérjük hagyd figyelmen kívül ezt az e-mailt!</p>' +
       '<p style="margin: 20px 0 0 0;">Üdvözlettel,<br>Az EventRadar Csapata</p></div>' +
       '<div style="background-color: #f2f2f2; padding: 10px; text-align: center; font-size: 12px; color: #888888;">© 2025 EventRadar. Minden jog fenntartva.</div>' +
