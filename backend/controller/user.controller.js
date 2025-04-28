@@ -53,9 +53,9 @@ router.post("/forgot-password", async (req, res) => {
 });
 
 router.put("/update", async (req, res) => {
-  const { id, username, email, groupNeve, password } = req.body;
+  const { id, username, email, groupNeve} = req.body;
   try {
-    const user = await userUpdate(id, username, email, groupNeve, password);
+    const user = await userUpdate(id, username, email, groupNeve);
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });

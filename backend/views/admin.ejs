@@ -44,7 +44,7 @@ function GroupsGetALL() {
       headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id, username, email, groupNeve, password }),
+    body: JSON.stringify({ id, username, email, groupNeve}),
     })
     .then((data) => {
       if (data.message) {
@@ -123,7 +123,6 @@ function GroupsGetALL() {
       <th scope="col">id</th>
       <th scope="col">username</th>
       <th scope="col">email</th>
-      <th scope="col">password</th>
       <th scope="col">create_date</th>
       <th scope="col">updated_date</th>
       <th scope="col">groups</th>
@@ -138,7 +137,6 @@ function GroupsGetALL() {
           <input id="email" type="text">
         </td>
         <td>
-          <input id="password" type="text">
         </td>
         <td>
         </td>

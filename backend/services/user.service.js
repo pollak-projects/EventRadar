@@ -54,8 +54,7 @@ export async function forgotPassword(id) {
   return newPwd;
 }
 
-export async function userUpdate(id, username, email, groupsNeve, password) {
-  const cryptedpwd = await encrypt(password);
+export async function userUpdate(id, username, email, groupsNeve) {
   await prisma.users.update({
     where: {
       id: id,
@@ -63,7 +62,6 @@ export async function userUpdate(id, username, email, groupsNeve, password) {
     data: {
       username: username,
       email: email,
-      password: cryptedpwd,
       groupsNeve: groupsNeve,
       updated_date: new Date(),
     },

@@ -13,6 +13,7 @@ const maxfo = ref("");
 
 
 const fileInputVisible = ref(false);
+const today = new Date().toISOString().split("T")[0];
 
 const eventData = defineModel({
   default: {
@@ -140,6 +141,7 @@ onMounted(() => {
           type="date"
           id="event-date"
           v-model="datum"
+          :min="today"
           required
         />
       </div>

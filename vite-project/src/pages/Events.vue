@@ -476,7 +476,6 @@ body {
     height: 210px;
     border-radius: 20px;
     overflow: hidden;
-    background: url("./conecrt.jpg") no-repeat center center/cover;
     position: relative;
     color: #ffffff;
     display: flex;

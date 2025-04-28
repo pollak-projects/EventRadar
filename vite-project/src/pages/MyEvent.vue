@@ -75,155 +75,217 @@ onMounted(() => {
 </script>
 <template>
   <Navbar />
-  
-  <div class="cards">
-    <div v-for="event in events">
-      <div
-        class="card"
-        :style="'background-image: url(' + (user?.profilkep|| '/public/user2.jpg') + ');'"
-      >
-      <h1 class="blurred-text">
-  <span class="blurred-background"></span>
-  {{ event.esemeny_nev }}
-</h1>
-<h2 class="blurred-text">
-  <span class="blurred-background"></span>
-  {{ event.esemeny_date.split('T')[0] }}
-</h2>
-        <RouterLink
-          class="info-button"
-          :to="'/information/' + event.id"
-          style="text-decoration: none"
+
+  <div class="modal" ref="loginmodal">
+    <form
+      class="modal-content animate"
+      method="post"
+      onSubmit="return checkPassword(this)"
+    >
+      <div class="imgcontainer">
+        <span @click="loginmodalbe()" class="close" title="Close Modal"
+          >&times;</span
         >
-          Információk
-          <span class="info-icon"></span>
-        </RouterLink>
+        <img src="/eventradarlogo.png" alt="Avatar" class="signinpic" />
+      </div>
+
+      <div class="container">
+        <label for="uname"><b>Felhasználónév</b></label>
+        <input type="text" placeholder=" " name="uname" required />
+
+        <label for="psw"><b>Jelszó</b></label>
+        <input type="password" placeholder="" name="psw" required />
+
         <button
-          @click="EventDelete(event.id)"
-          v-if="
-            user?.groupsNeve == 'Admin' ||
-            (event?.user == user?.id && loggedin)
-          "
-          class="csirke"
+          class="btn btn-primary"
+          type="button"
+          style="margin-top: 15px; width: 100%"
+          @click=""
         >
-          X
+          Bejelentkezés
         </button>
+
+        <span class="psw">
+          <a
+            style="text-decoration: underline; color: #0000ee; cursor: pointer"
+            @click="loginmodalbe()"
+            >Elfelejtetted a jelszavadat?</a
+          >
+        </span>
+      </div>
+
+      <div
+        class="container"
+        style="
+          background-color: #f1f1f1;
+          align-items: center;
+          align-content: center;
+        "
+      >
+        <span @click="loginmodalbe()"
+          >Nincs fiókod?
+          <a style="text-decoration: underline; color: #0000ee; cursor: pointer"
+            >Regisztráció</a
+          ></span
+        >
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item" style="margin-top: 10px; ">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed accordion-btn-icon"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+              style="width: fit-content"
+            ></button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionFlushExample"
+            style="border-bottom: 1px solid gray;margin-bottom: 10px;"
+          >
+            <button
+              @click="handleReset"
+              class="btn"
+              role="button"
+              data-bs-toggle="button"
+              id="filterReset"
+              style="margin-left: auto"
+            >
+              <img src="/filter-remove.png" style="width: 20px" alt="" />
+            </button>
+            <div class="accordion-body filtergepes filtermobilos">
+              <label style="margin-right: 10px; font-weight: bold"
+                >Kategória:</label
+              >
+              <select
+                class="form-control select2"
+                @change="handleCategoryChange"
+                style="margin-right: 70px"
+                v-model="Selected"
+              >
+                <option value="Válassz">Válassz</option>
+                <option v-for="kategoria in kategoriak" :key="kategoria">
+                  {{ kategoria }}
+                </option>
+              </select>
+
+              <label style="margin-right: 10px; font-weight: bold"
+                >Dátum:</label
+              >
+              <div class="form-group">
+                <div>
+                  <input
+                  class="form-control"
+                    type="date"
+                    @change="handleDateChange"
+                    v-model="selectedDate"
+                  />
+                </div>
+              </div>
+              <button
+                @click="applyFilters = true"
+                class="btn"
+                role="button"
+                data-bs-toggle="button"
+                id="filterReset"
+                style="margin-left: auto; transform: translateX(20px)"
+              >
+                <img src="/check-lg.svg" style="height: 25px" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <RouterLink
+        class="button1"
+        to="/MyEvent"
+        aria-current="page"
+        style="
+          text-decoration: none;
+          margin-left: auto;
+          text-align: center;
+          margin-right: 15px;
+        "
+      >
+        Saját Eseményeim
+      </RouterLink>
+    </div>
+  </div>
+  <div class="cards">
+    <div v-for="event in events" :key="event.id">
+      <div
+        v-if="
+          !applyFilters ||
+          ((event.kategoria === Selected || Selected === 'Válassz') &&
+            (event.esemeny_date.split('T')[0] === selectedDate ||
+              !selectedDate))
+        "
+      >
+        <div class="card" :style=" 'background-image: url(' + (event.Eventcat.image || 'public/user2.jpg') + ');'" >
+          <h1>{{ event.esemeny_nev }}</h1>
+          <h2>{{ event.esemeny_date.split("T")[0] }}</h2>
+          <div class="fill">
+            <RouterLink
+              class="info-button"
+              :to="'/information/' + event.id"
+              style="text-decoration: none"
+            >
+              Információk
+              <span class="info-icon"></span>
+            </RouterLink>
+            <RouterLink
+              class="info-button csirke"
+              :to="'/Edit/' + event.id"
+              style="text-decoration: none"
+              v-if="
+                user?.groupsNeve == 'Admin' ||
+                (event?.user == user?.id || loggedin)
+              "
+            >
+              Edit
+            </RouterLink>
+            <button
+              @click="EventDelete(event.id)"
+              v-if="
+                user?.groupsNeve == 'Admin' ||
+                (event?.user == user?.id || loggedin)
+              "
+              class="csirke"
+            >
+              X
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  
-  <div v-if="showDeleteModal" class="deleteEvent-modal">
-    <div class="modal-content">
-      <h2>Biztosan törölni szeretnéd ezt az eseményt?</h2>
-      <div class="modal-buttons">
-        <button @click="confirmDelete" class="confirm-btn">Igen</button>
-        <button @click="cancelDelete" class="cancel-btn">Nem</button>
-      </div>
-    </div>
-  </div>
-  
-  </template>
+</template>
+
 <style scoped>
-.blurred-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  filter: blur(5px); 
-  z-index: -1;
-  border-radius: 5px; 
-  padding: 5px 15px; 
-  width: auto;
-  height: auto;
+#filterReset {
+  border: none !important;
+  outline: 0;
+  margin-left: auto; 
+  display: block;
 }
-
-
-.blurred-text {
-  color: #fff; 
-  position: relative;
-  margin: 0;
-  padding: 10px 20px;
-  font-size: 1.8rem;
-  font-weight: bold;
-  z-index: 1;
-  display: inline-block;
+#filterReset:active,
+#filterReset:focus-visible {
+  border: none !important;
+  outline: 0;
 }
-
-h2.blurred-text {
-  font-size: 1.2rem;
-  padding: 5px 15px;
-  font-weight: normal;
-}
-.deleteEvent-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.fill {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 10;
-}
-
-@keyframes fadeInUp {
-  0% {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.deleteEvent-modal .modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  width: 300px;
-  animation: fadeInUp 0.5s ease-in-out;
-}
-
-.deleteEvent-modal .modal-buttons {
-  margin-top: 20px;
-}
-
-.deleteEvent-modal .confirm-btn,
-.deleteEvent-modal .cancel-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-}
-
-.deleteEvent-modal .confirm-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.deleteEvent-modal .cancel-btn {
-  background-color: #dc3545; 
-  color: white;
-}
-
-.deleteEvent-modal .confirm-btn:hover,
-.deleteEvent-modal .cancel-btn:hover {
-  opacity: 0.8;
-}
-
-
-@media only screen and (max-width: 768px) {
-  .deleteEvent-modal .modal-content {
-    width: 80%;
-  }
 }
 
 .csirke {
@@ -378,11 +440,13 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;
   }
-  .filtergepes{
+  .filtergepes {
     display: block;
   }
   .button1 {
-    width: 100px;
+    padding: 8px 16px;
+    font-weight: bold;
+    width: 110px;
     padding: 10px;
     background-color: #f44336;
     color: white;
@@ -394,20 +458,26 @@ body {
 }
 
 @media only screen and (min-width: 600px) {
-.filtergepes{
-  display: flex;
-  width: 800px;
-} 
+  .filtergepes {
+    display: flex;
+    width: 800px;
+    align-items: center;
+        flex-direction: row;
+  }
 
   .button1 {
-    width: 100%;
     padding: 10px;
     background-color: #f44336;
     color: white;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    align-items: center;
+    width: 15%;
+    justify-content: center;
+    display: block;
+    margin-left: auto;
+    text-align: center;
   }
 }
 </style>

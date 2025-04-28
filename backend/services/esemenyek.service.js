@@ -136,5 +136,15 @@ export async function getEventByCreate(user) {
       Eventcat: true,
     },
   });
+
+  data.forEach((element) => {
+    let buffer = Buffer.from(element.Eventcat.image);
+    const base64 = buffer.toString("base64");
+
+    const profilkep = "data:image/png" + ";base64," + base64;
+
+    element.Eventcat.image = profilkep;
+  });
+
   return data;
 }
